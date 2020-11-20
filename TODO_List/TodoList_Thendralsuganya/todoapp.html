@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <style>
+        header {
+            background-color: orange;
+            padding: 10px;
+            text-align: center;
+            font-size: 35px;
+            color: white;
+        }
+
+        div {
+            position: fixed;
+            float: left;
+            padding: 20px;
+            width: 50%;
+            background-color: #f1f1f1;
+            height: 40%;
+        }
+
+
+        section {
+            float: right;
+            width: 20%;
+            height: 300px; /* only for demonstration, should be removed */
+            background: #ccc;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body onload="loadupdate()">
+
+
+    <header> <h3>TO DO LIST</h3>
+    
+    </header>
+    <nav>    </nav>
+    <section>    </section>
+
+    <div id="keyinTask">
+        <h5>Add a new Task:</h5>
+        <input type="text" id="tasklist">
+
+        <button id="addtask" onclick="addtask()">Add</button>
+
+        <ul id="todolist">
+            
+       </ul>
+    </div>
+
+    <footer>
+    </footer>
+
+    <script>
+        var taskdata = [];
+
+        function loadupdate() {
+            var updatelist = window.localStorage.getItem("mychecklist");
+            if (updatelist !== null) {
+                taskdata = JSON.parse(updatelist);
+                taskfile(taskdata)
+                
+            }
+        }
+
+        function addtask() {
+
+            var todo = document.getElementById("tasklist").value;
+            var status = false;
+            window.localStorage.setItem('mychecklist', JSON.stringify(taskdata));          
+            taskdata.push({ 'tasklist': todo, 'status': status })
+            taskfile(taskdata);
+        }
+
+        function taskfile(alltask) {
+
+            var ulref = document.getElementById("todolist");
+            ulref.innerHTML = "";
+            document.getElementById("tasklist").value = "";
+
+
+            for (let i = 0; i <= alltask.length - 1; i++) {
+                //Creating a List element to display the task to do...
+
+                var tsk = document.createElement("li");
+
+
+                // creating the checkbox and appending it to the list and mainting the status
+                var chkbox = document.createElement('input');
+                chkbox.type = "checkbox";
+
+                chkbox.checked = alltask[i].status;
+
+                chkbox.addEventListener("click", function () {
+                    // alert("hi");
+                    alltask[i].status = !alltask[i].status;
+                    window.localStorage.setItem('mychecklist', JSON.stringify(alltask))
+
+                })
+
+                tsk.appendChild(chkbox);
+
+
+                // Creating the textnode to display the text
+                var txtnode = document.createTextNode(alltask[i].tasklist);
+                tsk.appendChild(txtnode);
+
+
+                // creating a delete input button and appending it to list element
+
+                var delnode = document.createElement('i');
+                delnode.type = 'button';
+                delnode.name = 'delete';
+               // delnode.value = 'Delete';
+                tsk.appendChild(delnode);
+                delnode.classList.add("fas", "fa-trash-alt");
+                delnode.addEventListener("click", function () {
+                    // alert(i);
+                    alltask.splice(i, 1);
+                    taskfile(alltask)
+                })
+
+                //Creating edit input button and appending it to the list element
+                var editnode = document.createElement('i');
+                editnode.type = 'button';
+                editnode.name = 'edit';
+                tsk.appendChild(editnode);
+                editnode.classList.add("fas", "fa-pencil-alt");
+               
+              
+
+                // creating a up input button and appending it to list element
+
+                var upnode = document.createElement('i');
+                upnode.type = 'button';
+                upnode.name = 'edit';
+                tsk.appendChild(upnode);
+                upnode.classList.add("fas", "fa-caret-square-up");
+                upnode.addEventListener("click", function () {
+
+                    var a = alltask[i];
+                    alltask[i] = alltask[i - 1];
+                    alltask[i - 1] = a;
+                   // console.log("hiup")
+                    taskfile(alltask, 0);
+                })
+
+
+
+                // creating a down input button and appending it to list element
+
+                var downnode = document.createElement('i');
+                downnode.type = 'button';
+                downnode.name = 'delete';
+                //downnode.value = 'movedown';
+                tsk.appendChild(downnode);
+                downnode.classList.add("fas", "fa-caret-square-down");
+                downnode.addEventListener("click", function () {
+
+                    var a = alltask[i];
+                    alltask[i] = alltask[i + 1];
+                    alltask[i + 1] = a;
+                   // console.log("hidown")
+                    taskfile(alltask, 0);
+                  })
+
+                // tsk.innerHTML = tsk.innerHTML + alltask[i].tasklist;
+                ulref.appendChild(tsk);
+            }
+            
+        }
+               
+           
+     </script>
+
+</body>
+</html>
