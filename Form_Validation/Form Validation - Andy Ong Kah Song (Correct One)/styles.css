@@ -1,0 +1,53 @@
+.rowheader {
+	text-align:right; 
+	vertical-align:top;
+	font-weight:normal;
+}
+
+.inputbox {
+	text-align:left; 
+	font-weight:normal;
+}
+
+.shortNumber {width:90px}
+
+.longNumber {width:120px}
+
+.checkLabel {font-weight:400}
+
+.countrySelector {width:170px}
+
+.normalText {width:300px}
+
+.bigText {
+	width:350px; 
+	height: 200px;
+}
+
+.errorMsg {
+	color:red;
+	text-align:left;
+}
+
+.tooltip {
+	position: relative;
+	display: inline-block;
+}
+
+.tooltip .tooltiptext {
+	visibility: hidden;
+	width: 120px;
+	background-color:black;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	border-radius:6px;
+	position: absolute;
+	z-index: 1
+}
+
+.tooltip:hover .tooltiptext {
+	visibility: visible;
+}
+
+
