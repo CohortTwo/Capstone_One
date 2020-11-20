@@ -1,0 +1,65 @@
+body{
+    background-color: black;
+}
+
+.topnav .search-container{
+    float: right;
+}
+
+.topnav {
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 40px;
+    font-weight: bold;
+    color: white;
+    
+}
+
+.search-container button{
+    padding:10px;
+    font-size: 20px;
+    color: white;
+    background-color: black;
+}
+
+
+
+.topnav input[type=text]{
+    font-size: 20px;
+    padding: 10px;
+}
+
+.main{
+    color: white;
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 40px;
+}
+
+a:link{
+ color: white;   
+}
+
+a:visited{
+    color: white;
+}
+
+a:hover{
+    color: gainsboro;
+}
+
+li{
+    color: whitesmoke;
+    font-size: 20px;
+    padding: 10px;
+    margin-left: 10px;
+    list-style: none;
+}
+
+h1{
+    margin-left: 10px;
+    padding: 15px;
+    text-transform: capitalize;
+    color: whitesmoke;
+    font-size: 60px;
+}

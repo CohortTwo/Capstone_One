@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="TVshow.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <div class="topnav">
+        <a href="D:\Coding\TVshowApp\index.html">Home</a>
+        <a href="D:\Coding\TVshowApp\tvShow1.html">TV Shows</a>
+        <a href="D:\Coding\TVshowApp\movies.html">Movies</a>
+        <a href="D:\Coding\TVshowApp\kids.html">Kids</a>
+        <div class="search-container">
+            <form>
+                <input type="text" placeholder="Search..." name="search" id="search">
+                <button type="submit" id="submit" onclick="searchBar()"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div id="movies"></div>
+    <div id="genreDetails"></div>
+    <div id="searchItem"></div>
+
+
+    <style>
+        .divImageStyling {
+            width: 210px;
+            height: 295px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+
+
+        }
+
+        .divStyling {
+            text-align: center;
+            vertical-align: bottom;
+            font-size: 30px;
+            padding: 20px;
+            display: inline-block;
+            color: whitesmoke;
+        }
+    </style>
+
+
+    <script>
+        //to get input for var types=['comedy','crime','kids','romance','thriller'];
+
+        //declare genre types
+        var types = ['movies'];
+
+        //use of for loop to go through each item in the array
+        for (var i = 0; i <= types.length - 1; i++) {
+            //call the function getShows for each genre type
+            getShows(types[i]);
+
+
+        }
+
+
+
+
+
+        function getShows(movies) {
+
+            //newXML request to be here to request for each genre type being called
+            var http = new XMLHttpRequest();
+            //retrieve the information from website
+            http.open("GET", "https://api.tvmaze.com/search/shows?q=" + movies);
+            http.send();
+            http.onreadystatechange = function () {
+                if (http.readyState === 4) {
+                    var shows = JSON.parse(http.response);
+                    console.log(shows);
+
+                    for (let i = 0; i <= 50; i++) {
+                        var newShow = document.createElement("div");
+
+                        if (shows[i].show.name == "null" || shows[i].show.name == "" || shows[i].show.name == null) {
+                            newShow.innerHTML = "No Name";
+                        } else {
+                            newShow.innerHTML = shows[i].show.name;
+                            console.log(newShow);
+                        }
+
+                        if (shows[i].show.image == "null" || shows[i].show.image == "" || shows[i].show.image == null) {
+                            console.log("triggered");
+                            var newImage = document.createElement('img');
+                            newImage.src = "https://image.shutterstock.com/image-photo/berberaffe-600w-88192939.jpg";
+                            newImage.id = shows[i].show.id;
+
+                            newImage.addEventListener('click', function () {
+                                showDetails(newImage.id);
+                            });
+                            newImage.classList.add("divImageStyling");
+                            newShow.classList.add("divStyling");
+
+                            newShow.appendChild(newImage);
+
+
+                            document.getElementById('movies').appendChild(newShow);
+
+                        } else {
+
+                            var newImage = document.createElement('img');
+                            newImage.src = shows[i].show.image.medium;
+                            newImage.id = shows[i].show.id;
+
+                            newImage.addEventListener('click', function () {
+                                showDetails(newImage.id);
+                            });
+
+                            newImage.classList.add("divImageStyling");
+                            newShow.classList.add("divStyling");
+
+                            newShow.appendChild(newImage);
+
+                            document.getElementById('movies').appendChild(newShow);
+
+                        };
+
+
+                    }
+
+                }
+            }
+        }
+        function showDetails() {
+            document.getElementById('searchItem').innerHTML = "";
+            console.log("trying to get details");
+            //newXML request to be here to request for each genre type being called
+            var http = new XMLHttpRequest();
+            //retrieve the information from website
+            console.log(event.target.id);
+            http.open("GET", "http://api.tvmaze.com/shows/" + event.target.id);
+            http.send();
+            http.onreadystatechange = function () {
+                if (http.readyState === 4) {
+                    var shows = JSON.parse(http.response);
+                    console.log(shows);
+
+                    document.getElementById('movies').style.display = 'none';
+
+                    document.getElementById('genreDetails').style.display = 'block';
+
+                    var showli = document.createElement("li");
+                    showli.innerHTML = shows.name;
+
+                    var status = document.createElement("li");
+                    status.innerHTML = "Status: " + shows.status;
+
+                    var pDate = document.createElement('li');
+                    pDate.innerHTML = "Premier Date: " + shows.premiered;
+
+                    var summary = document.createElement('p');
+                    if (shows.summary == null || shows.summary == "" || shows.summary == "null") {
+                        summary.innerHTML = "No Summary Available";
+                    } else {
+
+                        summary.textContent = shows.summary;
+                    }
+
+                    console.log(summary);
+                    console.log(showli);
+
+                    if (shows.image == "null" || shows.image == "" || shows.image == null) {
+                        console.log("triggered");
+                        var newImage = document.createElement('img');
+                        newImage.src = "https://image.shutterstock.com/image-photo/berberaffe-600w-88192939.jpg";
+                        newImage.addEventListener('click', function () {
+                            showDetails(newImage.id);
+                        });
+
+
+                        newImage.classList.add("divImageStyling");
+                        showli.classList.add("divStyling");
+                        status.classList.add("divStyling");
+                        pDate.classList.add("divStyling");
+                        summary.classList.add("divStyling");
+
+
+                        showli.appendChild(newImage);
+                        showli.appendChild(status);
+                        showli.appendChild(pDate);
+                        showli.appendChild(summary);
+                        document.getElementById("genreDetails").appendChild(showli);
+
+                    } else {
+
+                        var newImage = document.createElement('img');
+                        newImage.src = shows.image.medium;
+                        newImage.addEventListener('click', function () {
+                            showDetails(newImage.id);
+                        });
+
+                        newImage.classList.add("divImageStyling");
+                        showli.classList.add("divStyling");
+                        status.classList.add("divStyling");
+                        pDate.classList.add("divStyling");
+                        summary.classList.add("divStyling");
+
+
+                        showli.appendChild(newImage);
+                        showli.appendChild(status);
+                        showli.appendChild(pDate);
+                        showli.appendChild(summary);
+                        document.getElementById("genreDetails").appendChild(showli);
+
+                    };
+                }
+            }
+        }
+        function searchBar() {
+            event.preventDefault();
+            document.getElementById('searchItem').innerHTML = "";
+
+
+            document.getElementById('genreDetails').innerHTML = "";
+            document.getElementById('movies').innerHTML = "";
+
+            var value = document.getElementById('search').value;
+            var searchTitle = document.createElement("h1");
+
+            searchTitle.innerHTML = "You have searched for " + value;
+
+
+            document.getElementById('searchItem').appendChild(searchTitle);
+
+
+
+            var http = new XMLHttpRequest();
+
+            http.open("GET", "https://api.tvmaze.com/search/shows?q=" + value);
+            http.send();
+            http.onreadystatechange = function () {
+                if (http.readyState === 4) {
+                    var shows = JSON.parse(http.response);
+
+                    for (let i = 0; i <= shows.length - 1; i++) {
+                        var newShow = document.createElement("li");
+                        newShow.innerHTML = shows[i].show.name;
+
+
+                        if (shows[i].show.image == "null" || shows[i].show.image == "" || shows[i].show.image == null) {
+                            console.log("triggered");
+                            var newImage = document.createElement('img');
+                            newImage.src = "https://image.shutterstock.com/image-photo/berberaffe-600w-88192939.jpg";
+                            newImage.id = shows[i].show.id;
+
+                            newImage.addEventListener('click', function () {
+                                showDetails(newImage.id);
+                            });
+
+
+                            newImage.classList.add("divImageStyling");
+                            newShow.classList.add("divStyling");
+
+                            newShow.appendChild(newImage);
+                            document.getElementById('searchItem').appendChild(newShow);
+
+                        } else {
+
+                            var newImage = document.createElement('img');
+                            newImage.src = shows[i].show.image.medium;
+                            newImage.id = shows[i].show.id;
+
+                            newImage.addEventListener('click', function () {
+                                showDetails(newImage.id);
+                            });
+
+                            newImage.classList.add("divImageStyling");
+                            newShow.classList.add("divStyling");
+
+                            newShow.appendChild(newImage);
+                            document.getElementById('searchItem').appendChild(newShow);
+
+                        }
+
+                    }
+                }
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
