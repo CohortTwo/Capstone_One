@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<style>
+    .row {
+        display: flex;
+    }
+
+    /* Create three equal columns that sits next to each other */
+    .column {
+        flex: 33.33%;
+        padding: 10px;
+    }
+    .nav .searchbox {
+        float:right;
+    }
+
+    .nav .button {
+        padding:10px;
+        margin-top:10px;
+        font-size=40;
+        font-weight:bold;
+        color:white;
+        border: none;
+        background-color:black
+    }
+
+
+
+    .searchbox {
+        padding: 1px;
+        font-size =40;
+        font-weight: bold;
+        color: white;
+    }
+
+    body {
+        font-family: Arial;
+        
+    background-color: black;
+    color: white;
+    display: inline-block;
+    }
+
+    
+</style>
+
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    
+    
+</head>
+<body>
+    <div class="nav">
+        <button onclick="Home()">Home</button>
+        <button id="tvbtn-id"onclick="TvShows()">TV Shows</button>
+        <button id="movbtn-id"onclick="Movies()">Movies</button>
+        <button id="kidsbtn-id"onclick="Kids()">Kids</button>
+
+
+        <div class="searchbox">
+            <form>
+                <input type="text" id="searchinput" placeholder="Search..." />
+                <i class="fas fa-search" onclick="SearchFunc()"></i>
+            </form>
+        </div>
+    </div>
+
+    <div id='maindiv'>
+        <div id="Movies" class="row">
+            <h1>Movies</h1>
+            <div class="column"></div>
+        </div>
+        <div id="TVShows" class="row">
+            <h1>TVShows</h1>
+            <div class="column"></div>
+        </div>
+        <div id="comedy" class="row">
+            <h1>comedy</h1>
+            <div class="column"></div>
+        </div>
+        <div id="kids" class="row">
+            <h1>kids</h1>
+            <div class="column"></div>
+        </div>
+        <div id="romance" class="row">
+            <h1>romance</h1>
+            <div class="column"></div>
+        </div>
+        <div id="thriller" class="row">
+            <h1>thriller</h1>
+            <div class="column"></div>
+        </div>
+        <div id="search" class="row">
+            <h1></h1>
+            <div class="column"></div>
+        </div>
+    </div>
+    <!--
+      <div id="genreDiv">
+        <div id="genre-id" class="row">
+            <h1></h1>
+            <div class="column"></div>
+        </div>
+    </div>
+
+    <div id="progsumDiv">
+        <div id="prgsum-id" class="row">
+            <h1></h1>
+            <div class="column"></div>
+        </div>
+    </div>
+    -->
+
+
+    <script>
+
+        var types = ['Movies', 'TVShows', 'comedy', 'romance', 'thriller', 'kids'];
+
+
+
+        for (let i = 0; i <= types.length - 1; i++) {
+
+            getShows(types[i]);
+        }
+
+
+        function getShows(genre) {
+            var http = new XMLHttpRequest();
+            http.open("GET", "//api.tvmaze.com/search/shows?q=" + genre);
+            http.send();
+            http.onreadystatechange = function () {
+                console.log("ready state value::::", http.readyState);
+                if (http.readyState === 4) {
+                    var programs = JSON.parse(http.response);
+                    console.log(programs);
+                    console.log("going to displayTop")
+                    displayTop(programs, genre)
+                }
+            }
+
+        }
+
+
+        function displayTop(programs, genre) {
+            //Display the top 5 shows first
+            console.log("in displayTop");
+
+            for (let t = 0; t <= 4; t++) {
+
+                //console.log(programs[t].show.name);
+
+                var showNode = document.createElement("b");
+
+                var progImg = document.createElement("img");
+
+                if (programs[t].show.image === null) {
+                    progImg.setAttribute("src", "Noimage.jpg");
+                } else {
+                    progImg.setAttribute("src", programs[t].show.image.medium);
+                }
+
+
+                showNode.innerHTML = "<br>"+ programs[t].show.name + "<br> Runtime: " +
+                    programs[t].show.runtime + "<br><br>";
+                //var showRuntime = document.createElement("b"); // b is bold
+                //showRuntime.innerHTML = 
+                //showNode.appendChild(showRuntime)
+                showNode.appendChild(progImg);
+                progImg.addEventListener('click', function () {
+                    //console.log("image addEventListner working...");
+                    //progsum div to display program detail info
+                    clearMainDiv();
+                    showprogsum(genre, programs, t);
+                });
+                console.log(genre);
+                document.getElementById(genre).appendChild(showNode);
+                
+
+            }
+
+            var seemore = document.createElement('b');//i is italic
+            seemore.innerHTML = "See More";
+            document.getElementById(genre).appendChild(seemore);
+            seemore.addEventListener('click', function () {
+                console.log("Genre::", genre);
+                console.log("shows::", programs);
+                showGenre(genre, programs);
+            })
+
+        }
+
+
+        function showGenre(g, prg) {
+            clearMainDiv();
+            //document.getElementById("maindiv").style.display = 'none';
+            //document.getElementById("genreDiv").style.display = 'inline-block';
+            //var genreTitle = document.createElement("h1");
+            //genreTitle.innerHTML = g;
+            //document.getElementById("maindiv").appendChild(genreTitle);
+            for (let i = 0; i <= prg.length - 1; i++) {
+                var showli = document.createElement('b');
+                showli.innerHTML = "<br>"+ prg[i].show.name + "<br> Runtime: " + prg[i].show.runtime + "<br><br>";
+
+                var progImg = document.createElement("img");
+
+                if (prg[i].show.image === null) {
+                    progImg.setAttribute("src", "Noimage.jpg");
+                    progImg.setAttribute('display', 'flex');
+                } else {
+                    progImg.setAttribute("src", prg[i].show.image.medium);
+                }
+                showli.appendChild(progImg);
+                //console.log("waiting for See more-active listener");
+                progImg.addEventListener('click', function () {
+                //    //console.log("image addEventListner working...");
+                //    //progsum div to display program detail info
+                    showprogsum(g, prg, i);
+                });
+                document.getElementById(g).appendChild(showli)
+            }
+        }
+
+
+        function showprogsum(g, prg, idx) {
+            clearMainDiv();
+            //document.getElementById("maindiv").style.display = 'none';
+            //document.getElementById("progsumDiv").style.display = 'inline-block';
+            //var genreTitle = document.createElement("h1");
+            //genreTitle.innerHTML = g;
+            //document.getElementById("progsumDiv").appendChild(genreTitle)
+            //document.getElementById("maindiv").appendChild(genreTitle);
+
+            var showli = document.createElement('b');
+            showli.innerHTML = "<br>"+ prg[idx].show.name + "<br> Runtime: " +
+                prg[idx].show.runtime +
+                "<br> Synopsis: " + prg[idx].show.summary + "<br><br>";
+
+            var progImg = document.createElement("img");
+
+            if (prg[idx].show.image === null) {
+                progImg.setAttribute("src", "Noimage.jpg");
+            } else {
+                progImg.setAttribute("src", prg[idx].show.image.medium);
+            }
+            showli.appendChild(progImg);
+            // insert the synopsis,ratings and runtime
+            //var text1 = prg[idx].show.summary;
+            //showli.innerHTML = text1;
+
+            document.getElementById(g).appendChild(showli);
+
+            //Disable all options except Home
+            
+            document.getElementById("tvbtn-id").disabled = 'true';
+            document.getElementById("movbtn-id").disabled = 'true';
+            document.getElementById("kidsbtn-id").disabled = 'true';
+
+        }
+
+
+
+        function Home() {
+            location.reload();
+            
+        }
+
+        function TvShows() {
+            clearMainDiv();
+            
+            console.log("entering tvshows()");
+            var types = ['TVShows'];
+
+            for (let i = 0; i <= types.length - 1; i++) {
+                getShows(types[i]);
+            }
+        }
+
+        function Movies() {
+            clearMainDiv();
+            
+            
+            console.log("movies()");
+            var types = ['Movies'];
+
+            for (let i = 0; i <= types.length - 1; i++) {
+                getShows(types[i]);
+            }
+        }
+
+        function Kids() {
+            
+            clearMainDiv();
+            console.log("entering kids()");
+            var types = ['kids'];
+
+            for (let i = 0; i <= types.length - 1; i++) {
+                getShows(types[i]);
+            }
+        }
+
+
+        function SearchFunc() {
+            //id="searchinput"
+
+
+            var stxt = document.getElementById("searchinput").value;
+            document.getElementById("searchinput").value = "";
+            var http = new XMLHttpRequest();
+            http.open("GET", "//api.tvmaze.com/search/shows?q=" + stxt);
+            http.send();
+            http.onreadystatechange = function () {
+                console.log("ready state value::::", http.readyState);
+                if (http.readyState === 4) {
+                    var programs = JSON.parse(http.response);
+                    console.log(programs);
+                    console.log("going to displayTop")
+                    clearMainDiv();
+                    displayTop(programs, 'search');
+                }
+            }
+        }
+
+
+        function clearMainDiv() {
+            //var types = ['Movies', 'TVShows', 'comedy', 'romance', 'thriller', 'kids'];
+            document.getElementById("Movies").innerHTML = "";
+            document.getElementById("TVShows").innerHTML = "";
+            document.getElementById("comedy").innerHTML = "";
+            document.getElementById("romance").innerHTML = "";
+            document.getElementById("thriller").innerHTML = "";
+            document.getElementById("kids").innerHTML = "";
+            document.getElementById("search").innerHTML = "";
+        }
+
+
+    </script>
+    <p>
+
+    </p>
+</body>
+</html>
