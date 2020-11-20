@@ -1,0 +1,92 @@
+.outerBox {
+	background-color: #F0F0F0;
+	border:1px solid #494949;
+	border-radius: 4px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 1.5em;
+	padding: 4px 8px 8px 8px;
+}
+
+.funcButton {
+	background-color: #DDDDDD;
+	border:1px solid #CCCCCC;
+	text-align:center;
+	width: 2.75em;
+	height: 2.00em;
+}
+
+.operButton {
+	background-color: #FFCC00;
+	border:1px solid #CCCCCC;
+	text-align:center;
+	width: 2.75em;
+	height: 2.00em;
+}
+
+.numButton {
+	background-color: #F6F6F6;
+	font-weight: bold;
+	border: 1px solid #CCCCCC;
+	text-align: center;
+	width: 2.75em;
+	height: 2.00em;
+}
+
+.prefixButton {
+	background-color: #F6F6F6;
+	font-weight: bold;
+	border: 1px solid #CCCCCC;
+	text-align: center;
+	width: 2.75em;
+	height: 2.00em;
+}
+
+.display {
+	background-color: #FFFFFF;
+	border: 1px solid #999999;
+	text-align: right;
+	height: 2.00em;
+	padding:15px;
+}
+
+.displayTop {
+	text-align: top;
+	height: 1.00em;
+}
+
+.displayBot {
+	text-align: bottom;
+	height: 1.00em;
+}
+
+.displayHistory {
+	background-color: #FFFFFF;
+	border: 1px solid #999999;
+	vertical-align: top;
+	margin:10px;
+	width: 10.00em;
+}
+
+/* On mouseover, the borders surrounding buttons change colors */
+.numButton:hover  { 
+	border: 1px solid #999; 
+	cursor: pointer;
+}
+.operButton:hover { 
+	border: 1px solid #999; 
+	cursor: pointer;
+}
+.funcButton:hover { 
+	border: 1px solid #999; 
+	cursor: pointer;
+}
+.prefixButton:hover { 
+	border: 1px solid #999; 
+	cursor: pointer;
+}
+/* On mouse down, the background of buttons change colors */
+.numButton:active    { background-color: #CCC; }
+.operButton:active   { background-color: #CCC; }
+.funcButton:active   { background-color: #CCC; }
+.prefixButton:active { background-color: #CCC; }
+
