@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="StyleSheet1.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="main" onload="genMemory(event)" class="row">
+        <div id="sub1" class="column left">
+            <input id="display1" type="text" readonly />
+            <input id="display0" type="text" onblur="direct(event)" />
+            <table>
+                <tr>
+
+                    <td><button onclick="mc(event)" class="button button3" >MC</button></td>
+                    <td><button onclick="mplus(event)" class="button button3" >M+</button></td>
+                    <td><button onclick="mminus(event)" class="button button3" >M-</button></td>
+                    <td><button onclick="mr(event)" class="button button3" >MR</button></td>
+                </tr>
+                <tr>
+                    <td><button onclick="AC(event)"  class="button button3" value="AC">AC</button></td>
+                    <td><button onclick="notInUse('RT')"  class="button button3"  value="AC">RT</button></td>
+                    <td><button onclick="notInUse('%')"  class="button button3"  value="%"> % </button></td>
+                    <td><button onclick="display1('/')" class="button button1" value="/">/</button></td>
+                </tr>
+                <tr>
+                    <td><button onclick="display1('7')" class="button button2" value="7">7</button></td>
+                    <td><button onclick="display1('8')" class="button button2" value="8">8</button></td>
+                    <td><button onclick="display1('9')" class="button button2" value="9"> 9 </button></td>
+                    <td><button onclick="display1('*')" class="button button1" value="*">*</button></td>
+                </tr>
+                <tr>
+                    <td><button onclick="display1('4')" class="button button2" value="4">4</button></td>
+                    <td><button onclick="display1('5')" class="button button2" value="5">5</button></td>
+                    <td><button onclick="display1('6')" class="button button2" value="6"> 6 </button></td>
+                    <td><button onclick="display1('-')" class="button button1" value="-">-</button></td>
+                </tr>
+                <tr>
+                    <td><button onclick="display1('1')" class="button button2" value="1">1</button></td>
+                    <td><button onclick="display1('2')" class="button button2" value="2">2</button></td>
+                    <td><button onclick="display1('3')" class="button button2" value="3"> 3 </button></td>
+                    <td><button onclick="display1('+')" class="button button1" value="+">+</button></td>
+                </tr>
+                <tr>
+                    <td><button onclick="display1('0')" class="button button2" value="0">0</button></td>
+                    <td><button onclick="display1('.')" class="button button2" value=".">.</button></td>
+                    <td><button onclick="display1('+/-')" class="button button2" value="+/-">+/-</button></td>
+                    <td><button onclick="equalPress('=')" class="button button1" value="=">=</button></td>
+                </tr>
+
+
+            </table>
+        </div>
+       
+            <div id="displayHistory" class="column middle">History</div>
+            <div id="displayMemory" class="column right">Memory</div>
+       
+
+
+    </div>
+  
+</body>
+</html>
+<script src="calculator.js"></script>

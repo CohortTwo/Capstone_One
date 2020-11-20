@@ -1,0 +1,65 @@
+﻿
+.button {
+    background-color: white; 
+    border:solid;
+
+    color: black;
+    
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+}
+input {
+    text-align: right;
+}
+.button1 {
+    background-color: gold;
+    padding: 9px 20px;
+}
+.button2 {
+    background-color: lightgrey;
+    padding: 9px 15px;
+}
+.button3 {
+    background-color: lightblue;
+    padding: 9px;
+}
+/* Create three unequal columns that floats next to each other */
+.column {
+    float: left;
+    padding: 15px;
+    width: 200px;
+    border: 1px solid;
+    margin: 10px; /* Should be removed. Only for demonstration */
+}
+
+.left {
+    padding: 10px;
+    margin: 10px;
+    width: 40%;
+    border: 1px solid;
+    width: 200px;
+}
+.right {
+    width: 30%;
+    padding: 10px;
+    margin: 10px;
+    border: 1px hidden;
+    width: 160px;
+}
+
+.middle {
+    width: 30%;
+    padding: 10px;
+    margin: 10px;
+    border: 1px hidden;
+    width: 160px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
