@@ -1,0 +1,222 @@
+<html>
+<body>
+    
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+            }
+
+            nav {
+                background-color: orange;
+                height: 50px
+            }
+
+                nav ul {
+                }
+
+                    nav ul li {
+                        list-style-type: none;
+                        width: 150px;
+                        float: left;
+                        border-right: 1px solid #CCC;
+                        text-align: center;
+                    }
+
+            li a {
+                text-decoration: none;
+                color: white;
+                line-height: 50px;
+                display: block;
+            }
+
+                li a:hover {
+                    background-color: darkgrey;
+                }
+
+            .search-form {
+                margin-top: 0px;
+                float: right;
+                margin-right: 100px;
+            }
+
+            input[type=text] {
+                padding: 7px;
+                border: none;
+                font-size: 16px;
+                font-family: sans-serif;
+            }
+
+            button {
+                float: none;
+                background: orange;
+                color: white;
+                border-radius: 0 5px 5px 0;
+                cursor: pointer;
+                position: relative;
+                padding: 15px;
+                font-family: sans-serif;
+                border: none;
+                font-size: 12px;
+            }
+        </style>
+
+
+
+
+        <nav class="container">
+            <button onclick="home()">Home</button>
+            <button onclick="thriller()">Thriller</button>
+            <button onclick="movies()">Movies</button>
+            <button onclick="kids()">Kids</button>
+
+
+
+            <form class="search-form">
+                <input type="text" id="inputValue" placeholder="Movie search" />
+                <button type="submit" id="search">Search</button>
+            </form>
+        </nav>
+
+        <div id='maindiv' style="background-color:black;color:darkgrey;font-family:sans-serif">
+            <div id="comedy" >
+                <h1>COMEDY</h1>
+            </div>
+            <div id="kids">
+                <h1>KIDS</h1>
+            </div>
+            <div id="romance">
+                <h1>ROMANCE</h1>
+            </div>
+            <div id="crime">
+                <h1>CRIME</h1>
+            </div>
+            <div id="thriller">
+                <h1>THRILLER</h1>
+            </div>
+        </div>
+
+        <div id="genreDiv"></div>
+        <script>
+            //from source (endpoint)
+            const url = 'http://api.tvmaze.com/shows';
+            const newUrl = 'https://api.tvmaze.com/search/shows=';
+
+            const buttonElement = document.querySelector('#search');
+            const inputElement = document.querySelector('#inputValue');
+
+
+
+
+            buttonElement.onclick = function (event) {
+
+                const value = inputElement.value;
+                const newUrl = url + '?q=' + value;
+
+                fetch(newUrl)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        console.log('Data: ', data);
+                    })
+                    .catch((error) => {
+                        console.log('Err:', error);
+                    });
+                console.log('Value: ', value);
+            }
+
+
+
+            var types = ['comedy', 'crime', 'kids', 'romance', 'thriller'];
+            for (let i = 0; i <= types.length - 1; i++) {
+                getShows(types[i])
+
+            }
+
+            function getShows(genre) {
+                var http = new XMLHttpRequest();
+                http.open("GET", "http://api.tvmaze.com/search/shows?q=" + genre);
+                http.send();
+                http.onreadystatechange = function () {
+                    if (http.readyState === 4) {
+                        let allShows = JSON.parse(http.response);
+                        console.dir(allShows)
+                        for (let i = 0; i <= 3; i++) {
+                            var newShow = document.createElement("div");
+
+
+
+                            newShow.innerHTML = allShows[i].show.name;
+                            var showRuntime = document.createElement("b")
+                            document.getElementById(genre).appendChild(newShow)
+                        }
+                        var seemore = document.createElement('i');
+                        seemore.innerHTML = "See More";
+                        seemore.addEventListener('click', function () {
+
+                            console.log("Genre::", genre);
+                            console.log("allShows::", allShows);
+                            showGenre(genre, allShows);
+
+                        })
+                        document.getElementById(genre).appendChild(seemore)
+                    }
+
+                }
+
+            }
+            function showGenre(g, Film) {
+                document.getElementById("maindiv").style.display = 'none'
+                document.getElementById("genreDiv").style.display = 'block'
+                var genreTitle = document.createElement("h1");
+                genreTitle.innerHTML = g;
+                document.getElementById("genreDiv").appendChild(genreTitle)
+                for (let i = 0; i <= Film.length - 1; i++) {
+                    var showLi = document.createElement('li');
+                    showLi.innerHTML = Film[i].show.name;
+
+
+
+                    var filmImg = document.createElement("img");
+                    filmImg.setAttribute("src", Film[i].show.image.medium);
+                    showLi.appendChild(filmImg);
+                    document.getElementById("genreDiv").appendChild(showLi);
+                }
+
+            }
+
+            function Home() {
+
+                var types = ["Movies", "comedy", "romance", "thriller", "kids"];
+
+                for (let i = 0; i <= types.length - 1; i++) {
+                    getShows(types[i]);
+
+                }
+            }
+
+            function Movies() {
+                var types = ["Movies"];
+
+                for (let i = 0; i <= types.length - 1; i++) {
+                    getShows(types[i]);
+                }
+            }
+            function Kids() {
+                var types = ["kids"];
+
+                for (let i = 0; i <= types.length - 1; i++) {
+                    getShows(types[i]);
+                }
+            }
+            function Thriller() {
+                var types = ["thriller"];
+
+                for (let i = 0; i <= types.length - 1; i++) {
+                    getShows(types[i]);
+                }
+            }
+
+
+        </script>
+    </body>
+</html>
