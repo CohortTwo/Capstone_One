@@ -1,0 +1,78 @@
+﻿<form action="action_page.php">
+    <div class="container">
+        <h1>Registration Form</h1>
+
+
+        <label for="email"><b>User id:</b></label>
+        <input type="text" placeholder="Required and must be of length 5 to 12" name="id" id="id" required>
+        <p>
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Required and must be of length 7 to 12" name="psw" id="psw" required>
+        <p>
+
+            <label for="Name:"><b>Name:</b></label>
+            <input type="text" placeholder="Name:" name="Name" id="Name" required>
+        <p>
+            <label for="Address:"><b>Address:</b></label>
+            <input type="text" placeholder="Optional." name="Name" />
+        <p>
+            <label for="country">Country</label><span style="color: red !important; display: inline; float: none;">*</span>
+
+            <select id="country" name="country" class="form-control">
+                <option value="india">india</option>
+                <option value="Singapore">Singapore</option>
+                <option value="Malaysia">Malaysia</option>
+                <option value="">japan</option>
+            </select>
+        <p>
+            <label for="sex">sex:</label><input type="radio" id="male" name="gender" value="=" male"required" />
+            <label for="sex">male:</label><input type="radio" id="male" name="gender" value="=" male"required" />
+            <label for="female">female:</label><input type="radio" id="male" name="gender" value="=" female"required" />
+
+            <label for="ZIP Code:"><b>ZIP Code:</b></label>
+            <input type="number" placeholder="Required. Must be a Numeric only" required>
+        <p>
+            <label for="email"><b>Email:</b></label>
+            <input type="email" placeholder="Requited. Must be a Valid Email" />
+
+        
+        <p>
+            language:</td>
+            <input type="checkbox" name"lang" value="Eng" />English
+            <input type="checkbox" name"lang" value="nonEng" />Non English
+
+       
+        <p>
+
+
+</form>
+ </tr>
+<tr>
+    <td>About</td>
+    <td>
+        <textarea></textarea>
+    
+       
+    </td>
+           </table>
+            </form>
+        </div>
+<script>
+    var isFormValid = false;
+    function useridvalidation(e) {
+        if (e.target.value === "" || e.target.value === null) {
+            e.target.nextElementSibling.innerHTML = "User id should be filled";
+        }
+        else {
+            e.target.nextElementSibling.innerHTML = "";
+        }
+    }
+</script>
+    </body>
+</html>
+</p>
+<p>
+
+
+    <button type="submit" class="registerbtn">Submit</button>
+    </div>
