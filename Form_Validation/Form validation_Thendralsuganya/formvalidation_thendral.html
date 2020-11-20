@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        submit {
+        }
+
+        td {
+            padding: 4px;
+        }
+
+            td:first-child {
+                text-align: right;
+            }
+
+        table {
+            margin: 10px auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="d1">
+        <h1>Registration Form</h1>
+        <form id="regform" name="regform" onsubmit="save(event)">
+
+            <table>
+                <tr>
+                    <td>User ID:</td>
+                    <td>
+                        <input type="text" id="userid" name="userid" placeholder="Required and must be of length 5 to 12" onblur="useridvalidation(event)" onkeyup="useridvalidation(event)">
+
+                        <span style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td>
+                        <input type="password" id="pwd" name="password" placeholder="Required and must be of length 7 to 12" onblur="pswdvalidation(event)" onkeyup="pswdvalidation(event)">
+                        <span style="color:red"></span>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <input type="text" id="name" name="Name" placeholder="Required and Alphabets only." onblur="namevalidation(event)">
+                        <span style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td>
+                        <input type="text" id="adrs" name="Address" placeholder="optional">
+
+                        <span style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Country:</td>
+                    <td>
+                        <select id="cntry" name="Country">
+                            <option value="">Please Select the country</option>
+                            <option value="singapore">Singapore</option>
+                            <option value="malasia">Malasia</option>
+                            <option value="india">India</option>
+                            <option value="srilanka">Srilanka</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Zip</td>
+                    <td>
+                        <input type="text" ïd="zip" name="Zip" placeholder="Required.Must be numeric only." onblur="zipValidation(event)">
+                        <span style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>
+                        <input type="text" id="email" name="email" placeholder="Required. Must be a valid email." onblur="emailvalidation(event)">
+                        <span style="color:red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sex:</td>
+                    <td>
+                        <input type="radio" name="gender" value="male">Male
+                        <input type="radio" name="gender" value="female">Female
+                    </td>
+                </tr>
+                <tr>
+                    <td>Laguage:</td>
+                    <td>
+                        <input type="checkbox" name="lang" value="Eng">English
+                        <input type="checkbox" name="lang" value="nonEng">Non English
+                    </td>
+                </tr>
+                <tr>
+                    <td>About</td>
+                    <td>
+                        <textarea id="about" name="About" placeholder="Optional"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button id="submit" type="submit" title="Form is not valid, Please enter the right Input"> Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <p id="filledform"></p>
+    </div>
+
+
+    <script>
+        var isFormValid = false;
+
+        function results() {
+            console.log("hello");
+            var userId = document.getElementById('userid').value;
+            var password = document.getElementById('pwd').value;
+            var name = document.getElementById('name').value;
+            var address = document.getElementById('adrs').value;
+            var country = document.getElementById('cntry').value;
+            // var zip = document.getElementById('zip').value;
+            //var sex = document.getElementById('adrs').value;
+            //var About = document.getElementById('about').value;
+            //var email = document.getElementById('email').value;
+
+            document.write("<h3>UserId:</h3>" + userId);
+            document.write("<h3>Password:</h3>" + password);
+            document.write("<h3>Name:</h3>" + name);
+            document.write("<h3>Country:</h3>" + country);
+            //document.write("<h3>Zip:</h3>" + zip);
+            document.write("<h3>Address:</h3>" + address);
+            //document.write("<h3>About:</h3>" + About);
+            //document.write("<h3>Email:</h3>" + email);
+
+        }
+
+        function save(e) {
+            e.preventDefault();
+
+            //hide the registration form on sumbit
+            document.getElementById("regform").hidden = true;
+
+
+            //getting the values of the form
+
+            const formData = new FormData(document.regform)
+            var inames = [];
+            var myformdata = {};
+            for (let k of formData.keys()) {
+                if (!inames.includes(k)) {
+                    inames.push(k);
+                    myformdata[k] = formData.getAll(k)
+                    // document.getElementById("regform").innerHTML = document.createElement('Table');
+                    // table.border = '1';
+
+                }
+            }
+            console.dir(myformdata)
+
+            //displaying the values of the form
+            for (let k in myformdata) {
+                var print = document.createElement("table");
+                //var style = document.createElement("style");
+                print.textContent = k + ":" + myformdata[k];
+                document.getElementById("filledform").appendChild(print);
+            }
+
+
+
+
+        }
+
+
+
+        function useridvalidation(e) {
+            if (e.target.value === "" || e.target.value === null || e.target.value.length < 5 || e.target.value.length > 12) {
+                e.target.nextElementSibling.innerHTML = "User id should be filled and should be of length 5 to 12";
+            }
+            else {
+
+                e.target.nextElementSibling.innerHTML = "";
+
+
+            }
+        }
+        function pswdvalidation(e) {
+            if (e.target.value === "" || e.target.value === null || e.target.value.length < 7 || e.target.value.length > 12) {
+
+                e.target.nextElementSibling.innerHTML = "Password is required and should be of length 7 to 12";
+            }
+            else {
+                e.target.nextElementSibling.innerHTML = "";
+            }
+        }
+        function namevalidation(e) {
+            if (e.target.value === "" || e.target.value === null || /[^a-zA-Z]/.test(e.target.value)) {
+                e.target.nextElementSibling.innerHTML = "Name is required and alphabets only";
+            }
+            else {
+
+                e.target.nextElementSibling.innerHTML = "";
+            }
+        }
+
+        function zipValidation(e) {
+            if (e.target.value === "" || e.target.value === null || e.target.value.length > 6 || !/^[0-9]+$/.test(e.target.value)) {
+                //console.info("hello");
+                e.target.nextElementSibling.innerHTML = "Enter a valid zipcode";
+            } else {
+                e.target.nextElementSibling.innerHTML = "";
+            }
+
+        }
+
+
+        function emailvalidation(e) {
+            if (e.target.value === "" || e.target.value === null || !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(e.target.value)) {
+                e.target.nextElementSibling.innerHTML = "Required. Must be a valid email.";
+            }
+            else {
+
+                e.target.nextElementSibling.innerHTML = "";
+            }
+        }
+
+
+    </script>
+
+</body>
+</html>
