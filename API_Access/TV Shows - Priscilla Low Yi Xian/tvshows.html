@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		.imgBox {
+			float: left;
+			position:relative;
+			margin:10px;
+			display:inline-block;
+			width:210px;
+
+		}
+
+		p {
+			text-align: left;
+			margin: 10px;
+		}
+		.clear{
+			clear:both;
+		}
+		
+		#mainDiv {
+			height: 2500px;
+			width: 1200px;
+		}
+		
+		#genredivision, #searchdivision {
+			height: 500px;
+			width: 2500px;
+		}
+
+
+		
+		#Comedy{
+			height:500px;
+			width:1200px;
+		}
+		
+		#Crime{
+			height:500px;
+			width:1200px;
+		}
+		
+		#Kids{
+			height:500px;
+			width:1200px;
+		}
+		
+		#Romance{
+			height:500px;
+			width:1200px;
+		}
+		
+		#Thriller{
+			height:500px;
+			width:1200px;
+		}
+		
+		
+
+	</style>
+</head>
+
+<body>
+
+	<header>
+    <button id="homebutton">Home </button>
+	<button id="comedybutton"  onclick="getComedy(event)">Comedy </button>
+	<button id="crimebutton"  onclick="getCrime(event)">Crime </button>
+	<button id="kidsbutton"  onclick="getKids(event)">Kids </button>
+	<button id="romancebutton"  onclick="getRomance(event)">Romance </button>
+	<button id="thrillerbutton"  onclick="getThriller(event)">Thriller </button>
+	<input type="text" id="search" name="search" placeholder="Search"   onkeydown="searchvalidation(event)" onblur="searchvalidation(event)"  >
+	<button disabled id="searchbutton" onclick="searchShows(event);searchvalidation(event);"><i class="fa fa-search"></i></button>
+	</header>
+
+	<div id="maindivision">
+		<div id="Comedy">
+			<h1>Comedy</h1>
+		</div>
+			
+		<div id="Crime">
+			<h1>Crime</h1>
+		</div>
+		
+		<div id="Kids">
+			<h1>Kids</h1>
+		</div>
+		
+		<div id="Romance">
+			<h1>Romance</h1>
+		</div>
+		
+		<div id="Thriller">
+			<h1>Thriller</h1>
+		</div>
+	</div>
+	
+	
+	<div id="genredivision"></div>
+	
+	<div id="detailsdivision"></div>
+	
+	<div id="searchdivision"></div>
+		
+	<script>
+	
+		document.getElementById("homebutton").onclick = function () {
+			//location.href = "./tvshows.html";
+			window.location.reload(true);
+		};
+		
+		var types=["Comedy","Crime","Kids","Romance","Thriller"]; //array
+		
+	//first send the request and create the data.
+	
+		for(let i=0;i<=types.length-1;i++){
+			getshows(types[i]); //call getshows function to get based on the different genre types.
+			//console.log(types[i]);
+		}
+		
+		function getshows(genres){                
+                var http = new XMLHttpRequest(); //for every call, create a new instance, so it will be different.
+                http.open("GET","http://api.tvmaze.com/search/shows?q="+genres);
+                //console.log("ready state value::::",http.readyState);
+                http.send();
+				
+				http.onreadystatechange=function(){
+                    //console.log("ready state value::::",http.readyState);
+                    if(http.readyState===4){
+						//console.log(JSON.parse(http.response));
+						let shows = JSON.parse(http.response);
+						console.log(shows); //an object
+						for(let i=0;i<=4;i++){ //Displaying the top 5 shows. To display all, use i<=shows.length-1
+							var newShow=document.createElement("div"); //create new division
+							newShow.innerHTML = "Show Title: "+shows[i].show.name;
+							
+							var imgBox=document.createElement("div"); //create a box to hold the image
+							imgBox.classList = "imgBox";
+							
+							var showRuntime= document.createElement("div");
+							if(shows[i].show.runtime === null){
+								showRuntime.innerHTML = "Show Duration: - Minutes";
+							}else{
+								showRuntime.innerHTML = "Show Duration: "+shows[i].show.runtime+" Minutes";
+							}
+							
+							var showImage= document.createElement("img");
+								if(shows[i].show.image === null){
+									showImage.innerHTML=shows[i].show.name;
+									showImage.src="https://via.placeholder.com/210x295?text=Image+Not+Found";
+									
+								}else{
+									showImage.src=shows[i].show.image.medium;
+								}
+							showImage.addEventListener("click",function(){
+								//alert(i);
+								
+								//showDetails(genres,shows,i);
+								showDetailsPage(genres,shows,i);
+							
+							});
+							
+							
+							//console.log(shows[i].show.name);
+							newShow.appendChild(showRuntime);
+							imgBox.appendChild(showImage);
+							imgBox.appendChild(newShow);
+							document.getElementById(genres).appendChild(imgBox);
+							
+							//document.getElementById(genres).appendChild(showImage);
+							//document.getElementById(genres).appendChild(newShow);
+							//document.getElementById(genres).appendChild(showRuntime);
+					
+						
+						}
+						var seemore = document.createElement("i");
+						seemore.innerHTML = "See More";
+						seemore.addEventListener("click",function(){
+							console.log("Genre is",genres);
+							console.log("Shows are:",shows);
+							showGenre(genres,shows);
+						});
+						//seemore.setAttribute("href","http://api.tvmaze.com/search/shows?q="+genres)
+						document.getElementById(genres).appendChild(seemore);
+						
+						
+                }
+		
+			}
+				
+        }
+		
+		function showGenre(genres,shows){
+			document.getElementById("maindivision").style.display = "none";
+			document.getElementById("genredivision").style.display = "block";
+			var genrename= document.createElement("h1");
+			genrename.innerHTML = genres;
+			document.getElementById("genredivision").appendChild(genrename);
+			for(let i=0;i<=shows.length-1;i++){
+				var showlistitem = document.createElement("div");
+				showlistitem.innerHTML=shows[i].show.name;
+				
+				var imgBox=document.createElement("div"); //create a box to hold the image
+				imgBox.classList = "imgBox";
+				
+				var showRuntime= document.createElement("div");
+							if(shows[i].show.runtime === null){
+								showRuntime.innerHTML = "Show Duration: - Minutes";
+							}else{
+								showRuntime.innerHTML = "Show Duration: "+shows[i].show.runtime+" Minutes";
+							}
+				
+				var showImage= document.createElement("img");
+					if(shows[i].show.image === null){
+						showImage.innerHTML=shows[i].show.name;
+						showImage.src="https://via.placeholder.com/210x295?text=Image+Not+Found";
+									
+					}else{
+						showImage.src=shows[i].show.image.medium;
+									
+								
+					}
+					
+				showImage.addEventListener("click",function(){
+								//alert(i);
+								//showDetails(genres,shows,i);
+								showDetailsPage(genres,shows,i);
+							
+							});
+					
+				var showLanguage= document.createElement("div");
+					if(shows[i].show.language === null){
+						showLanguage.innerHTML="Show Language: -";
+									
+					}else{
+						showLanguage.innerHTML="Show Language: "+shows[i].show.language;
+									
+								
+					}
+				
+				var showGenre= document.createElement("div");
+					if(shows[i].show.genres === null){
+						showGenre.innerHTML="Show Genre: -";
+									
+					}else{
+						showGenre.innerHTML="Show Genre: "+shows[i].show.genres;
+									
+								
+					}
+					
+				var showType= document.createElement("div");
+					if(shows[i].show.type === null){
+						showType.innerHTML="";
+									
+					}else{
+						showType.innerHTML="Show Type: "+shows[i].show.type;
+									
+								
+					}	
+					
+				var showPremier= document.createElement("div");
+					if(shows[i].show.premiered === null){
+						showPremier.innerHTML="Show Premiered on: -";
+									
+					}else{
+						showPremier.innerHTML="Show Premiered on: "+shows[i].show.premiered;
+									
+								
+					}
+				
+				showlistitem.appendChild(showRuntime);
+				showlistitem.appendChild(showType);
+				showlistitem.appendChild(showGenre);
+				showlistitem.appendChild(showLanguage);
+				showlistitem.appendChild(showPremier);
+				imgBox.appendChild(showImage);
+				imgBox.appendChild(showlistitem);
+				document.getElementById("genredivision").appendChild(imgBox);
+				
+				//document.getElementById("detailsdivision").appendChild(showImage);
+				//document.getElementById("detailsdivision").appendChild(showlistitem);
+				//document.getElementById("detailsdivision").appendChild(showSummary);		
+				//document.getElementById("detailsdivision").appendChild(showRuntime);
+				//document.getElementById("detailsdivision").appendChild(showLanguage);
+				//document.getElementById("detailsdivision").appendChild(showGenre);
+				//document.getElementById("detailsdivision").appendChild(showPremier);
+			}
+			
+			
+			
+		}
+		
+		function showDetails(genres,shows,i){ //This is an alternative to click the image and show details page
+			document.getElementById("maindivision").style.display = "none";
+			document.getElementById("genredivision").style.display = "none";
+			document.getElementById("detailsdivision").style.display = "block";
+			var genrename= document.createElement("h1");
+			genrename.innerHTML = genres;
+			document.getElementById("detailsdivision").appendChild(genrename);
+			
+				var showlistitem = document.createElement("div");
+				showlistitem.innerHTML=shows[i].show.name;
+				
+				var imgBox=document.createElement("div"); //create a box to hold the image
+				imgBox.classList = "imgBox";
+				
+				var showRuntime= document.createElement("div");
+							if(shows[i].show.runtime === null){
+								showRuntime.innerHTML = "Show Duration: - Minutes";
+							}else{
+								showRuntime.innerHTML = "Show Duration: "+shows[i].show.runtime+" Minutes";
+							}
+				
+				var showImage= document.createElement("img");
+					if(shows[i].show.image === null){
+						showImage.innerHTML="Show Title: "+shows[i].show.name;
+						showImage.src="https://via.placeholder.com/210x295?text=Image+Not+Found";
+									
+					}else{
+						showImage.src=shows[i].show.image.medium;
+									
+								
+					}
+					
+				var showLanguage= document.createElement("div");
+					if(shows[i].show.language === null){
+						showLanguage.innerHTML="Show Language: -";
+									
+					}else{
+						showLanguage.innerHTML="Show Language: "+shows[i].show.language;
+									
+								
+					}
+				
+				var showGenre= document.createElement("div");
+					if(shows[i].show.genres === null){
+						showGenre.innerHTML="Show Genre: -";
+									
+					}else{
+						showGenre.innerHTML="Show Genre: "+shows[i].show.genres;
+									
+								
+					}
+					
+				var showSummary= document.createElement("div");
+					if(shows[i].show.summary === null){
+						showSummary.innerHTML="";
+									
+					}else{
+						showSummary.innerHTML=shows[i].show.summary;
+									
+								
+					}	
+					
+				var showPremier= document.createElement("div");
+					if(shows[i].show.premiered === null){
+						showPremier.innerHTML="Show Premiered on: -";
+									
+					}else{
+						showPremier.innerHTML="Show Premiered on: "+shows[i].show.premiered;
+									
+								
+					}
+				
+				
+				document.getElementById("detailsdivision").appendChild(showImage);
+				document.getElementById("detailsdivision").appendChild(showlistitem);
+				document.getElementById("detailsdivision").appendChild(showSummary);		
+				document.getElementById("detailsdivision").appendChild(showRuntime);
+				document.getElementById("detailsdivision").appendChild(showLanguage);
+				document.getElementById("detailsdivision").appendChild(showGenre);
+				document.getElementById("detailsdivision").appendChild(showPremier);
+			
+		
+		}
+		
+		function showDetailsPage(genres,shows,i){
+			
+			window.location.href = shows[i].show.url;
+		}
+			
+		function searchShows(e){
+			
+			let input = document.getElementById("search").value;
+			getTitles(input);
+			//console.log(input);	
+						
+        }
+		
+		function getTitles(name){                
+                
+				document.getElementById("searchdivision").innerHTML=""; //to clear the search results page
+				
+				var searchresult=document.createElement("h1");
+				searchresult.innerHTML="Search Result: "+name;
+				document.getElementById("searchdivision").appendChild(searchresult);
+				
+				document.getElementById("maindivision").style.display = "none";
+				document.getElementById("genredivision").style.display = "none";
+				document.getElementById("detailsdivision").style.display = "none";
+				document.getElementById("searchdivision").style.display = "block";
+				
+				var http = new XMLHttpRequest(); //for every call, create a new instance, so it will be different.
+                http.open("GET","http://api.tvmaze.com/search/shows?q="+name);
+                //console.log("ready state value::::",http.readyState);
+                http.send();
+				
+				http.onreadystatechange=function(){
+                    //console.log("ready state value::::",http.readyState);
+                    if(http.readyState===4){
+						//console.log(JSON.parse(http.response));
+						let shows = JSON.parse(http.response);
+						console.log(shows); //an object
+						for(let i=0;i<=9;i++){
+							var newShow=document.createElement("div"); //create new division
+							newShow.innerHTML = "Show Title: "+shows[i].show.name;
+							
+					
+							var imgBox=document.createElement("div"); //create a box to hold the image
+							imgBox.classList = "imgBox";
+							
+							var showRuntime= document.createElement("div");
+							if(shows[i].show.runtime === null){
+								showRuntime.innerHTML = "Show Duration: - Minutes";
+							}else{
+								showRuntime.innerHTML = "Show Duration: "+shows[i].show.runtime+" Minutes";
+							}
+							
+							var showImage= document.createElement("img");
+								if(shows[i].show.image === null){
+									showImage.innerHTML=shows[i].show.name;
+									showImage.src="https://via.placeholder.com/210x295?text=Image+Not+Found";
+									
+								}else{
+									showImage.src=shows[i].show.image.medium;
+								}
+							showImage.addEventListener("click",function(){
+								//alert(i);
+								//showDetails(name,shows,i);
+								showDetailsPage(name,shows,i);
+							
+							});
+							
+							newShow.appendChild(showRuntime);
+							imgBox.appendChild(showImage);
+							imgBox.appendChild(newShow);
+							document.getElementById("searchdivision").appendChild(imgBox);
+						}
+					}
+					
+					
+				}
+        }
+		
+		var searchvalid=false;
+		
+		function searchvalidation(e){
+				if(e.target.value ==="" || e.target.value===null){
+					searchvalid=false;
+					document.getElementById("searchbutton").disabled = true;
+					document.getElementById("searchbutton").style.cursor = 'not-allowed';
+                }
+				else{
+					searchvalid=true;
+					
+					document.getElementById("searchbutton").disabled = false;
+					document.getElementById("searchbutton").style.cursor = 'pointer';
+					document.getElementById("searchbutton").title = "Click to search!";
+					
+					}
+		}
+		
+		//function getHome(e){
+		//	document.getElementById("Comedy").style.display = "block";
+		//	document.getElementById("Crime").style.display = "block";
+		//	document.getElementById("Kids").style.display = "block";
+		//	document.getElementById("Romance").style.display = "block";
+		//	document.getElementById("Thriller").style.display = "block";
+		
+		//}
+		
+		function getComedy(e){
+			document.getElementById("Comedy").style.display = "block";
+			document.getElementById("Crime").style.display = "none";
+			document.getElementById("Kids").style.display = "none";
+			document.getElementById("Romance").style.display = "none";
+			document.getElementById("Thriller").style.display = "none";
+		
+		}
+		
+		function getCrime(e){
+			document.getElementById("Comedy").style.display = "none";
+			document.getElementById("Crime").style.display = "block";
+			document.getElementById("Kids").style.display = "none";
+			document.getElementById("Romance").style.display = "none";
+			document.getElementById("Thriller").style.display = "none";
+		
+		}
+		
+		function getKids(e){
+			document.getElementById("Comedy").style.display = "none";
+			document.getElementById("Crime").style.display = "none";
+			document.getElementById("Kids").style.display = "block";
+			document.getElementById("Romance").style.display = "none";
+			document.getElementById("Thriller").style.display = "none";
+		
+		}
+		
+		function getRomance(e){
+			document.getElementById("Comedy").style.display = "none";
+			document.getElementById("Crime").style.display = "none";
+			document.getElementById("Kids").style.display = "none";
+			document.getElementById("Romance").style.display = "block";
+			document.getElementById("Thriller").style.display = "none";
+		
+		}
+		
+		function getThriller(e){
+			document.getElementById("Comedy").style.display = "none";
+			document.getElementById("Crime").style.display = "none";
+			document.getElementById("Kids").style.display = "none";
+			document.getElementById("Romance").style.display = "none";
+			document.getElementById("Thriller").style.display = "block";
+		
+		}
+			
+	
+	</script>
+
+</body>
+</html>
