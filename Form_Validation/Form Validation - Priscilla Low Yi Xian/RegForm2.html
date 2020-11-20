@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+            td{
+                padding:4px;
+            }
+            td:first-child{
+                text-align: right;
+            }
+            table{
+                margin:10px auto;
+            }
+            h1{
+                text-align: center;
+            }
+			
+			
+			div{
+				color:red;
+			}
+
+        </style>
+    </head>
+	
+    <body>
+
+<!--    			#submitbutton:hover{
+				cursor: not-allowed;
+				pointer-events: auto;
+			} -->
+            <h1>Registration Form</h1>
+            <form name="RegForm" id="RegForm" method="post" action="" onsubmit="save(event)">
+                <table> 
+                    <tr>
+                        <td>User ID:</td>
+                        <td>
+                            <input type="text" name="userid" onkeydown="useridvalidation(event)" onblur="useridvalidation(event)" minlength="5" maxlength="12" required>
+                            <div></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td>
+						    <input type="password" name="userpw" onkeydown="pwvalidation(event)" onblur="pwvalidation(event)" minlength="7" maxlength="12" required>
+							<div></div>
+						</td>                    
+					</tr>
+					
+                    <tr>
+                        <td>Name:</td>
+                        <td>
+							<input type="text" name="username" onkeydown="namevalidation(event)" onblur="namevalidation(event)" required>
+							<div></div>
+						</td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td>
+							<input type="text" name="useradd">
+							<div></div>
+						</td>
+                    </tr>
+                    <tr>
+                        <td>Country:</td>
+                        <td>
+                            <select required name="usercountry" id="usercountry" onkeydown="countryvalidation(event)" onblur="countryvalidation(event)">
+                                <option value="">Please select the country</option>
+                                <option value="singapore">Singapore</option>
+                                <option value="malaysia">Malaysia</option>
+                                <option value="others">Others</option>
+                            </select>
+							<div></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>ZIP Code</td>
+                        <td>
+							<input type="text" name="userzip" onkeydown="zipvalidation(event)" onblur="zipvalidation(event)" required>
+							<div></div>
+						</td>
+                    </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>
+							<input id="emailField" name="useremail" type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"  onkeydown="emailvalidation(event)" onblur="emailvalidation(event)" required>
+							<div></div>
+						</td>
+						
+					</tr>
+                    <tr>
+                        <td>Sex:</td>
+                        <td>
+                            <input type="radio" id="gender1" name="gender" value="Male" onchange="checkgender()">Male
+                            <input type="radio" id="gender2" name="gender" value="Female" onchange="checkgender()">Female
+							<div></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Language:</td>
+                        <td>
+							<input type="checkbox" id="english" name="lang" value="English"  onchange="checklang()">English
+                            <input type="checkbox" id="nonenglish" name="lang" value="Non-English" onchange="checklang()">Non English
+							
+							<div></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>About</td>
+                        <td>
+                            <textarea name="about"></textarea>
+							<div></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button disabled type="submit" id="submitbutton" title="Form is not valid, please enter the right input">Submit</button>
+							
+							<div></div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+
+			<p id="disp"></p>
+		
+				<table>
+		
+				</table>
+		
+        <script>
+		
+            //var isFormValid=false;
+			var useridvalid=false;
+			var pwvalid=false;
+			var namevalid=false;
+			var countryvalid=false;
+			var zipvalid=false;
+			var emailvalid=false;
+			var gendervalid=false;
+			var langvalid=false;
+			
+            function useridvalidation(e){
+                if(e.target.value ==="" || e.target.value===null){
+                    e.target.nextElementSibling.innerHTML = "User ID is required and must be of length 5 to 12";
+					useridvalid=false;
+					document.getElementById("submitbutton").disabled = true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+                }
+				else{
+					if(e.target.value.length < 5 || e.target.value.length > 12){
+					e.target.nextElementSibling.innerHTML = "User ID is required and must be of length 5 to 12";
+					useridvalid=false;
+					document.getElementById("submitbutton").disabled = true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+					}				
+					else{
+                    e.target.nextElementSibling.innerHTML = "";
+					useridvalid=true;
+					if(isFormValid()===true){
+					document.getElementById("submitbutton").disabled = false;
+					document.getElementById("submitbutton").style.cursor = 'pointer';
+					document.getElementById("submitbutton").title = "Please click to submit the form";
+					}
+					}
+				}
+            }
+			
+			function pwvalidation(e){
+                if(e.target.value ==="" || e.target.value===null){
+                    e.target.nextElementSibling.innerHTML = "Password should be filled and must be of length 7 to 12";
+					pwvalid=false;
+					document.getElementById("submitbutton").disabled = true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+                }
+                else{
+					if(e.target.value.length < 7 || e.target.value.length > 12){
+					e.target.nextElementSibling.innerHTML = "Password is required and must be of length 7 to 12";
+					pwvalid=false;
+					document.getElementById("submitbutton").disabled = true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+					}				
+					else{
+                    e.target.nextElementSibling.innerHTML = "";
+					pwvalid=true;
+					if(isFormValid()===true){
+					document.getElementById("submitbutton").disabled = false;
+					document.getElementById("submitbutton").style.cursor = 'pointer';
+					document.getElementById("submitbutton").title = "Please click to submit the form";
+					}
+					}
+                }
+            }
+			
+            function namevalidation(e){
+				var alpha = /^[a-zA-Z]+$/;
+			
+				if(e.target.value.match(alpha)) 
+               {
+					e.target.nextElementSibling.innerHTML = "";
+					namevalid=true;
+					if(isFormValid()===true){
+					document.getElementById("submitbutton").disabled = false;
+					document.getElementById("submitbutton").style.cursor = 'pointer';
+					document.getElementById("submitbutton").title = "Please click to submit the form";
+					}
+               }
+				else
+               {  
+					e.target.nextElementSibling.innerHTML = "Name is required and must contain alphabets only.";
+					namevalid=false;
+					document.getElementById("submitbutton").disabled = true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+               }
+            }
+			
+			function countryvalidation(e)
+			{
+				if(e.target.value === ""  || e.target.value===null)
+				{
+					e.target.nextElementSibling.innerHTML = "Please select a country.";
+					countryvalid=false;
+					document.getElementById("submitbutton").disabled = true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+				}else{
+					e.target.nextElementSibling.innerHTML = "";
+					countryvalid=true;
+					if(isFormValid()===true){
+					document.getElementById("submitbutton").disabled = false;
+					document.getElementById("submitbutton").style.cursor = 'pointer';
+					document.getElementById("submitbutton").title = "Please click to submit the form";
+					}
+				}
+			}
+			
+			function zipvalidation(e){
+				var numeric = /^[0-9]+$/;
+			
+				if(e.target.value.match(numeric)) 
+               {
+					e.target.nextElementSibling.innerHTML = "";
+					zipvalid=true;
+					if(isFormValid()===true){
+					document.getElementById("submitbutton").disabled = false;
+					document.getElementById("submitbutton").style.cursor = 'pointer';
+					document.getElementById("submitbutton").title = "Please click to submit the form";
+					}
+               }
+				else
+               {  
+					e.target.nextElementSibling.innerHTML = "ZIP is required and must contain numbers only.";
+					zipvalid=false;
+					document.getElementById("submitbutton").disabled = true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+               }
+            }
+
+			function emailvalidation(e){
+				var email = /^\S+@\S+$/;
+			
+				if(e.target.value.match(email)) 
+               {
+					e.target.nextElementSibling.innerHTML = "";
+					emailvalid=true;
+					if(isFormValid()===true){
+					document.getElementById("submitbutton").disabled = false;
+					document.getElementById("submitbutton").style.cursor = 'pointer';
+					document.getElementById("submitbutton").title = "Please click to submit the form";
+					}
+               }
+				else
+               {  
+					e.target.nextElementSibling.innerHTML = "Email is required and must be valid.";
+					emailvalid=false;
+					document.getElementById("submitbutton").disabled = true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+               }
+            }
+			
+			
+			var gender=[];
+			function checkgender(){
+				var checkedGender=[];
+				for(var i=0; i<=document.RegForm.gender.length-1; i++){
+					if(document.RegForm.gender[i].checked === true){
+						checkedGender.push(document.RegForm.gender[i].value);
+					}
+				}
+				if(checkedGender.length != 0){
+					gendervalid=true;
+					if(isFormValid()===true){
+					document.getElementById("submitbutton").disabled = false;
+					document.getElementById("submitbutton").style.cursor = 'pointer';
+					document.getElementById("submitbutton").title = "Please click to submit the form";
+					}
+				}
+				else{
+					gendervalid=false;
+					document.getElementById("submitbutton").disabled=true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+					
+				}
+			
+			}
+			
+			var lang=[];
+			function checklang(){
+				var checkedLang=[];
+				for(var i=0; i<=document.RegForm.lang.length-1; i++){
+					if(document.RegForm.lang[i].checked === true){
+						checkedLang.push(document.RegForm.lang[i].value);
+					}
+				}
+				if(checkedLang.length != 0){
+					langvalid=true;
+					if(isFormValid()===true){
+					document.getElementById("submitbutton").disabled = false;
+					document.getElementById("submitbutton").style.cursor = 'pointer';
+					document.getElementById("submitbutton").title = "Please click to submit the form";
+					}
+				}
+				else{
+					langvalid=false;
+					document.getElementById("submitbutton").disabled=true;
+					document.getElementById("submitbutton").style.cursor = 'not-allowed';
+					
+				}
+			
+			}
+			
+			//Function to enable and disable the submit button
+			function isFormValid(){
+				if (useridvalid===true && pwvalid===true && namevalid===true && countryvalid===true && zipvalid===true && emailvalid===true && gendervalid===true && langvalid===true){
+				
+					return true;
+				//isFormValid=true;
+ 				//document.getElementById("submitbutton").disabled = false;
+				//document.getElementById("submitbutton").style.cursor = 'pointer';
+				} else {
+					document.getElementById("submitbutton").disabled = true;
+					return false;
+				//isFormValid=false;
+ 				//document.getElementById("submitbutton").disabled = true;
+				//document.getElementById("submitbutton").style.cursor = 'not-allowed';
+				}  
+			}
+			
+			
+			
+			
+			function save(e){
+				
+				
+				e.preventDefault();
+								
+				const formData = new FormData(document.RegForm)
+				
+				//console.dir(formData.getAll('lang'))
+				//console.log(document.RegForm.lang)
+				
+				var inames=[];
+				var myformdata={};
+				//iterators
+				for(let k of formData.keys()){
+					
+					if(!inames.includes(k)){
+						inames.push(k);
+						myformdata[k]=formData.getAll(k)
+					}
+				}
+				console.log(myformdata);
+				
+				//object	
+				document.getElementById("RegForm").hidden = true;
+				
+				for(let n in myformdata){
+					var p = document.createElement("p");
+					p.textContent += n + " : " + myformdata[n];
+					//document.body.appendChild(p);
+					document.getElementById("disp").appendChild(p);
+				}
+				
+			}
+			
+			//Just some notes for my own reference below.
+			//The console method log() displays the toString representation of any object passed to it. 
+			//The Console method dir() displays an interactive list of the properties of the specified JavaScript object.
+		
+			
+			//var flag=false;
+			//function buttonfunction(){
+			//	flag=!flag;
+			//	document.getElementById("submitbutton").disabled = flag;
+			//	if(flag===true){
+			//		document.getElementById("submitbutton").style.cursor = 'not-allowed';
+					
+			//	}
+			//	else{
+			//		document.getElementById("submitbutton").style.cursor = 'pointer';
+			//	}
+				
+			//}
+			
+
+			//function display(e) {
+			//message = "<ul><li><b>User ID: </b>" + document.RegForm.userid.value;
+			//message += "<li><b>Name: </b>" + document.RegForm.username.value;
+			//message += "<li><b>Address: </b>" + document.RegForm.useradd.value;
+			//message += "<li><b>Country: </b>" + document.RegForm.usercountry.value;
+			//message += "<li><b>ZIP Code: </b>" + document.RegForm.userzip.value;
+			//message += "<li><b>Email: </b>" + document.RegForm.useremail.value;
+			//message += "<li><b>Sex: </b>" + document.RegForm.gender.value;
+			//message += "<li><b>Language: </b>" + document.RegForm.lang.value;
+			//message += "<li><b>About: </b>" + document.RegForm.about.value + "</ul>";
+			//document.write(message);
+			//}
+						
+			//var technologies = [];
+			//function save(e){
+			//	e.preventDefault();
+
+            //    console.log(document.regform.gender);
+            //    console.log(document.regform.technologies);
+            //    for(var i=0;i<=document.regform.technologies.length-1;i++){
+            //        if(document.regform.technologies[i].checked===true){
+            //           technologies.push(document.regform.technologies[i].value)
+            //        }   
+            //    }
+            //    console.log(technologies)
+			
+			
+			
+			//This is how we can enable and disable the submit button based on the checkboxes.
+			//In this example, the name of the textbox is technologies.
+			//var tech=[];
+			//function check(){
+			//	var checkedTechs=[];
+			//	for(var i=0; i<=document.regform.technologies.length-1; i++){
+			//		if(document.regform.technologies[i].checked === true({
+			//			checkedTechs.push(document.regform.technologies[i].value);
+			//		}
+			//	}
+			//	if(checkedTechs.length != 0){
+			//		document.getElementbyId("submitbutton").disabled=false;
+				
+			//	}
+			//	else{
+			//		document.getElementbyId("submitbutton").disabled=true;
+					
+			//	}
+			
+			//}
+			
+        </script>
+		
+    </body>
+</html>
