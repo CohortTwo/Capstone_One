@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>ToDoList</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Source Code Pro' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Source Code Pro' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Source Code Pro' rel='stylesheet'>
+
+    <style>
+
+        body {
+            background: #ffd800;
+        }
+
+        h1 {
+            text-align: center
+        }
+
+        ul li {
+            cursor: pointer;
+            position: relative;
+            padding: 12px 8px 12px 40px;
+            list-style-type: none;
+            background: #eee;
+            font-size: 18px;
+            transition: 0.2s;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+            ul li:nth-child(odd) {
+                background: #f9f9f9;
+            }
+
+            ul li:hover {
+                background: #ddd;
+            }
+
+        .filter-layout {
+            position: relative;
+            text-align: center;
+            padding: 5px 10px;
+            margin: 10px 0;
+            color: var(--white);
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+        }
+    </style>
+
+
+
+</head>
+
+<body onload="loadhappend()">
+
+    <h1>TODO APP</h1>
+
+
+    <div class="filter-layout">
+        <div class="filter-tasks">
+            Filter:
+        </div>
+        <div >
+            <button> Show all</button>
+        </div>
+        <div >
+            <button>Complete</button>
+        </div>
+        <div >
+            <button>Incomplete</button>
+        </div>
+        <div class="search-tasks">
+            <input type="text" placeholder="Search?" />
+        </div>
+    </div>
+
+    <br>
+    <hr />
+    Add a new task<input type="text" placeholder="What else needs to be done?" id="task" onkeyup="check(this)" />
+    <input type="submit" class="Add!" value="Add!" id="btSubmit" disabled onclick="addTask()" />
+
+    <ul id="tasklist"></ul>
+
+    <script>
+        var tasks = [];
+        function loadhappend() {
+            var data = window.localStorage.getItem('todoA');
+            if (data !== null) {
+                tasks = JSON.parse(data);
+                genList(tasks)
+            }
+        }
+        function addTask() {
+            var tasktext = document.getElementById("task").value;
+            var status = false;
+            tasks.push({ 'task': tasktext, 'status': status })
+            window.localStorage.setItem('todoA', JSON.stringify(tasks));
+            genList(tasks)
+        }
+
+        function genList(alltasks) {
+            var ulref = document.getElementById('tasklist');
+            ulref.innerHTML = "";
+            for (let i = 0; i <= alltasks.length - 1; i++) {
+                var el = document.createElement("li");
+                var newcheckbox = document.createElement('input');
+                newcheckbox.type = 'checkbox';
+                var tasktexte1 = document.createTextNode(alltasks[i].task);
+                newcheckbox.checked = alltasks[i].status;
+                newcheckbox.addEventListener("click", function () {
+                    alltasks[i].status = !alltasks[i].status;
+                    window.localStorage.setItem('todoA', JSON.stringify(alltasks))
+                })
+                var del = document.createElement('i');
+                del.classList.add("fas", "fa-trash-alt")
+                del.addEventListener("click", function () {
+                    alltasks.splice(i, 1);
+                    genList(alltasks);
+                    window.localStorage.setItem('todoA', JSON.stringify(alltasks))
+                })
+                var eddt = document.createElement('i');
+                eddt.classList.add("far", "fa-edit")
+                eddt.addEventListener("click", function () {
+                    var update = window.prompt("Click to edit task");
+                    console.log(update)
+                    if (update != null) {
+                        alltasks[i].task = update;
+                        console.log(alltasks);
+                    }
+                    genList(alltasks);
+                    window.localStorage.setItem("todolist", JSON.stringify(tasks));
+                    })
+                var Up = document.createElement('i');
+                Up.classList.add("fas", "fa-caret-square-up")
+                Up.addEventListener("click", function () {
+                    if (i != 0) {
+                        var move = alltasks[i];
+                        alltasks[i] = alltasks[i - 1];
+                        alltasks[i - 1] = move;
+
+                        genList(alltasks, 0);
+                        window.localStorage.setItem('todoA', JSON.stringify(alltasks))
+                    }
+                })
+                var Down = document.createElement('i');
+                Down.classList.add("fas", "fa-caret-square-down")
+                Down.addEventListener("click", function () {
+                    if (i != alltasks.length - 1) {
+                        var move = alltasks[i];
+                        alltasks[i] = alltasks[i + 1];
+                        alltasks[i + 1] = move;
+                        genList(alltasks, 0);
+                        window.localStorage.setItem('todoA', JSON.stringify(alltasks))
+                    }
+                })
+
+                el.appendChild(newcheckbox);
+                el.appendChild(tasktexte1);
+                el.appendChild(del);
+                el.appendChild(eddt);
+                el.appendChild(Up);
+                el.appendChild(Down);
+                ulref.appendChild(el)
+            }
+        }
+
+        function check(task) {
+            var bt = document.getElementById('btSubmit');
+            if (task.value != '') {
+                bt.disabled = false;
+            } else {
+                bt.disabled = true;
+            }
+        }
+
+    </script>
+
+</body>
+</html>
