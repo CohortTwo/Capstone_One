@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        i{
+            font-size:30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <button onclick="home()">Home</button>
+        <button onclick="tvshow()">Tvshow</button>
+        <button onclick="movies()">Movies</button>
+        <button onclick="kids()">Kids</button>
+        Search:<input type="text" />
+
+    </header>
+    <script>
+        function home() {
+            console.log("in button function");
+            document.getElementById('main').style.display = 'block';
+            document.getElementById('genrelist').style.display = 'none';
+            document.getElementById('oneshow').style.display = 'none';
+
+        }
+        function tvshow() {
+            console.log("in tvshow button function");
+            document.getElementById('main').style.display = 'none';
+            document.getElementById('genrelist').style.display = 'none';
+            document.getElementById('oneshow').style.display = 'block';
+        }
+        function kids() {
+            console.log("in kids button function");
+            document.getElementById('main').style.display = 'none';
+            document.getElementById('genrelist').style.display = 'none';
+            document.getElementById('oneshow').style.display = 'none';
+            document.getElementById('kids').style.display = 'block';
+
+        }
+
+    </script>
+
+    <div id="main">
+        <div id="comedy">
+            <h1>Comedy TV</h1>
+
+        </div>
+
+        <div id="kids">
+            <h1>Kids TV</h1>
+        </div>
+        <div id="romance">
+            <h1>Romance TV</h1>
+        </div>
+        <div id="crime">
+            <h1>Crime TV</h1>
+        </div>
+
+    </div>
+
+    <div id="genrelist"> </div>
+    <div id="oneshow"> </div>
+    <script>
+        var showname = [];
+        var genre = ['comedy', 'kids', 'romance', 'crime'];
+        for (let i = 0; i <= genre.length - 1; i++) {
+
+            // this function will get the shows in seperate genre like comedy, kids...
+            getShows(genre[i]);
+
+        }
+
+
+        function getShows(categ) {
+            var http = new XMLHttpRequest();
+            http.open("GET", "https://api.tvmaze.com/search/shows?q=" + categ);
+            http.send();
+            http.onreadystatechange = function () {
+                if (http.readyState === 4) {
+                    //getting the response in a variable for future use
+                    var showlist = (JSON.parse(http.response));
+                     console.log(showlist);
+                    for (let i = 0; i <= 4; i++) {
+                        var showdiv = document.createElement('div');
+
+                        showdiv.innerHTML = showlist[i].show.name;
+
+                        var showtime = document.createElement("div");
+                        showtime.innerHTML = "Duration:" + showlist[i].show.runtime + "m";
+                        var imgdiv = document.createElement('div');
+                        var imgshow = document.createElement("IMG");
+                        if (showlist[i].show.image !== null) {
+                            imgshow.innerHTML = showlist[i].show.name;
+                            imgshow.setAttribute("src", showlist[i].show.image.medium);
+                            imgshow.setAttribute("height", "250");
+                            imgshow.setAttribute("width", "180");
+                        }
+                        showdiv.appendChild(showtime)
+                        imgdiv.appendChild(imgshow)
+                        showdiv.appendChild(imgdiv)
+                        // showtime.appendChild(imgshow)
+                        //document.getElementById(categ).appendChild(showtime);
+                        document.getElementById(categ).appendChild(showdiv);
+                        showdiv.style.display = "inline-block";
+                    }
+                    var seemore = document.createElement('i');
+                    seemore.innerHTML = "seemore";
+                    seemore.style.color = "blue";
+                    // adding event listener which calls the function showgenrelist to display all the showname in that particula genre on separate div
+                    seemore.addEventListener("click", function () {
+                        
+                        showgenrelist(categ, showlist);
+                    })
+                    document.getElementById(categ).appendChild(seemore)
+                    
+                }
+            }
+
+
+        }
+
+        function showgenrelist(c, s) {
+            console.log("hi");
+            document.getElementById('main').style.display = 'none';
+            document.getElementById('genrelist').style.display = 'block';
+            var genretitle = document.createElement('h1');
+            genretitle.innerHTML = c;
+            document.getElementById("genrelist").appendChild(genretitle);
+            for (let k = 0; k <= s.length - 1; k++) {
+                console.log("ïnside");
+                var showTitle = document.createElement('li');
+                showTitle.id = "showTitle";
+                showTitle.innerHTML = s[k].show.name;
+                var showtime = document.createElement("div");
+                showtime.innerHTML = "Duration:" + s[k].show.runtime + "m";
+                var imgdiv = document.createElement('div');
+                var imgshow = document.createElement("IMG");
+                if (s[k].show.image !== null) {
+                    imgshow.setAttribute("src", s[k].show.image.medium);
+                    imgshow.setAttribute("height", "250");
+                    imgshow.setAttribute("width", "180");
+                    imgshow.setAttribute("type", "button");
+                    imgshow.addEventListener("click", function () {
+                        console.log("imagebutton");
+                        document.getElementById('main').style.display = 'none';
+                        document.getElementById('genrelist').style.display = 'none';
+                        //var oneshow = document.createElement('div');
+                        var showtitle = document.createElement('h1');
+                        showtitle.innerHTML = c;
+                        document.getElementById('oneshow').appendChild(showtitle);
+                        var showdetails = document.createElement("div");
+                       // showdetails.style.backgroundImage =" s[k].show.image.medium";
+                        showdetails.innerHTML = "showname:" + s[k].show.name + "<br>show Duration:" + s[k].show.runtime + "<br>Language:" + s[k].show.language;
+                        showtitle.appendChild(showdetails);
+                        //var imgdiv = document.createElement('div');
+                        var pic = document.createElement("IMG");
+                        if (s[k].show.image !== null) {
+                            pic.setAttribute("src", s[k].show.image.medium);
+                            pic.setAttribute("height", "250");
+                            pic.setAttribute("width", "180");
+                        }
+                        showtitle.appendChild(pic);
+                    });
+
+                }
+                showTitle.appendChild(showtime)
+                imgdiv.appendChild(imgshow)
+                showTitle.appendChild(imgdiv)
+                document.getElementById('genrelist').appendChild(showTitle);
+                showTitle.style.display = "inline-block";
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
