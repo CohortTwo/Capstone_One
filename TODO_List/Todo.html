@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <title></title>
+</head>
+<body>
+    <h1 style="background-color:coral"> TODO APP</h1>
+    <input type="text" id="mytask">
+    <button onclick="AddTask()">Add!</button>
+
+    <ul id="tasklist"></ul>
+
+    <script>
+        var task = [];
+        var data = window.localStorage.getItem('todolist');
+        if (data !== null) {
+            task = JSON.parse(data);
+            listing(task);
+        }
+        function AddTask() {
+            var tasktext = document.getElementById('mytask').value;
+            var mystatus = false;
+            task.push({ 'Task': tasktext, 'Status': mystatus });
+            window.localStorage.setItem('todolist', JSON.stringify(task));
+            //console.log(task);
+            listing(task);
+        }
+        function listing(task) {
+
+            var ref = document.getElementById('tasklist');
+            ref.innerHTML = "";
+            for (let i = 0; i <= task.length - 1; i++) {
+                var a = document.createElement("li");
+                   //check box element           
+                var mycheckbox = document.createElement('input');
+                mycheckbox.type = 'checkbox';
+                mycheckbox.checked = task[i].Status;
+
+                mycheckbox.addEventListener('click', function () {
+                    task[i].Status = !task[i].Status;
+                
+                })
+                a.appendChild(mycheckbox); 
+                //list the items
+               
+                var atask = document.createTextNode(task[i].Task);
+                a.appendChild(atask);
+                
+
+                //delete box element
+                var deletebutn = document.createElement('i');
+                deletebutn.classList.add("fas", "fa-trash-alt");
+
+                //<i class="fa fa-angle-double-down" aria-hidden="true"></i>
+
+                deletebutn.addEventListener('click', function () {
+                    task.splice(i, 1);
+                    listing(task);
+                   })
+                    a.appendChild(deletebutn);
+                    ref.appendChild(a);
+            }
+
+        }
+
+
+       
+
+
+        /*for (var i = 0; i <= task.length - 1; i++) {
+            var a = document.createElement("li");
+            console.log(a);
+            a.innerHTML = task[i].Task; //values are in 'Task' after pushing
+            ref.appendChild(a);
+        }*/
+
+                    //console.log("welcome");
+                    //var e = document.createElement("li");
+                    //var g = document.getElementById('tasklist');
+                    //var f = document.getElementById("mytask").value;
+    </script>
+    
+    <style>
+        h1 {
+            display: block;
+            font-size: 2em;
+            margin-top: 0.67em;
+            margin-bottom: 0.67em;
+            font-family: Arial;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>
