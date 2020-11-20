@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Standard Calculator App</title>
+		
+		<style>
+			html{
+				margin: 10px auto;
+			}
+			
+			table{
+				margin: 10px auto;
+				background-color: lightblue;
+			}
+			
+			ul{
+				list-style-type: none;
+				text-align: left;
+			}
+			
+		
+		
+		</style>
+		
+	</head>
+	
+	<body>
+			
+			<form name="calculator" id="calculator" method="post">
+				<table border="4">
+					<tr>
+						<td colspan="3">Standard Calculator
+								<br>
+								<input type="text" maxlength="40" size="30" name="Display" id="Display" onkeypress="allowKey(event)">
+						</td>
+						</tr>
+						<tr>
+							<td>
+								<table>
+									<tr>
+										<td>
+											<input type="button" value=" 7 " name="seven" onclick="addDigit('7')">
+										</td>
+										<td>
+											<input type="button" value=" 8 " name="eight" onclick="addDigit('8')">
+										</td>
+										<td>
+											<input type="button" value=" 9 " name="nine" onclick="addDigit('9')">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="button" value=" 4 " name="four" onclick="addDigit('4')">
+										</td>
+										<td>
+											<input type="button" value=" 5 " name="five" onclick="addDigit('5')">
+										</td>
+										<td>
+											<input type="button" value=" 6 " name="six" onclick="addDigit('6')">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="button" value=" 1 " name="one" onclick="addDigit('1')">
+										</td>
+										<td>
+											<input type="button" value=" 2 " name="two" onclick="addDigit('2')">
+										</td>
+										<td>
+											<input type="button" value=" 3 " name="three" onclick="addDigit('3')">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="button" value="+/-" name="plusminus" onclick="plusminusfn(event)">
+										</td>
+										<td>
+											<input type="button" value=" 0 " name="zero" onclick="addDigit('0')">
+										</td>
+										<td>
+											<input type="button" value=" . " name="dot" onclick="addDots('.')">
+										</td>
+									</tr>
+								</table>
+							</td>
+							
+							<td>
+								
+								<table>
+									
+									
+									<tr>
+										<td>
+											<input type="button" value="CE" name="ce" onclick="clearentry(event)">
+										</td>
+										<td>
+											<input type="button" value="AC" name="ac" onclick="allclear(event)">
+										</td>
+										
+									</tr>
+									
+									<tr>
+										<td>
+											<input type="button" value="  /  " name="divide" onclick="operate('/')">
+										</td>
+										<td>
+											<input type="button" value="  *  " name="multiply" onclick="operate('*')">
+										</td>
+									</tr>
+									
+									<tr>
+										<td>
+											<input type="button" value="  -  " name="subtract" onclick="operate('-')">
+										</td>
+										<td>
+											<input type="button" value="  +  " name="plus" onclick="operate('+')">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="button" value="  =  " name="equal" onclick="calc(event)">
+										</td>
+									</tr>
+								
+								</table>
+							</td>
+							
+							<td>
+								<table>
+									<tr>
+										<td>
+											<input type="button" value="MC" name="memoryclear" onclick="memoryclr(event)">
+										</td>
+										<td>
+											<input type="button" value="MR" name="memoryrecall" onclick="memoryrec(event)">
+										</td>
+										
+									</tr>
+									
+									<tr>
+										<td>
+											<input type="button" value="M+" name="memoryadd" onclick="memoryAdd(event)">
+										</td>
+										<td>
+											<input type="button" value="M-" name="memorymin" onclick="memoryMin(event)">
+										</td>
+									</tr>
+									<tr>
+										<td>
+											<input type="button" value="MS" name="memorystore" onclick="memorystorage(event)">
+										</td>
+										
+									</tr>
+								</table>
+							</td>
+						<tr>
+							<td colspan="3">Calculation History
+							<br>
+								<ul id="addhistory">
+								
+								</ul>
+							</td>
+						</tr>
+						
+						<tr>
+							<td colspan="3">Memory
+							<br>
+								<ul id="memorylist" name="memorylist">
+								
+								</ul>
+							</td>
+						</tr>
+			</form>
+			
+	<script>
+	var memory  = "0";      
+    var currentvalue = "0";      
+    var operation = 0;      
+    var maxlen = 30;    
+	
+	
+	function addDigit(digit){
+	if (currentvalue.length > maxlen){ 
+			currentvalue = "Too many digits";
+       } 
+	else{
+	   if ((eval(currentvalue) === 0) && (currentvalue.indexOf(".") === -1)){
+				currentvalue = digit;
+           } 
+		   else{
+				currentvalue = currentvalue + digit;
+           }
+		}
+     
+		document.getElementById("calculator").Display.value = currentvalue;
+		
+		
+	}
+	
+	function clearentry(){ 
+		currentvalue = "0";
+		document.getElementById("calculator").Display.value = currentvalue;
+	}
+
+	function allclear()
+	{ 
+		currentvalue = "";
+		operation = 0;                
+		memory = "0";
+		keyString="0";
+		valueEntered=[];
+		document.getElementById("calculator").Display.value = currentvalue;
+	}
+	
+	function operate(opinput){
+ 
+	if (operation !== 0) { 
+		calc(); 
+	}
+
+	if (opinput.indexOf("*") > -1){
+		operation = 1; 
+	}       //multiplication
+	
+	if (opinput.indexOf("/") > -1){
+		operation = 2; 
+	}       //division
+	
+	if (opinput.indexOf("+") > -1){
+		operation = 3; 
+	}     //addition
+	
+	if (opinput.indexOf("-") > -1){
+		operation = 4; 
+	}       // subtraction
+
+	memory = currentvalue;
+	currentvalue = "";
+	document.getElementById("calculator").Display.value = currentvalue;
+	
+	}
+	
+	
+	
+	function calc(){
+	
+		var opString = "";
+		var calcExpression = []; //array
+		
+		calcExpression.push({'firstvalue':memory});
+		calcExpression.push({'secondvalue':currentvalue});
+		//console.log(calcExpression);
+	
+	if (operation === 1){
+		currentvalue = eval(memory) * eval(currentvalue); 
+		opString= opString + "*";
+	}
+	if (operation === 2){ 
+		if (eval(currentvalue) !== 0){ 
+			currentvalue = eval(memory) / eval(currentvalue);
+			opString= opString + "/";
+		} 
+		else{
+			currentvalue = "Cannot divide by zero";
+		}
+    }
+	if (operation === 3){
+		currentvalue = eval(memory) + eval(currentvalue); 
+		opString= opString + "+";
+	}
+	if (operation === 4){ 
+		currentvalue = eval(memory) - eval(currentvalue); 
+		opString= opString + "-";
+	}
+	operation = 0;               
+	memory = "0";                  
+	currentvalue = currentvalue + "";       
+	document.getElementById("calculator").Display.value = currentvalue;
+	calcExpression.push({'operatorstring':opString});
+	//console.log(calcExpression);
+	console.log(calcExpression[0].firstvalue+calcExpression[2].operatorstring+calcExpression[1].secondvalue+"=")
+	var calcExp = calcExpression[0].firstvalue+calcExpression[2].operatorstring+calcExpression[1].secondvalue+"=";
+		
+	var ulref = document.getElementById("addhistory");
+	var element = document.createElement("li");
+	var calcExpDisp = document.createTextNode(calcExp);
+	element.appendChild(calcExpDisp);
+	var currentDisp = document.createTextNode(currentvalue);
+	element.appendChild(currentDisp); //append currentvalue that is on display after calculating
+	ulref.appendChild(element);
+	
+	}
+	
+	function addDots(){
+	if (currentvalue.length === 0){
+		currentvalue = "0.";
+    } 
+	else{
+      if(currentvalue.indexOf(".") === -1){
+			currentvalue = currentvalue + "."; //append a dot
+		}   
+	}
+	document.getElementById("calculator").Display.value = currentvalue;
+	}
+	
+	function plusminusfn(){
+	if(currentvalue > 0 || currentvalue < 0){    
+       currentvalue = currentvalue * (-1);
+	   document.getElementById("calculator").Display.value = currentvalue;
+	}
+	else if(currentvalue === 0){
+	   currentvalue = currentvalue;
+	   document.getElementById("calculator").Display.value = currentvalue;
+	} 
+	}
+	
+	var memoryArray = [];
+	function memorystorage(){
+		document.getElementById("calculator").Display.value = currentvalue; //to store the final value upon clicking
+		memoryArray.push({'storednum':currentvalue});
+		console.log(memoryArray);
+		var ulrefmem = document.getElementById("memorylist");
+		var element = document.createElement("li");
+		var currentDisp = document.createTextNode(currentvalue);
+		element.appendChild(currentDisp); //append currentvalue that is on display after calculating
+		ulrefmem.appendChild(element);
+		
+		
+	}
+	
+	
+	function memoryrec(){
+		//console.log(memoryArray[memoryArray.length-1].storednum); 
+		var recallvalue=memoryArray[memoryArray.length-1].storednum; //to get the last value stored in array
+		document.getElementById("calculator").Display.value = recallvalue;
+		currentvalue=recallvalue;
+	}
+	
+	function memoryclr(){
+		var ulrefmem = document.getElementById("memorylist");
+		ulrefmem.innerHTML="";
+		
+		memoryArray=[];//to clear array
+		console.log(memoryArray);
+	}
+	
+	
+	function memoryAdd(){
+		memory=document.getElementById("calculator").Display.value;
+		console.log(memory);
+		var laststoredvalue=memoryArray[memoryArray.length-1].storednum;
+		//console.log(laststoredvalue);
+		currentvalue= eval(memory)+eval(laststoredvalue);
+		
+		//add to calculation history
+		var calcExpression = []; //array
+		
+		calcExpression.push({'firstvalue':memory});
+		calcExpression.push({'secondvalue':memoryArray[memoryArray.length-1].storednum});
+		
+		var calcExp = calcExpression[0].firstvalue+"+"+calcExpression[1].secondvalue+"=";
+		
+		var ulref = document.getElementById("addhistory");
+		var element = document.createElement("li");
+		var calcExpDisp = document.createTextNode(calcExp);
+		element.appendChild(calcExpDisp);
+		var currentDisp = document.createTextNode(currentvalue);
+		element.appendChild(currentDisp); //append currentvalue that is on display after calculating
+		ulref.appendChild(element);
+		
+		
+		memoryArray[memoryArray.length-1].storednum=currentvalue+"";
+		
+		memoryArray.splice(memoryArray.length-1,1);//removed last item
+		console.log(memoryArray);
+		memoryArray.push({'storednum':currentvalue+""});//replace last item
+		
+		//still have to update memory list. remove last child and add back
+		var ulrefmem = document.getElementById("memorylist");
+		var elementremove = ulrefmem.removeChild(ulrefmem.lastElementChild);
+		var elementadd = document.createElement("li");
+		var currentDisp = document.createTextNode(currentvalue);
+		elementadd.appendChild(currentDisp); //append currentvalue that is on display after calculating
+		ulrefmem.appendChild(elementadd);
+		
+		
+	}
+	
+	function memoryMin(){
+		memory=document.getElementById("calculator").Display.value;
+		console.log(memory);
+		var laststoredvalue=memoryArray[memoryArray.length-1].storednum;
+		//console.log(laststoredvalue);
+		currentvalue= eval(laststoredvalue)-eval(memory);
+		
+		//add to calculation history
+		var calcExpression = []; //array
+		
+		calcExpression.push({'firstvalue':memoryArray[memoryArray.length-1].storednum});
+		calcExpression.push({'secondvalue':memory});
+		
+		var calcExp = calcExpression[0].firstvalue+"-"+calcExpression[1].secondvalue+"=";
+		
+		var ulref = document.getElementById("addhistory");
+		var element = document.createElement("li");
+		var calcExpDisp = document.createTextNode(calcExp);
+		element.appendChild(calcExpDisp);
+		var currentDisp = document.createTextNode(currentvalue);
+		element.appendChild(currentDisp); //append currentvalue that is on display after calculating
+		ulref.appendChild(element);
+		
+		
+		memoryArray[memoryArray.length-1].storednum=currentvalue+"";
+		
+		memoryArray.splice(memoryArray.length-1,1);//removed last item
+		console.log(memoryArray);
+		memoryArray.push({'storednum':currentvalue+""});//replace last item
+		
+		//still have to update memory list. remove last child and add back
+		var ulrefmem = document.getElementById("memorylist");
+		var elementremove = ulrefmem.removeChild(ulrefmem.lastElementChild);
+		var elementadd = document.createElement("li");
+		var currentDisp = document.createTextNode(currentvalue);
+		elementadd.appendChild(currentDisp); //append currentvalue that is on display after calculating
+		ulrefmem.appendChild(elementadd);
+		
+		
+	}
+	
+	//window.addEventListener('keypress', function(e) {
+	//	var keycode = e.which || e.keyCode;
+	//	var valueEntered = String.fromCharCode(keycode);
+	//	console.log(valueEntered);
+	//});
+	
+	var valueEntered = [];
+	var keyString = "";
+	function allowKey(e){
+		memory="0";
+		
+		var keycode = (e.which || e.keyCode);
+		valueEntered.push({'keyboardString': String.fromCharCode(keycode)});
+		console.log(valueEntered);
+		
+		var keyArray=[];
+		for(let i=0;i<=valueEntered.length-1;i++){
+			keyArray.push(valueEntered[i].keyboardString);
+			keyString = keyArray.join("");
+		}
+		console.log(keyString);
+		
+		memory=eval(keyString);
+		console.log(memory);
+		
+		
+		//add to calculation history
+		var calcExpression = []; //array
+		
+		calcExpression.push({'firstvalue':keyString});
+		calcExpression.push({'secondvalue':memory});
+		
+		var calcExp = calcExpression[0].firstvalue+"="+calcExpression[1].secondvalue;
+		
+		
+		var ulref = document.getElementById("addhistory");
+		var element = document.createElement("li");
+		var calcExpDisp = document.createTextNode(calcExp);
+		element.appendChild(calcExpDisp);
+		ulref.appendChild(element);
+		
+		currentvalue=memory;
+		
+	}
+	
+	
+	
+	</script>		
+	
+	
+	
+	</body>
+</html>
