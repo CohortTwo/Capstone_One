@@ -1,0 +1,150 @@
+﻿#menu {
+    margin-top:30px;
+    width: 100%;
+    background-color: darkorange;
+    height: 150px;
+    position: relative;
+}
+
+#navbar {
+    margin-left: 400px;
+}
+
+.navitem {
+    padding-right: 30px;
+    
+}
+
+
+#taskbar {
+    margin-top: 0px;
+    margin-left: 380px;
+    background-color: darkorange;
+    height: 60px;
+    width: 1050px;
+    vertical-align: central;
+    border-top: 5px solid lightgrey;
+    border-left: 10px solid lightgrey;
+    border-right: 10px solid lightgrey;
+    border-bottom: 5px solid lightgrey;
+}
+
+.taskitem {
+    padding-top:5px;
+    padding-left: 20px;
+    vertical-align: central;
+    
+}
+
+.newtask{
+    padding-left:30px;
+    padding-right:30px;
+}
+
+#list {
+    padding-left: 2px;
+    background-color: lightgrey;
+    color: whitesmoke;
+    border-top: 3px solid lightgrey;
+    border-left: 10px solid lightgrey;
+    border-right: 10px solid lightgrey;
+    border-bottom: 3px solid lightgrey;
+    width: 1048px;
+    padding-bottom: 10px;
+    margin-left: -10px;
+    list-style-type: none;
+}
+i{
+    padding-right:20px;
+}
+
+li{
+   height:50px;
+   background-color:dimgrey;
+   padding-top:10px; 
+   border-color:lightgrey;
+   border-width:10px;
+}
+#btndiv {
+    margin-left: 1300px;
+    margin-top: -20px;
+    padding-top:10px;
+}
+
+#addtask{
+    background-color:black;
+    color:white;
+    width:100px;
+    text-align:center;
+}
+.button {
+    background-color: white;
+    border:solid;
+    color: black;
+    padding: 2px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#showall{
+    background-color:darkorange;
+    border:none;
+    font-size:16px;
+}
+#complete {
+    background-color: darkorange;
+    border: none;
+    font-size: 16px;
+}
+#incomplete {
+    background-color: darkorange;
+    border: none;
+    font-size: 16px;
+}
+
+#btndiv{
+    margin-left:800px;
+    padding-top: -10px;
+
+}
+
+h1 {
+    padding-top: 20px;
+    color: white;
+    text-align: center;
+}
+
+body {
+    font-family: verdana;
+    background-color: dimgrey;
+}
+
+.tooltip{
+    position:relative;
+    display:inline-block;
+    border-bottom:1px dotted black;
+}
+
+.tooltip .tooltiptext{
+    visibility:hidden;
+    width:120px;
+    background-color:black;
+    color:#fff;
+    text-align:center;
+    border-radius:5px;
+    padding: 5px 0;
+    margin-top:20px;
+    position:absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext{
+    visibility: visible;
+}
+
+
+

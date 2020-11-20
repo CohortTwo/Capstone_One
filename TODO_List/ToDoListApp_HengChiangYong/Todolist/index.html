@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>To Do List</title>
+    <link href="StyleSheet1.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+</head>
+<body onload="taskStore()">
+    <div id="menu">
+        <h1>TODO APP</h1>
+        <br />
+        <div id="navbar">
+            <nav>
+                <table  >
+                    <tr>
+                        <td class="navitem" >Filter:</td>
+                        <td class="navitem" ><button id="showall" onclick="ShowAll()">Show All</button></td>
+                        <td class="navitem" ><button id="complete" onclick="CompleteTask()">Complete</button></td>
+                        <td class="navitem" ><button id="incomplete" onclick="IncompleteTask()">Incomplete</button></td>
+                        <td class="navitem" ><input type="text" id="search" placeholder="search" onchange="Search()" onclick="Search()"/></td>
+                    </tr>
+                </table>
+            </nav>
+        </div>
+    </div>
+   
+    <div id="taskbar">
+        
+            <p class="taskitem">
+                Add a new task <span class="newtask" >     
+                <input type="text" id="newtask" name="newtask" size="100" placeholder="What else needs to be done?" /></span>
+                <button onclick="addTask()" class="tooltip" id="addtask" value="addtask" disabled>      Add!  <span class="tooltiptext">Input your text</span> </button> 
+           
+            <ul id="list"></ul>
+
+        
+
+    </div>
+  
+    <script>
+
+        document.getElementById("newtask").addEventListener("change", addEnable);
+        document.getElementById("newtask").addEventListener("blur", addEnable);
+     
+
+        function taskStore() {
+            var taskdata = window.localStorage.getItem('todolist');
+            if (taskdata !== null) {
+                tasklist = JSON.parse(taskdata);
+                taskGen(tasklist);
+            }
+        }
+
+        function addEnable(e) {
+            var chktext = ""
+            chktext = document.getElementById("newtask").value;
+           
+            console.log(chktext);
+            if (chktext !== "" && chktext !==null) {
+                document.getElementById("addtask").disabled = false;
+                document.getElementById("addtask").style.cursor = 'pointer';
+            } else {
+                document.getElementById("addtask").disabled = true;
+                document.getElementById("addtask").style.cursor = 'not-allowed';
+            }
+        }
+
+        var tasklist=[];
+
+        function addTask() {
+
+            var status = false;
+            var tasktext = document.getElementById("newtask").value;
+
+            tasklist.push({ 'task': tasktext, 'status': status });
+            taskGen(tasklist);
+            console.log(tasklist);
+            document.getElementById("newtask").value = "";
+            
+        }
+
+        function taskGen(listtask) {
+
+            var tref = document.getElementById("list");
+
+            console.log(tref);
+
+            tref.innerHTML = "";
+
+            for (let i = 0; i <= listtask.length -1; i++) {
+                var taskrow = document.createElement("li");
+                
+                var elchk = document.createElement("input");
+                elchk.setAttribute("type", "checkbox");
+                tref.appendChild(taskrow);
+                taskrow.appendChild(elchk);
+                elchk.checked = listtask[i].status;
+                elchk.addEventListener("click", function () {
+                    listtask[i].status = !listtask[i].status;
+                    var storelist = window.localStorage.setItem("todolist", JSON.stringify(tasklist));
+                    console.log(storelist);
+                })
+                var taskname = document.createTextNode(listtask[i].task);  //this is correct statement to have addEventListener work
+             //   taskname.innerHTML = "     " + listtask[i].task;  this statement cannot work 
+                
+                taskrow.appendChild(taskname);
+                var btnDiv = document.createElement("div");
+                btnDiv.id = "btndiv";
+                taskrow.appendChild(btnDiv);
+              //  var deleteButton = document.createElement("button");
+              //  console.log(deleteButton);
+              //  deleteButton.id = "delete";
+              //  deleteButton.value = "delete";
+              //  deleteButton.innerText = "Delete";
+                var deleteButton = document.createElement("i");
+                deleteButton.classList.add("fas","fa-times")
+                btnDiv.appendChild(deleteButton); 
+                deleteButton.addEventListener("click", function () {
+                    var cfmDel = confirm("Confirm to delete the task?");
+                    console.log(cfmDel);
+                    if (cfmDel !== false) {
+                    delTask(i);
+                    }
+                });
+
+                var editButton = document.createElement("i");
+                editButton.classList.add("fas", "fa-pen-square");
+              
+                btnDiv.appendChild(editButton);
+                editButton.addEventListener("click", function () {
+                    var editbox = prompt("After edit the task, press 'OK' to save");
+                    if (editbox !== null) {
+                        var status = tasklist[i].status;
+                        editTask(i, editbox,status);
+                        //console.log(editbox + status);
+                    }
+                });
+
+                var upButton = document.createElement("i");
+                upButton.classList.add("fas", "fa-angle-double-up");
+               
+                btnDiv.appendChild(upButton);
+
+                upButton.addEventListener("click", function () {
+                    var toptask = tasklist[i - 1].task;
+                    //console.log(toptask);
+                    var topstatus = tasklist[i - 1].status;
+                    tasklist[i - 1].task = tasklist[i].task;
+                    tasklist[i - 1].status = tasklist[i].status;
+                    tasklist[i].task = toptask;
+                    tasklist[i].status = topstatus;
+                    window.localStorage.setItem("todolist", JSON.stringify(tasklist));
+                    taskGen(tasklist);
+                });
+
+                var downButton = document.createElement("i");
+                downButton.classList.add("fas", "fa-angle-double-down");
+
+                btnDiv.appendChild(downButton);
+
+                downButton.addEventListener("click", function () {
+                    var downtask = tasklist[i + 1].task;
+                    var downstatus = tasklist[i + 1].status;
+                    tasklist[i + 1].task = tasklist[i].task;
+                    tasklist[i + 1].status = tasklist[i].status;
+                    tasklist[i].task = downtask;
+                    tasklist[i].status = downstatus;
+                    window.localStorage.setItem("todolist", JSON.stringify(tasklist));
+                    taskGen(tasklist);
+                });
+            }
+        }
+    
+
+        function delTask(task) {
+   
+            var filtertasks = tasklist.splice(task, 1);
+            window.localStorage.setItem("todolist", JSON.stringify(tasklist));
+                taskGen(tasklist);
+                console.log(filtertasks);
+        }
+
+        function editTask(task, edittext,status) {
+           
+            tasklist[task] = ({ 'task': edittext, 'status': status });
+            window.localStorage.setItem("todolist", JSON.stringify(tasklist));
+            taskGen(tasklist);
+         }
+
+
+        function CompleteTask() {
+            var temp = [];
+           
+            for (var index=0; index <= tasklist.length - 1; index++) {
+                if (tasklist[index].status === true) {
+                    temp.push({ "task": tasklist[index].task, "status": tasklist[index].status });
+                }
+            }
+            console.log(temp);
+            taskGen(temp);
+        }
+
+        function IncompleteTask() {
+           
+            var temp = [];
+            for (var index=0; index <= tasklist.length - 1; index++) {
+                console.log(tasklist[index].status);
+                if (tasklist[index].status === false) {
+                    console.log(tasklist[index].status);
+                    console.log("index : " +index);
+                    temp.push({ "task": tasklist[index].task, "status": tasklist[index].status });
+                }
+            }
+            console.log(temp);
+            taskGen(temp);
+        }
+
+        function ShowAll() {
+            
+            taskGen(tasklist);
+        }
+
+        function Search() {
+            var temp = [];
+            var num = 0;
+            var searchInput = document.getElementById("search");
+            var filter = searchInput.value.toUpperCase();           //convert the text to upper case
+
+            for (var a = 0; a <= tasklist.length - 1; a++) {
+                var text = tasklist[a].task
+                if (text.toUpperCase().indexOf(filter) > -1) {            //convert the array test to upper case and do a filter match
+                    temp.push({ "task": tasklist[a].task, "status": tasklist[a].status });   //if the return numner is great than -1, there is a match.
+                    num = num + 1;  //to indicate number of text matches in the search
+                }
+            }
+
+            if (num === 0) {
+                confirm("No search found!");
+                return false;
+            }
+            taskGen(temp);
+        }
+    </script>
+</body>
+</html>
