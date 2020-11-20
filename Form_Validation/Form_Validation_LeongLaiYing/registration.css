@@ -1,0 +1,24 @@
+﻿td {
+    padding: 4px;
+}
+
+    td:first-child {
+        text-align: right;
+    }
+
+table {
+    margin: 10px auto;
+}
+
+h1 {
+    text-align: center;
+    background-color:saddlebrown;
+    color:white;
+
+}
+div{ color:red;}
+
+body{
+    background-color:blanchedalmond;
+}
+
