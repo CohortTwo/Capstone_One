@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TO-DO LIST</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<h1>TODO LIST</h1>
+
+<nav> 
+	<table cellpadding="5px">
+		<tr>
+			<td>
+				<label>Show: </label>
+				<select id="showTasks" name="showTasks" onchange="changeView()">
+					<option value="all">All Tasks</option>
+					<option value="notCompleted">Incomplete Tasks</option>
+					<option value="completed">Completed Tasks</option>
+				</select> 
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="text" id="searchBox" name="searchBox" class=inputBox placeholder="Search the list"></input>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="text" id="inputBox" name="inputBox" class=inputBox placeholder="What else needs to be done?"></input>
+				<button type="button" id="add" onclick="addTask('inputBox')">Add</button>
+			</td>
+		</tr>
+	</table>
+</nav>
+
+
+<table id="list"; cellspacing="5px" cellpadding="5px">
+	<thead>
+		<tr><td class=listheader colspan=2 text-align="center"></td></tr>
+	</thead>
+
+	<tbody id="table_body">
+	</tbody>
+
+</table>
+
+<script src="scripts.js"></script>
+</body>
+</html>
+
