@@ -1,26 +1,3 @@
-function fillFields() {
-document.getElementById("userID").value = "andyong";
-document.getElementById("password").value = "password";
-document.getElementById("name").value = "Andy Ong";   
-document.getElementById("address").value = "4th Positivity Street";
-document.getElementById("countrySelector").value = "SG";
-document.getElementById("zipcode").value = 1234; 
-document.getElementById("email").value = "andyong17@gmail.com";
-document.getElementsByName("gender")[0].checked = true;
-document.getElementsByName("language")[0].checked = true;
-document.getElementsByName("language")[1].checked = true;
-document.getElementById("about").value = "This is a test message.";
-enableSubmit();
-}
-
-/* This function should apply validating functions on the field data and return
- * either true or false. False always means fails and fails should disqualify
- * the data, data should not depend on failing test to be legit. Instead of
- * sqeezing multiple tests together in functions, function should be framework
- * that accept parts. */
-//function validate(field, ...func) { 
-//}
-
 function verify(min, max, inputBox, errorDisplayLoc) {
 	let inputString = document.getElementById(inputBox).value;
 
