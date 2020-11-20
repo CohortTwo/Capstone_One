@@ -1,0 +1,160 @@
+﻿body {
+    margin-left:auto;
+    margin-right:auto;
+    font-family:Verdana
+}
+
+h3{
+    margin-left:20px;
+}
+.topmenu{
+
+    margin-top:50px;
+    margin-left:150px;
+    width:800px;
+    border: 2px solid red;
+    border-radius:8px; 
+}
+
+.history {
+    width:80px;
+    margin-left: 450px;
+    border: 1px solid;
+}
+
+.memory {
+    width: 80px;
+    margin-left: 600px;
+    margin-top: -23px;
+    border: 1px solid;
+}
+
+#historykey{
+    width:80px;
+    
+    text-decoration-line:underline;
+}
+
+#memorykey{
+    width:80px;
+    
+}
+
+
+.right_section {
+    width: 350px;
+    height: 450px;
+    margin-left: 430px;
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 8px;
+    background-color:royalblue;
+}
+
+.hist_mem_area{
+    float:right;
+    padding:25px;
+    color:white;
+    font-size:16px;
+    border-radius:10px;
+   
+
+ 
+}
+.left_section {
+    width: 400px;
+    margin-top: -50px;
+    margin-left: 10px;
+}
+.displayarea{
+
+    width:400px;
+    height:100px;
+    border: 1px solid black;
+    margin-top:-320px;
+    margin-bottom:10px;
+    text-align:right;  
+    border-radius:8px;
+    
+}
+
+.smalldisp{
+    font-size:12px;
+    color:dimgrey;
+    border:none;
+    text-align:right;
+    float:right;
+    width:380px;
+    margin-bottom:10px;
+    padding-right:10px;
+}
+
+.bigdisp{
+    font-size:30px;
+    color:black;
+    text-align:right;
+    border: 1px solid;
+    margin-top:30px;
+    padding-right:10px;
+    width:380px;
+    height:50px;
+   
+}
+
+#row1 {
+    width:80px;
+}
+#deg{
+    width:80px;
+}
+
+#fe{
+    width:80px;
+}
+
+#row2{
+    width:20px;
+}
+
+#row3{
+    width:200px;
+}
+
+#trigo{
+    width: 150px;
+}
+
+#keytrigo{
+
+    width: 145px;
+}
+#fnkey{
+    width:150px;
+}
+
+#keyfunction{
+    width:145px;
+}
+
+.keypad{
+    width:400px;
+}
+
+td{
+    width:20px;
+    border-radius:5px;
+    border-color:darkturquoise;
+    font-family:Verdana;
+    border: 1px solid;
+    text-align:center;
+
+}
+
+.row7{
+
+    margin-bottom:10px;
+}
+
+button{
+    width:50px;   
+}
