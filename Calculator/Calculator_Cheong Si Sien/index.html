@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CALCULATOR</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="styles.css"> 
+    
+    </head>
+
+<body> 
+    <table>
+        <tr>
+           <tr>
+               <td class = "heading">
+                      Calculator
+               </td>
+           </tr>    
+  
+    <div id="Calc">
+    <td>
+    <input  type="button" id="MClear" value="MC" onclick ="memory('C')" > </input>
+    <input type="button" id="MReset" value="MR" onclick ="memory('R')"></input>
+    <input type="button" id="MPlus"  value="M+"  onclick ="memory('+')"> </input><!doctype html>
+    <input type="button" id="MMinus"  value="M-"  onclick ="memory('-')"> </input><!doctype html> <BR>
+
+    <input type="button" id="MStore"  value="MS"  onclick ="memory('S')"> </input>
+    <input type="button" id="ClearE" value="CE" onclick ="clearscreen()"></input>
+    <input type="button" id="BackSpc" value ="&#8592;" onclick ="backspace()"   </input>
+    <input type="button" id="Divide"  value="÷" onclick = "getmaths('/')"><br></input>
+
+    <input type="button" id="nos7" value="7" onclick="get(7)" onkeypress="getkey(7)"></input>
+    <input type="button" id="nos8" value="8" onclick="get(8)" onkeypress="getkey(8)"></input>
+    <input type="button" id="nos9" value="9" onclick="get(9)" onkeypress="getkey(9)"></input>
+    <input type="button" id="Multiply" value="x" onclick="getmaths('*')" onkeypress="getmaths('*')" ><br></input>
+    
+    <input type="button" id="nos4" value="4" onclick="get(4)" onkeypress="getkey(4)"></input>
+    <input type="button" id="nos5" value="5" onclick="get(5)" onkeypress="getkey(5)"></input>
+    <input type="button" id="nos6" value="6" onclick="get(6)" onkeypress="getkey(6)" ></input>
+    <input type="button" id="Minus" value="-" onclick ="getmaths('-')"onkeypress="getmaths('-')"> <br> </input>   
+    
+    <input type="button" id="nos1" value="1" onclick="get(1)" onkeypress="getkey(1)"></input>
+    <input type="button" id="nos2" value="2" onclick="get(2)" onkeypress="getkey(2)" ></input>
+    <input type="button" id="nos3" value="3" onclick="get(3)" onkeypress="getkey(3)"></input>
+    <input type="button" id="Plus" value="+" onclick="getmaths('+')" onkeypress="getmaths('+')"><br> </input>
+    
+    <input type="button" id="Inverse" value="+/-" onclick ="getmaths('!')"> </input>
+    <input type="button" id="nos0" value="0" onclick = "get(0)" onkeypress="getkey(0)"></input>
+    <input type="button" id="decimal" value="." onclick ="getmaths('.')" onkeypress="getmaths('.')"></input>
+    <input type="button" id="equal" value ="=" onclick="calAns()" onkeypress="getmaths(=)"></input>
+    </td>
+</div>
+    <td>
+    <div id="Display"> 
+        <input type="float" placeholder ="0" id="display" readonly = "readonly" maxlength = 10;> <br> </input> 
+        <textarea id="answer" readonly = "readonly" placeholder ="history" ></textarea> <br> 
+        <textarea id="answer2" readonly = "readonly" placeholder ="memory" ></textarea> <br> </div>
+    </td><!-- comment -->
+    </tr>
+    
+</body>
+<script src="jquery-3.5.1.min.js"></script>
+    <script src="calculator.js"></script>
+</html>
