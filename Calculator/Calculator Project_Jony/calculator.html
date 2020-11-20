@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Basic Calculator</title>
+   <link rel="stylesheet" href="calculator.css">
+   <script src="calculator.js"></script>
+</head>
+<body>
+   
+   <div class="container">
+      <div class="display">
+         <input type="text" id="output" placeholder="0" name="displayResult"> 
+         <label for="memory">MEMORY:</label>
+         <div type="text" id="mStorediv" name="mStoreResult">
+            <ul id="mul"></ul>
+         </div>
+      </div>
+      <div class="buttons">
+         <div class="column left">
+            <div class="row">
+               <input type="buttonM" name="MC" value="MC" onClick="mClear()">
+               <input type="buttonM" name="MR" value="MR" onClick="mRecall()">
+               <input type="buttonM" name="M+" value="M+" onClick="mSave()">
+               <input type="buttonM" name="M-" value="M-" onClick="mSub()">
+               <input type="buttonM" name="MS" value="MS" onClick="mSave()">
+            </div>
+            <div class="row">
+               <input type="button" name="pi" value="π" onClick="pi()">
+               <input type="button" name="b7" value="7" onClick="dis('7')">
+               <input type="button" name="b8" value="8" onClick="dis('8')">
+               <input type="button" name="b9" value="9" onClick="dis('9')">
+               <input type="button" name="divb" value="÷" onClick="dis('/')">
+            </div>
+            <div class="row">
+               <input type="button" name="x2" value="x2" onClick="sqb()">
+               <input type="button" name="b4" value="4" onClick="dis('4')">
+               <input type="button" name="b5" value="5" onClick="dis('5')">
+               <input type="button" name="b6" value="6" onClick="dis('6')">
+               <input type="button" name="mulb" value="x" onClick="dis('*')">
+            </div>
+            <div class="row">
+               <input type="button" name="R0" value="R0" onClick="roundto0()">
+               <input type="button" name="b1" value="1" onClick="dis('1')">
+               <input type="button" name="b2" value="2" onClick="dis('2')">
+               <input type="button" name="b3" value="3" onClick="dis('3')">
+               <input type="button" name="subb" value="-" onClick="dis('-')">
+            </div>
+            <div class="row">
+               <input type="button" name="R2" value="R2" onClick="roundto2()">
+               <input type="button" name="signb" value="+/-" onClick="signb()">
+               <input type="button" name="b0" value="0" onClick="dis('0')">
+               <input type="button" name="pointb" value="." onClick="dis('.')">
+               <input type="button" name="addb" value="+" onClick="dis('+')">
+            </div>
+            <div class="row">
+               <input type="button" name="allClr" value="AC" onClick="clearAll()">
+               <input type="button" name="sqrt" value="(√)" onClick="sqrt()">
+               <input type="button" name="pctb" value="%" onClick="pctb()">
+               <input type="button" name="delb" value="⌫" onClick="delb()">
+               <input type="button" class="redcal" name="Calb" value="=" onClick="calcFunc()">
+            </div>
+         </div>
+         <div class="column right">
+            
+               <label for="history">HISTORY:</label>
+               <div id="histStorediv">
+                  <ul id="histul"></ul>
+               </div>
+            
+
+         </div>
+         
+      </div>
+
+   </div>
+   </div>
+ 
+  
+</body>
+</html>
