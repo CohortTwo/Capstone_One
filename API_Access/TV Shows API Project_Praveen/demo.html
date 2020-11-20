@@ -1,0 +1,54 @@
+<html>
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
+    </head>
+    <body>
+        
+        <button onClick="getCountries()">Submit</button>
+        <div id="maindiv"></div>
+        <script>
+            var http=new XMLHttpRequest();            
+            function getCountries(){
+                http.open("GET","https://restcountries.eu/rest/v2/all");
+                http.send();
+                http.onreadystatechange = function(){
+                    if(http.readyState===4){                    
+                        getRegions(JSON.parse(http.response));
+                    }
+                }
+            }
+            function getRegions(countries){
+                var regions=[];
+                for(var i=0;i<=countries.length-1;i++){
+                    regions.push(countries[i].region);
+                }                
+                var regions = _.unique(regions);
+                for(var j=0;j<=regions.length-1;j++){
+                   if(regions[j]!==""){
+                    var newDiv = document.createElement('div');
+                    newDiv.id=regions[j];
+                    newDiv.innerHTML="<h1>"+regions[j]+"</h1>"
+                    document.getElementById("maindiv").appendChild(newDiv)
+                   }
+                   else{
+                    var newDiv = document.createElement('div');
+                    newDiv.id="noregion";
+                    newDiv.innerHTML="<h1> No Region </h1>"
+                    document.getElementById("maindiv").appendChild(newDiv)
+                   }
+                }
+                for(var k=0;k<=countries.length-1;k++){
+                    var countryNode=document.createElement("li");
+                    countryNode.innerHTML=countries[k].name;
+                    if(countries[k].region!==""){
+                        document.getElementById(countries[k].region).appendChild(countryNode)
+                    } 
+                    else{
+                        document.getElementById('noregion').appendChild(countryNode)
+                    }                   
+                }
+            }
+        </script>
+
+    </body>
+</html>

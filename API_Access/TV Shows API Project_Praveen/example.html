@@ -1,0 +1,70 @@
+<html>
+    <style>
+        .betterView{
+            padding:10px;
+            margin:10px;
+            border:1px solid;
+            border-radius: 4px;
+            display: inline-block;
+            width:330px;            
+        }
+        .regionStyle{
+            padding:15px;
+            margin:14px;
+            border:5px dashed;            
+        }
+    </style>
+    <body>
+        
+        <button onclick="loadCountries()">Get All Countries</button>
+        <div id="d1"></div>
+        <script>
+            var http = new XMLHttpRequest();           
+            function loadCountries(){                
+                http.onreadystatechange=function(){
+                    if(http.readyState===4){
+                        var countries = JSON.parse(http.responseText);                        
+                        groupByRegions(countries);
+                        genCards(countries);
+                    }
+                }
+                http.open("GET","https://restcountries.eu/rest/v2/all");
+                console.log("ready state value::::",http.readyState);
+                http.send();
+            }
+            function groupByRegions(countries){
+                var regions = [];
+                var regionsObject = {};
+
+                for(var i=0;i<=countries.length-1;i++){
+                    if(!regions.includes(countries[i].region)){
+                        regions.push(countries[i].region);
+                    }
+                }
+
+                for(let k =0;k<=regions.length-1;k++){
+                    regionsObject[regions[k]]=[];
+                    var regDiv = document.createElement("div");
+                    regDiv.classList.add("regionStyle");
+                    regDiv.id=regions[k];
+                    document.getElementById("d1").appendChild(regDiv)
+                }
+                for(let j=0;j<=countries.length-1;j++){
+                    regionsObject[countries[j].region].push(countries[j]);                   
+                }
+                
+            }
+            function genCards(countries){                
+                for(let i=0;i<=countries.length-1;i++){
+                    var newDiv = document.createElement('div');
+                    newDiv.innerHTML = countries[i].name;
+                    newDiv.classList.add("betterView")
+                    if(document.getElementById(countries[i].region)!==null){
+                        document.getElementById(countries[i].region).appendChild(newDiv);
+                    }
+                }
+            }
+          
+        </script>
+    </body>
+</html>

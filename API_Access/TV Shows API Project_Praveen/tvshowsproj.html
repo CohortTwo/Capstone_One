@@ -1,0 +1,71 @@
+<html>
+    <body>
+        <div id='maindiv'>
+            <div id="comedy">
+                <h1>comedy</h1>
+            </div>
+            <div id="kids">
+                <h1>kids</h1>
+            </div>
+            <div id="romance">
+                <h1>romance</h1>
+            </div>
+            <div id="crime">
+                <h1>crime</h1>
+            </div>
+            <div id="thriller">
+                <h1>thriller</h1>
+            </div>
+        </div>
+        <div id="genreDiv">
+            
+        </div>
+        <script>
+            
+            var types=['comedy','crime','kids','romance',"thriller"];
+            for(let i=0;i<=types.length-1;i++){
+                getShows(types[i])
+            }
+            
+            function getShows(genre){
+                var http=new XMLHttpRequest();
+                http.open("GET","http://api.tvmaze.com/search/shows?q="+genre);
+                http.send();
+                http.onreadystatechange = function(){
+                    if(http.readyState===4){                    
+                        let shows = JSON.parse(http.response);
+                        console.dir(shows)
+                        for(let i=0;i<=3;i++){
+                            var newShow=document.createElement("div");
+                            newShow.innerHTML = shows[i].show.name;
+                            var showRuntime = document.createElement("b");
+                            showRuntime.innerHTML = shows[i].show.runtime;
+                            newShow.appendChild(showRuntime)
+                            document.getElementById(genre).appendChild(newShow)
+                        }
+                        var seemore = document.createElement('i');
+                        seemore.innerHTML="See More";
+                        seemore.addEventListener('click',function(){
+                            console.log("Genre::",genre);
+                            console.log("shows::",shows);
+                            showGenre(genre,shows);
+                        })
+                        document.getElementById(genre).appendChild(seemore)
+                    }
+                }
+            }
+            function showGenre(g,s){
+                document.getElementById("maindiv").style.display='none';
+                document.getElementById("genreDiv").style.display='block';
+                var genreTitle = document.createElement("h1");
+                genreTitle.innerHTML = g;
+                document.getElementById("genreDiv").appendChild(genreTitle)
+                for(let i=0;i<=s.length-1;i++){
+                    var showli = document.createElement('li');
+                    showli.innerHTML = s[i].show.name;
+                    document.getElementById("genreDiv").appendChild(showli)
+                }                
+            }
+        </script>
+    </body>
+</html>
