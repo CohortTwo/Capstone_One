@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>TV Show Project</title>
+    <link href="StyleSheet1.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div id="menubar">
+        <nav class="navbar">
+            <a href="tvshowproj.html">Home</a>
+            <a href="tvshows.html" click="goTvshows()">TV Shows</a>
+            <a href="gomovies.html" click="goMovies()">Movies</a>
+            <a href="kids.html" click="goKids()">Kids</a>
+            <input type="search" class="search" id="search" name="search" size="35" placeholder="Search" onchange="Search()">  
+        </nav>
+    </div>
+   
+    <div id="mainpage">
+        <div id="comedy">
+            <h2 class="comedy">Comedy</h2>
+            
+        </div>
+        <div id="kids">
+            <h2 class="kids">Kids</h2>
+        </div>
+        <div id="romance">
+            <h2 class="romance">Romance</h2>
+        </div>
+        <div id="music">
+            <h2 class="music">Music</h2>
+        </div>
+        <div id="thriller">
+            <h2 class="thriller">Thriller</h2>
+        </div>
+        
+    </div>
+   
+    <div id="moreshow"></div>
+    <div id="gotvshows"></div>
+
+    <div id="gomovies"></div>
+
+    <div id="gokids"></div>
+
+    <div id="searchnewshow"></div>
+
+    <div id="single"></div>
+
+<script>
+
+    var genreType = ["comedy", "kids","thriller", "romance", "music" ];
+    var cat = [];
+
+    for (let i = 0; i <= genreType.length - 1; i++) {
+        reqShow(genreType[i]);
+      //  genByGenre(category, genreType[i]);
+    }
+
+    function reqShow(type) {
+        var show = new XMLHttpRequest();
+        var gtype = type;
+
+        show.open("GET", "https://api.tvmaze.com/search/shows?q=" + type);
+        show.send();
+        show.onreadystatechange = function () {
+            // console.log("ready state value::::", show.readyState);
+            if (show.readyState === 4) {
+                cat = JSON.parse(show.responseText);
+                console.log(cat);
+                genByGenre(cat, gtype);
+            }
+        }
+    }
+
+    function genByGenre(cat1, type) {
+        var top4show = 4;
+        var cat = cat1;
+        for (let i = 0; i < top4show; i++) {
+            var newDiv = document.createElement("div");
+          //  var achImage = document.createElement("a");
+            var newImage = document.createElement("img");
+          //  achImage.id = "singleshow";
+          //  achImage.setAttribute("href", "#single");
+            newDiv.classList.add("newdiv");
+            newDiv.id = "newdiv";
+            newDiv.innerHTML = cat[i].show.name;
+            newImage.setAttribute('src', cat[i].show.image.medium);
+            newImage.setAttribute('style', "width:100%");
+            var newSpan = document.createElement("span");
+            newSpan.id = "newSpan";
+            newSpan.innerHTML = "<br>Runtime: " + cat[i].show.runtime + "<br>Language: " + cat[i].show.language + "<br>Status: " + cat[i].show.status+"<br> Score: "+cat[i].score;
+            document.getElementById(type).appendChild(newDiv);
+            newDiv.appendChild(newImage);
+          //  newDiv.appendChild(achImage);
+            newDiv.appendChild(newSpan); 
+        }
+
+        var viewmore = document.createElement("div");
+        viewmore.id = "viewmore";
+        viewmore.innerHTML = "<br> See more";
+        document.getElementById(type).appendChild(viewmore);
+        viewmore.addEventListener('click', function () {
+            seeMore(type,cat);
+        }); 
+    }
+
+    function seeMore(type,cat) {
+
+        document.getElementById("mainpage").style.display = "none";
+        var nextpage = document.createElement('div');
+        nextpage.id = "newpage";
+        document.getElementById("moreshow").appendChild(nextpage);
+        var SeeMore = document.getElementById("newpage");
+        var texth1 = document.createElement('h2');
+        texth1.innerHTML = type.toUpperCase();
+        SeeMore.appendChild(texth1);
+        var imgDiv = document.createElement("div");
+        imgDiv.id = "imagediv";
+        SeeMore.appendChild(imgDiv);
+
+       // console.log("cat.length:", cat.length);
+        for (let i = 0; i <= cat.length - 1; i++) {
+            var text = cat[i].show.name + "<br>  Runtime: " + cat[i].show.runtime + "<br>Language: " + cat[i].show.language + "<br>Score:" + cat[i].score + "<br>Summary:" + cat[i].show.summary;
+            var newDiv = document.createElement("div");
+            var newImage = document.createElement("img");
+            newDiv.id = "newmore";
+            newDiv.innerHTML = text;
+            newImage.setAttribute('src', cat[i].show.image.medium);
+            newImage.setAttribute('style', "width:100%");
+            console.log(newDiv.innerHTML);
+            imgDiv.appendChild(newImage);
+            imgDiv.appendChild(newDiv);
+            }
+       
+    }
+
+   
+    function Search() {
+        var searchIP = document.getElementById("search");
+        var filter = searchIP.value.toUpperCase();
+        var flag = false;
+       // console.log(filter);
+        var show = new XMLHttpRequest();
+        var listShow = [];
+        show.open("GET", "https://api.tvmaze.com/search/shows?q="+filter);
+        show.send();
+        show.onreadystatechange = function () {
+          //  console.log("ready state value::::", show.readyState);
+            if (show.readyState === 4) {
+                listShow = JSON.parse(show.responseText);
+                console.log(listShow);
+               // window.open("search.html");
+                
+                document.getElementById("mainpage").style.display = "none";
+                var schpage = document.createElement('div');
+                schpage.id = "searchpage";
+                document.getElementById("searchnewshow").appendChild(schpage);
+
+                var viewSearch = document.getElementById("searchpage");
+                var texth2 = document.createElement('h2');
+                texth2.innerHTML = filter;
+                viewSearch.appendChild(texth2);
+
+                for (var a = 0; a <= listShow.length - 1; a++) {
+                    var text = listShow[a].show.name;
+                    //console.log(listShow[a].show.name);
+                    if (text !== "" && text !== null) {
+                        if (text.toUpperCase().indexOf(filter) > -1) {
+                            // confirm("Search found: " + listShow[a].show.name);
+                            genPage(listShow[a]);
+                            flag = true;
+                        }
+                    }
+                }
+            }
+        }   
+        return flag; 
+    }
+    
+    function genPage(name) {
+        var viewSearch = document.getElementById("searchpage");
+        var text = name.show.name + "<br>  Runtime: " + name.show.runtime + "<br>Language: " + name.show.language + "<br>Score:" + name.score + "<br>Summary:" + name.show.summary;
+        var newDiv = document.createElement("div");
+        var newImage = document.createElement("img");
+        newDiv.id = "moresearch";
+        newDiv.innerHTML = text;
+        newImage.setAttribute('src', name.show.image.medium);
+        newImage.setAttribute('style', "width:100%");
+          //  console.log(newDiv.innerHTML);
+        viewSearch.appendChild(newImage);
+        viewSearch.appendChild(newDiv);
+      
+    }
+
+
+
+  //  var getImage = document.getElementById("singleshow");
+    
+  //  console.dir(getImage);
+  // getImage.addEventListener("click", imgURL);
+    function imgURL() {
+        document.getElementById("mainpage").style.display = "none";
+        var addInfo = document.getElementById("single");
+        var showInfo = document.createElement("dv");
+        showInfo.id = "showinfo";
+        showInfo.innerHTML = "Test";
+        addInfo.appendChild(showInfo);
+        alert(getImage.innerHTML);
+
+    }
+</script>
+
+
+
+
+</body>
+</html>
+
+<script src="JavaScript.js" type="text/javascript"></script>

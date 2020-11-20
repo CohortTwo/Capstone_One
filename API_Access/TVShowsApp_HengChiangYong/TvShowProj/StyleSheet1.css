@@ -1,0 +1,199 @@
+﻿body {
+    background:black;
+}
+
+div{
+    color:white;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#menubar {
+    width: 100%;
+    background-color: #4d4c4a;
+    height: 70px;
+    color: white;
+    position:fixed;
+    top:0;
+}
+
+.navbar {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    left: 200px;
+    background-color: #4d4c4a;
+    
+}
+.navitem{
+    margin-top:25px;
+    padding:10px;
+    font-family:Verdana, sans-serif;
+    color:whitesmoke;
+    
+    
+}
+a {
+    font-family: Verdana, sans-serif;
+    text-decoration-line: none;
+    color: white;
+    text-decoration-style: solid;
+    width: 80px;
+    text-align: right;
+    padding-left: 20px;
+    padding-right:20px;
+    padding-top:40px;
+    margin-top:100px;
+}
+
+a:hover{
+    text-decoration-line:underline;
+}
+
+.search{
+    margin-left:900px;
+    border: 1px solid;
+    border-radius:5px;
+    height:25px;
+    background: url(searchicon.png) no-repeat left;
+    background-color:white;
+    padding-left:30px;
+    margin-top:20px;
+}
+
+
+h2 {
+    padding-left: 50px;
+    color: white;
+    width:100%;
+    background-color: black;
+    font-size: x-large;
+    font-family: Verdana;
+    margin-top: 100px;
+}
+
+#newdiv {
+    font-family: Verdana;
+    color: white;
+    padding: 25px;
+    font-size: large;
+    background-color:orangered;
+    margin-left:0px;
+    width:22%;
+    float:left;
+}   
+
+#singleshow{
+    margin-left:150px;
+    float:left;
+    width:22%;
+    margin-top:10px;
+}
+
+#newspan {
+    font-family: Verdana;
+    margin-left: 0px;
+    padding-left: 50px;
+    position: relative;
+    font-size: large;
+    top: 0px;
+    position:relative;
+}
+#viewmore {
+    color: #3087cf;
+    margin-top: -60px;
+    margin-left:200px;
+    
+}
+
+#gotvshows{
+    
+
+}
+
+#tvshowsall {
+    color:white;
+    width: 20%;
+    float: left;
+    padding:10px;
+    font-family:Verdana;
+}
+
+#showmovies {
+    color: white;
+    width: 20%;
+    float: left;
+    padding: 10px;
+    font-family: Verdana;
+}
+
+#showkids {
+    color: white;
+    width: 20%;
+    float: left;
+    padding: 10px;
+    font-family: Verdana;
+}
+
+#moreshow::after {
+   
+    font-family: Verdana;
+    color: white;
+    width:100%;
+    padding-right: 10px;
+    background-color:red;
+   
+}
+
+#newpage {
+    
+    padding: 5px;
+    position: relative;
+    margin-left: 20px;
+    float: left;
+    width: 15%;
+}
+
+#imgdiv {
+    float: left;
+    width: 15%;
+    padding: 5px;
+    position: relative;
+    margin-left: 20px;
+}
+#newmore {
+   margin-left:20px;
+}  
+
+.kids{
+    margin-top:800px;
+}
+
+.romance{
+    margin-top:800px;
+}
+.thriller{
+    margin-top:800px;
+}
+.music{
+    margin-top:800px;
+}
+
+#searchnewshow {
+   
+    font-family: Verdana;
+    color: white;
+    float: left;
+    width: 100%;
+    padding-right: 10px;
+}
+
+#searchpage {
+   
+    font-family: Verdana;
+    color: white;
+    float: left;
+    width: 15%;
+    padding-right: 10px;
+}
+

@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>TvShows</title>
+    <link href="StyleSheet1.css" type="text/css" rel="stylesheet" />
+    <script src="JavaScript.js" type="text/javascript"></script>
+
+</head>
+<body>
+    <div id="menubar">
+        <nav class="navbar">
+            <a href="tvshowproj.html">Home</a>
+            <a href="tvshows.html" click="goTvshows()">TV Shows</a>
+            <a href="gomovies.html" click="goMovies()">Movies</a>
+            <a href="kids.html" click="goKids()">Kids</a>
+            <input type="search" class="search" id="search" name="search" size="35" placeholder="Search" onchange="Search()">  
+        </nav>
+
+    </div>
+    <div id="gotvshows">
+        <h2>TV Shows</h2>
+    </div>
+
+
+    <script>
+        var genre = "tv shows";
+
+        getHTTP(genre, "gotvshows","tvshowsall");
+
+        Search();
+    </script>
+</body>
+</html>
