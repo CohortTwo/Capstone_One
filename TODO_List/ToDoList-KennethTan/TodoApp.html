@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+</head>
+
+<body onload="loaded()">
+    <h1 style="background-color:orange;color:white">TODO APP</h1>
+    <label> Add a new task &nbsp&nbsp </label>
+    <input type="text" placeholder="What else needs to be done" id="task">
+    <button onclick="addTask()">Add</button>
+    
+
+    <ul id="tasklist">
+    </ul>
+
+    <script>
+        var tasks = [];
+        function loaded() {
+            var data = window.localStorage.getItem('todolist');
+            if (data !== null) {
+                tasks = JSON.parse(data);
+                genList(tasks);
+            }
+
+        }
+
+
+        function addTask() {
+            var tasktext = document.getElementById("task").value;
+            var status = false;
+            tasks.push({ 'task': tasktext, 'status': status })
+            window.localStorage.setItem('todolist', JSON.stringify(tasks));
+
+            genList(tasks)
+        }
+
+
+        function genList(alltasks) {
+            var ulref = document.getElementById('tasklist');
+            ulref.innerHTML = "";
+            for (let i = 0; i <= alltasks.length - 1; i++) {
+                var el = document.createElement("li");
+
+
+                var newcheckbox = document.createElement('input');
+                newcheckbox.type = 'checkbox';
+                newcheckbox.checked = alltasks[i].status;
+                newcheckbox.addEventListener('click', function () {
+                    alltasks[i].status = !alltasks[i].status;
+                    window.localStorage.setItem('todolist', JSON.stringify(alltasks))
+                })
+                el.appendChild(newcheckbox);
+                var tasktextel = document.createTextNode(alltasks[i].task);
+                el.appendChild(tasktextel);
+
+                
+                //DELETE BUTTON
+                var delButton = document.createElement('i');
+                delButton.classList.add("fas", "fa-trash-alt");
+                delButton.addEventListener("click", function () {
+                    alltasks.splice(i, 1);
+                    genList(alltasks)
+
+                    console.log("button deleted");
+
+                })
+                el.appendChild(delButton);
+                ulref.appendChild(el);
+
+                //EDIT BUTTON
+                var editButton = document.createElement('e');
+                editButton.classList.add("fas", "fa-edit");
+                editButton.addEventListener("click", function () {
+                
+                console.log("edit")
+                })
+                el.appendChild(editButton);
+                ulref.appendChild(el);
+
+
+                //UP ARROW
+                var upArrow = document.createElement('u');
+                upArrow.classList.add("fas", "fa-angle-double-up");
+                upArrow.addEventListener("click", function () {
+
+                console.log("switch up")
+                })
+                el.appendChild(upArrow);
+                ulref.appendChild(el);
+
+
+                //down ARROW
+                var downArrow = document.createElement('d');
+                downArrow.classList.add("fas", "fa-angle-double-down");
+                downArrow.addEventListener("click", function () {
+                    if (i != alltasks.length - 1) {
+                        var placeholder = alltasks[i];
+                        alltasks[i] = alltasks[i + 1];
+                        alltasks[i + 1] = placeholder;
+                        window.localStorage.setItem("todolist", JSON.stringify(alltasks));
+                        genList(alltasks);
+                    }
+
+
+                    console.log("switch down")
+                })
+                el.appendChild(downArrow);
+                ulref.appendChild(el);
+
+            }
+        }
+
+
+
+    </script>
+
+</body>
+</html>
