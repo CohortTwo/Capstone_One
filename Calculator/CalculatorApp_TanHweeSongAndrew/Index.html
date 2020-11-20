@@ -1,0 +1,409 @@
+﻿<!DOCTYPE html>
+<html>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link href="StyleSheet1.css" rel="stylesheet" />
+
+
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <div class="calculator">
+
+        <!-- the input -->
+        <input type="text" class ="calc-screen" id="entry-screen">
+
+        <div class="HM">
+            <i class="fas fa-heading" onclick="TogHistory()"></i><input type="text" class="His-class" id="H-id" />
+        
+            <i class="fab fa-monero" onclick="TogMemory()"></i></i><input type="text" class="M-class" id="M-id"/>
+        </div>
+
+        <!-- the buttons -->
+        <div class="calculator-buttons">
+            <!-- <button class="calc-button is-clear">C</button>-->
+            <button class="calc-button" onclick="ComputeResults(150)">MC</button>
+            <button class="calc-button" onclick="ComputeResults(151)">MR</button>
+            <button class="calc-button" onclick="ComputeResults(152)">M+</button>
+            <button class="calc-button" onclick="ComputeResults(153)">M-</button>
+            <button class="calc-button" onclick="ComputeResults(154)">MS</button>
+
+            <button class="calc-button" onclick="ComputeResults(45)"><i class="fas fa-percent"></i></button>
+            <button class="calc-button" onclick="ComputeResults(38)" id="clr-entry-id">CE</button>
+            <button class="calc-button" onclick="ComputeResults(39)" id="clr-all-id">C</button>
+            <button class="calc-button is-double" onclick="ComputeResults(127)"><i class="fas fa-backspace"></i></button>
+
+            <button class="calc-button" onclick="ComputeResults(128)">1/x</button>
+            <button class="calc-button" onclick="ComputeResults(129)">x^2</button>
+            <button class="calc-button" onclick="ComputeResults(130)"><i class="fas fa-square-root-alt"></i></button>
+            <button class="AMDTE-btns is-double" onclick="ComputeResults(57)"><i class="fas fa-divide"></i></button>
+
+
+            <button class="nbrs-btns" onclick="ProcessNum(7)">7</button>
+            <button class="nbrs-btns" onclick="ProcessNum(8)">8</button>
+            <button class="nbrs-btns" onclick="ProcessNum(9)">9</button>
+            <button class="AMDTE-btns is-double" onkeydown="ComputeResults(52)" onclick="ComputeResults(52)"><i class="fas fa-times"></i></button>
+            
+            <button class="nbrs-btns" onclick="ProcessNum(4)">4</button>
+            <button class="nbrs-btns" onclick="ProcessNum(5)">5</button>
+            <button class="nbrs-btns" onclick="ProcessNum(6)">6</button>
+            <button class="AMDTE-btns is-double" onclick="ComputeResults(55)"><i class="fas fa-minus"></i></button>
+
+            <button class="nbrs-btns" onclick="ProcessNum(1)">1</button>
+            <button class="nbrs-btns" onclick="ProcessNum(2)">2</button>
+            <button class="nbrs-btns" onclick="ProcessNum(3)">3</button>
+            <button class="AMDTE-btns is-double" onclick="ComputeResults(53)"><i class="fas fa-plus"></i></button>
+
+            <button class="calc-button" onclick="ComputeResults(131)">+/-</button>
+            <button class="nbrs-btns"   onclick="ProcessNum(0)">0</button>
+            <button class="calc-button" id="dec-id" onclick="ComputeResults(56)">.</button>
+            <button class="AMDTE-btns is-double" onkeydown="ComputeResults(75)" onclick="ComputeResults(75)"><i class="fas fa-equals"></i></button>
+    
+
+
+
+
+        </div>
+
+    </div>
+</head>
+<body>
+    <script>
+    // init display
+        var cur_disp_int_val = 0;
+        var pending_val = 0;
+        var old_val = 0;
+        var compute_storage = [];
+        var Lastoperator = 0; // Add, Times
+        var MemoryStore = 0; 
+        var HistoryArray = []; //stores the history
+        
+        var THflag = 0; var TMflag = 0; //to toggle display status
+        
+        function ProcessKeyB()
+        {
+            var kbtext = document.getElementById("entry-screen").value;
+            console.log(kbtext);
+        }
+        // Input from keyboard
+        document.getElementById("entry-screen").addEventListener("keydown", ProcessKeyB());
+        
+
+        
+
+
+        function ProcessNum(i) {
+            // Refresh the display
+            console.log(i);
+            cur_disp_int_val = i;
+            var entrytext = document.getElementById("entry-screen").value;
+            if (entrytext === "0") {
+                entrytext = ""
+            }
+            entrytext += cur_disp_int_val;
+            document.getElementById("entry-screen").value = entrytext;
+        }
+
+
+
+
+
+        function ComputeResults(i){
+            switch (i) {
+                case 38: //CE - clear last entry only
+                    pending_val = 0;
+                    document.getElementById("entry-screen").value = "";
+                    console.log("CE");
+                    
+                    break;
+                case 39: //C all detected- clear everything
+                    old_val = 0;
+                    pending_val = 0;
+                    document.getElementById("entry-screen").value = "";
+                    compute_storage = []; //clear the buffer
+                    updateDisplayHM();
+                    console.log("Clear All");
+                    
+                    break;
+
+                case 45: // % percentage function. Need to use Math function***
+                    pending_val = document.getElementById("entry-screen").value;
+                    if (Lastoperator === 'Add') {
+                        console.log("inside percentage - add mode")
+                        var tmptext1 = compute_storage.pop();
+                        console.log(tmptext1);
+                        var tmptext2 = compute_storage.pop();
+                        console.log(tmptext2);
+                        compute_storage.push(tmptext2);
+                        compute_storage.push(tmptext1);
+                        console.log("push back the data after pop");
+                        console.log(compute_storage);
+
+                        var results3 = parseInt(tmptext2) * (parseInt(pending_val) / 100);
+                        var results4 = results3.toFixed(2);
+                        
+                        document.getElementById("entry-screen").value = results4;
+                        Lastoperator = 0; //resets
+                        updateDisplayHM()
+                        break;
+                    }
+                    
+                    console.log("not in Add mode")
+                    var percent = (parseInt(pending_val)) / 100;
+                    console.log(percent);
+                    var results = percent.toFixed(2);
+                    document.getElementById("entry-screen").value = results,
+                      
+                    console.log(compute_storage);
+                    console.log("%");
+                    updateDisplayHM()
+
+                    break;
+                case 52:// Times in ASCII
+                    old_val = document.getElementById("entry-screen").value;
+                    document.getElementById("entry-screen").value = "";
+                    compute_storage.push(old_val);
+                    HistoryArray.push(old_val);
+                    compute_storage.push('*');
+                    HistoryArray.push('*');
+                    console.log("*");
+                    Lastoperator = 'Times';
+                    updateDisplayHM()
+                    break;
+                case 53:// Add in ASCII
+                    old_val = document.getElementById("entry-screen").value;
+                    document.getElementById("entry-screen").value = "";
+                    compute_storage.push(old_val);
+                    HistoryArray.push(old_val);
+                    compute_storage.push('+');
+                    HistoryArray.push('+');
+                    console.log("+");
+                    Lastoperator = 'Add';
+                    console.log ("lastoperator in add mode")
+                    updateDisplayHM();
+                    break;
+                case 55:// Subtract in ASCII
+                    old_val = document.getElementById("entry-screen").value;
+                    document.getElementById("entry-screen").value = "";
+                    compute_storage.push(old_val);
+                    HistoryArray.push(old_val);
+                    compute_storage.push('-');
+                    HistoryArray.push('-')
+                    console.log("-");
+                    updateDisplayHM();
+                    break;
+
+                case 56: //Decimal point detected
+                    if (old_val !== ".") {
+                        old_val = ".";
+                        cur_disp_int_val = "."; 
+                        var entrytext = document.getElementById("entry-screen").value;
+                        entrytext += cur_disp_int_val;
+                        document.getElementById("entry-screen").value = entrytext;
+                        console.log(".");
+              
+                    }
+                    // ASCII
+                    break;
+                case 57:// Divide in ASCII
+                    old_val = document.getElementById("entry-screen").value;
+                    document.getElementById("entry-screen").value = "";
+                    compute_storage.push(old_val);
+                    HistoryArray.push(old_val);
+                    compute_storage.push('/');
+                    HistoryArray.push("/");
+                    console.log("/");
+                    updateDisplayHM();
+                    
+                    break;
+                case 75:// Equal in ASCII
+                    pending_val = document.getElementById("entry-screen").value;
+                    compute_storage.push(pending_val);
+                    HistoryArray.push(pending_val);
+                    HistoryArray.push("=");
+                    var results = eval(compute_storage.join(""));
+                    document.getElementById("entry-screen").value = results,
+                        HistoryArray.push(results);
+                    HistoryArray.push("");// insert spacer for next computation
+                    compute_storage = []; //clear the buffer
+                    console.log("=");;
+                    updateDisplayHM()
+                    break;
+                case 127:// Backspace - undo last operation
+                    console.log("backspace mode")
+                    var entrytext = document.getElementById("entry-screen").value;
+                    if (entrytext === "0") {
+                        entrytext = "";
+                        document.getElementById("entry-screen").value = "";
+                        break;
+                    }
+                    //entrytext - trim 1 character of this string
+                    console.log("b4 slice");
+                    console.log(entrytext);
+                    var tmptext= entrytext.slice(0, -1);
+                    console.log("after slice");
+                    console.log(entrytext);
+                    document.getElementById("entry-screen").value = tmptext;
+                    updateDisplayHM();
+                    break;
+
+                case 128:// 1/x computation
+                    pending_val = document.getElementById("entry-screen").value;
+                    var results = 1 / (parseInt(pending_val));
+                    var results1 = results.toFixed(2);
+                    document.getElementById("entry-screen").value = results1,
+
+                        console.log("1/x");
+                    break;
+                case 129:// power of 2!
+                    pending_val = document.getElementById("entry-screen").value;
+                    var results = Math.pow(parseInt(pending_val),2);
+                    document.getElementById("entry-screen").value = results,
+                        
+                        console.log("Sq root");
+                    break;
+                
+                case 130:// Sq root
+                    pending_val = document.getElementById("entry-screen").value;
+                    var results = Math.sqrt(pending_val);
+                    document.getElementById("entry-screen").value = results,
+                        
+                    console.log("Sq root");
+                    break;
+
+                case 131:// +/- key
+                    pending_val = document.getElementById("entry-screen").value;
+                    if (pending_val === "0") break;
+                    var status = Math.sign(pending_val);
+                    console.log(status);
+                    if (status === 1) {
+                        //positive change to negative
+                        var temptext = "-";
+                        var results = temptext.concat(pending_val);
+                        console.log(results);
+                        
+                    } else {
+                        var results = Math.abs(pending_val);
+                    }
+                       
+                     
+                    document.getElementById("entry-screen").value = results,
+
+                        console.log("+/- fun");
+                    break;
+
+                    //MC 150 / MR 151 / M + 152 / M - 153 / MS 154
+                case 150:// MC code 150-var MemoryStore = 0; 
+                    
+                    MemoryStore = 0;
+                    document.getElementById("entry-screen").value = "",
+                    console.log("MC mode");
+                    console.log(MemoryStore);
+                    updateDisplayHM();
+                    break;
+
+                case 151:// MR Code 151
+                    var results = parseInt(MemoryStore);
+                    document.getElementById("entry-screen").value = results,
+                    console.log("MR");
+                    updateDisplayHM();
+                    break;
+
+                case 152:// M+ Code 152
+                    pending_val = document.getElementById("entry-screen").value;
+                    console.log("p val",pending_val);
+                    console.log("MS",MemoryStore);
+                    var results = parseInt(MemoryStore) + parseInt(pending_val);
+                    MemoryStore = results;
+                    document.getElementById("entry-screen").value = results,
+                    console.log("results:", results);
+                    
+                    console.log("M+");
+                    updateDisplayHM()
+                    break;
+
+                case 153:// M- code 153
+                    pending_val = document.getElementById("entry-screen").value;
+                    var results = parseInt(MemoryStore) - parseInt(pending_val);
+                    MemoryStore = results;
+                    document.getElementById("entry-screen").value = results,
+                        console.log("M-");
+                    updateDisplayHM()
+                    break;
+
+                case 154:// MS code
+                    pending_val = document.getElementById("entry-screen").value;
+                    MemoryStore = parseInt(pending_val);
+
+                    console.log("MS mode");
+                    updateDisplayHM();
+                    break;
+
+                default:
+                // code block
+            }
+        }
+
+       
+        
+        //THflag to toggle on/off History display; 0 to turn display on ; 1 to off display
+        function TogHistory() {
+            if (!THflag) {
+                for (var i = 0; i < HistoryArray.length - 1; i++) {
+                    var Hresults = HistoryArray[i];
+                    document.getElementById("H-id").value = Hresults;
+                    THflag = 1; //display turn on
+                }
+            }
+            else {
+                document.getElementById("H-id").value = "";
+                    THflag = 0;// turn off display
+            }
+        }
+
+        //TMflag to toggle on/off Memory display; 0 to display; 1 to off
+        function TogMemory() {
+            if (!TMflag) {
+                
+                document.getElementById("M-id").value = MemoryStore;
+                TMflag = 1;
+                }          
+                else {
+                document.getElementById("M-id").value = "";
+                TMflag = 0; //turn off Display
+            }
+        }
+
+            // run everytime a key is pressed
+        function updateDisplayHM() {
+            if (THflag) {
+                console.log("clicked detected")
+                for (var i = 0; i < HistoryArray{ i]- 1; ++) {
+                    HistoryArray.join();
+                }
+                var Hresults = HistoryArray.join();
+                console.log(Hresults);
+                var Hresults1 = Hresults.replace(","," ");
+                console.log(Hresults1);
+                document.getElementById("H-id").value = Hresults1;
+            }
+            if (TMflag) {
+                document.getElementById("M-id").value = MemoryStore;
+            } 
+            
+        }
+
+
+
+
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
