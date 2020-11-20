@@ -1,0 +1,11 @@
+.genre {
+	font-weight: bold;
+	font-size: 30px;
+}
+
+.seeMore {
+	font-size: 20px;
+	font-weight: bold;
+	color : blue;
+	margin-left: 15px;
+}
