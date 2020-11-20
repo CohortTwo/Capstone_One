@@ -1,0 +1,104 @@
+<html>
+
+    <style>
+        .betterView{
+            padding:10px;
+            margin:10px;
+            border:1px solid;
+            border-radius: 4px;
+            display:inline-block;
+            width:230px;
+        }
+        .topView{
+            border:2px dashed;
+            border-radius: 4px;
+        }
+    </style>
+    <body>
+        <div class='maindiv'>
+            <div class="comedy">
+                <h1>comedy</h1>
+                <div id="comedy"></div>
+            </div>
+            <div class="kids">
+                <h1>kids</h1>
+                <div id="kids"></div>
+            </div>
+            <div class="romance">
+                <h1>romance</h1>
+                <div id="romance"></div>
+            </div>
+            <div class="crime">
+                <h1>crime</h1>
+                <div id="crime"></div>
+            </div>
+            <div class="thriller">
+                <h1>thriller</h1>
+                <div id="thriller"></div>
+            </div>
+        </div>
+        <script>
+            var type="";
+            var types=['comedy','kids','romance','crime','thriller'];
+            for(let i=0;i<=types.length-1;i++){
+                type=types[i];
+                getShows(type);
+               //  setTimeout(function(){waitForIt()},100);
+            }
+            
+            async function getShows(genre){
+                //alert(genre);
+                var http=new XMLHttpRequest();
+                http.open("GET","http://api.tvmaze.com/search/shows?q="+genre);
+                
+                http.send();
+                http.onreadystatechange = function(){
+                    var _parameter1 = genre;
+                    if(http.readyState===4){    
+                       
+                       //alert(_parameter1);
+                       var myArr = JSON.parse(this.responseText);
+                        genCards(myArr,_parameter1);     
+                        console.log(JSON.parse(http.response));
+                    }
+                };
+            }
+            
+            async function genCards(arr,type) {
+                    arr.sort(function(a, b) {
+                    return a.score ;
+                       });  
+                     // alert(type);  
+                var out = "";
+                var i;
+                var loop=5;
+                if (loop > (arr.length-1))
+                {loop=arr.length;}
+                var imgurl="";
+                for(i = 0; i < loop; i++) {
+                  
+                    imgurl="";
+                  
+                    if(arr[i].show.image.medium !=null){
+                        imgurl=arr[i].show.image.medium;
+                    }
+                    
+                    
+                   //out += '<div class="betterView">'+ arr[i].show.name+ "<br>[langugae:" +arr[i].show.language +']<br>'+imgurl+'</div>';
+                    out += '<div class="betterView">'+ arr[i].show.name+ "<br><img src='"+arr[i].show.image.medium+"' width='200px' ><br>[langugae:" +arr[i].show.language +']<br>[Ratting:' +arr[i].score +']</div>';
+                }
+                document.getElementById(type).innerHTML = out;
+                /*if (type=="comedy"){
+                document.getElementById("comedy").innerHTML = out;}
+                else if (type=="kids"){
+                document.getElementById("kids").innerHTML = out;}
+                else if (type=="romance"){
+                document.getElementById("romance").innerHTML = out;}
+                else if (type=="crime"){
+                document.getElementById("crime").innerHTML = out;}
+                else if (type=="thriller"){
+                document.getElementById("thriller").innerHTML = out;}*/
+            }
+        </script>
+    </body>
+</html>
