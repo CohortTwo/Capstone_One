@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Calculator App</title>
+    <style>
+        *,*::before,*::after{
+            box-sizing:border-box;
+            font-family:'Adobe Devanagari';
+            font-weight:normal;
+        }
+
+        body{
+                   
+            padding:0;
+            margin:0;
+            background-color:dimgrey;
+            
+        }
+        .calculatormain {
+           
+            display: grid;
+            justify-content: center;
+            align-content: center;
+            max-height: 100vh;
+            grid-template-columns: repeat(4,100px);
+            grid-template-rows: minmax(80px,100px) repeat(5,80px);
+        }
+        .calculatormain > button{
+            cursor:pointer;
+            font-size: 2rem;
+            border: 1px solid black;
+            outline:none;
+            background-color:rgba(255,255,255,.75);
+
+        }
+
+        .calculatormain button:hover {
+                background-color: darkslategray;
+            }
+         .span-two{
+             grid-column:span 2;
+
+         }
+        .output {
+            grid-column: 1/-1;
+            background-color: #7b9c9c;
+            display:flex;
+            align-items:flex-end;
+            justify-content:space-around;
+            flex-direction:column;
+            padding:10px;
+            word-wrap:break-word;
+            word-break:break-all;
+
+        }
+        .output .previous_number{
+            color:black;
+            font-size:1.5em;
+        }
+            .output .current_number {
+                color: darkslategray;
+                font-size: 1.5em;
+            }
+            
+            .container {
+   		 display:flex
+		}
+		
+	.record{
+	max-height: 100vh;
+	background-color: white;
+	}
+#memory,#history{
+height:70px;
+width:120px;
+}
+    </style>
+    
+</head>
+<body>
+<div class="container">
+    <div class="calculatormain">
+        <div class="output">
+            <div data_previous_number class="previousnum"> </div>
+            <div data_current_number class="currentnum">click here</div>
+        </div>
+        
+        <button memoryminus class="span-two">Mem-</button>
+        <button memorysave class="span-two">Mem+</button>
+       
+        <button clear class="span-two">Clear</button>
+        <button delete class="span-two">Del</button>
+        
+        <button number>1</button>
+        <button number>2</button>
+        <button number>3</button>
+		<button operation>/</button>
+       
+        <button number>4</button>
+        <button number>5</button>
+        <button number>6</button>
+		 <button operation>*</button>
+        
+        <button number>7</button>
+        <button number>8</button>
+        <button number>9</button>
+		<button operation>+</button>
+        <button operation>-</button>
+        <button number>.</button>
+        <button number>0</button>
+        <button equal>=</button>
+        
+    </div>
+    <div>
+    <div id="record" class="record">
+        <button history id='history' >History</button>
+        
+        <h1>History</h1>
+		<p id="details"></p>
+    </div>
+	 <div id="memorystore" class="record">
+	 <h1>memory</h1>
+	 <p id="memorylist"></p>
+    </div>
+   
+   
+ </div>
+    <script>
+       
+
+        class Calculator {
+			
+            constructor(prenumButton, currentButton) {
+                this.prenumButton = prenumButton;
+                this.currentButton = currentButton;
+                this.clear()
+            }
+            clear() {
+                this.currentnum = ""
+                this.previousnum = ""
+                this.operationButtons = undefined
+                this.prenumButton.innerText = ''
+
+            }
+            delete() {
+                this.currentnum = this.currentnum.toString().slice(0, -1)
+
+
+            }
+            
+            appendNumber(number) {
+                if (number === '.' && this.currentnum.includes('.')) return
+                this.currentnum = this.currentnum.toString() + number.toString()
+            }
+            pickOperation(operation) {
+                if (this.currentnum === '') return
+                if (this.previousnum !== '') {
+                    this.compute()
+                }
+			
+                this.operation = operation
+                this.previousnum = this.currentnum
+                this.currentnum = ''
+
+            }
+            compute() {
+                let computation
+                const prev = parseFloat(this.previousnum)
+                const current = parseFloat(this.currentnum)
+                if (isNaN(prev) || isNaN(current)) return
+                switch (this.operation) {
+                    case '+':
+                        computation = prev + current
+						histLeft[hcount] = prev.toString()+"+"+current.toString();
+						histRight[hcount] = computation.toString();
+						console.log(histLeft[hcount]);
+						
+						hcount++;
+                        break
+                    case '-':
+                        computation = prev - current
+						histLeft[hcount] = prev.toString()+"-"+current.toString();
+						histRight[hcount] = computation.toString();
+						hcount++;
+                        break
+                    case '*':
+                        computation = prev * current
+						histLeft[hcount] = prev.toString()+"*"+current.toString();
+						histRight[hcount] = computation.toString();
+						hcount++;
+                        break
+                    case '/':
+                        computation = prev / current
+						histLeft[hcount] = prev.toString()+"/	"+current.toString();
+						histRight[hcount] = computation.toString();
+						hcount++;
+                        break
+					
+                    default:
+                        return
+                }
+
+                this.currentnum = computation
+                this.operation = undefined
+                this.previousnum = ''
+
+            }
+            updateDiaplay() {
+                this.currentButton.innerText = this.currentnum
+                if (this.operation != null) {
+                    this.prenumButton.innerText =
+                        `${this.previousnum}${this.operation}${this.currentnum}`
+                }
+
+            }
+			
+			
+
+			}
+        const numberButtons = document.querySelectorAll("[number]");
+        const operationButtons = document.querySelectorAll("[operation]");
+        const equalsButton = document.querySelector("[equal]");
+        const deleteButton = document.querySelector("[delete]");
+        const clearButton = document.querySelector("[clear]");
+        const prenumButton = document.querySelector("[data_previous_number]");
+        const currentButton = document.querySelector("[data_current_number] ");
+		const hisButton = document.querySelector("[history]");
+        //const memButton = document.querySelector("[memory] ");
+		const memplusButton = document.querySelector("[memoryplus]");
+        const memminusButton = document.querySelector("[memoryminus] ");
+		const memsaveButton = document.querySelector("[memorysave]");
+        
+		
+       
+		var histLeft = [];
+		var histRight = [];
+		var hcount = 0;
+
+        const calculator = new Calculator(prenumButton, currentButton)
+		
+		//getting input from keyboard
+
+        document.addEventListener('keydown', function (event) {
+            var x = event.keyCode;
+            var y = String.fromCharCode(x);
+            //console.log("Number: " + x + " = Character: " + y);
+			console.log(event.keyCode);
+			console.log(event.shiftKey);
+			console.log(event.key);
+			
+							
+            if (!(x < 48 || x > 58) && (x < 96 || x > 105)) {
+             
+                calculator.appendNumber(y)
+                calculator.updateDiaplay()
+            }
+			else if (event.key == '=') {
+				
+                calculator.compute()
+                calculator.updateDiaplay()
+            }
+			else if (event.key == '+') {
+				
+                calculator.pickOperation('+')
+                calculator.updateDiaplay()
+            }
+			else if (event.key == '-') {
+				
+                calculator.pickOperation('-')
+                calculator.updateDiaplay()
+            }
+			
+			else if (event.key == '*') {
+				
+                calculator.pickOperation('*')
+                calculator.updateDiaplay()
+            }
+			else if (event.key == '/') {
+				
+                calculator.pickOperation('/')
+                calculator.updateDiaplay()
+            }
+					
+            else if (x == 46) {
+				//backspace key
+                calculator.clear()
+                // calculator.pickOperation(y)
+                calculator.updateDiaplay()
+            }
+            else if (x == 8) {
+                //(x == 107 || x == 109 || x == 106 || x == 111)
+                calculator.delete()
+                // calculator.pickOperation(y)
+                calculator.updateDiaplay()
+            }           
+            else {
+                return
+            }
+
+        })
+        
+
+        numberButtons.forEach(function (button){
+            button.addEventListener("click", function () {
+                calculator.appendNumber(button.innerText)
+                calculator.updateDiaplay()
+            })
+
+           
+        })
+
+        operationButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                calculator.pickOperation(button.innerText)
+                calculator.updateDiaplay()
+            })
+        })
+
+        equalsButton.addEventListener("click", function () {
+            calculator.compute()
+            calculator.updateDiaplay()
+			
+			
+        })
+
+        clearButton.addEventListener("click", function () {
+            calculator.clear()
+            calculator.updateDiaplay()
+        })
+        deleteButton.addEventListener("click", function () {
+            calculator.delete()
+            calculator.updateDiaplay()
+        })
+
+
+		hisButton.addEventListener("click",function(){
+	   
+			//calculator.compute()
+			document.getElementById("details").innerHTML="";
+			for(i=0;i<hcount;i++)
+			
+			document.getElementById("details").innerHTML= document.getElementById("details").innerHTML+"<br>"+histLeft[i]+"="+histRight[i];
+		 
+		 })
+		 var memarray=[];
+		 var memmin=[];
+		memsaveButton.addEventListener("click",function(){
+			var memcount=hcount-1;
+			memarray.push(histLeft[memcount]+"="+histRight[memcount])
+			document.getElementById("memorylist").innerHTML= document.getElementById("memorylist").innerHTML+"<br>"+histLeft[memcount]+"="+histRight[memcount];
+			console.log(memarray);
+				 
+		 })
+		
+		 memminusButton.addEventListener("click",function(){
+			//document.getElementById("memorylist").innerHTML='';
+			var memmin=memarray.slice(0,-1);
+			console.log(memmin)
+			document.getElementById("memorylist").innerHTML = memmin +"<br>";
+			memarray=memmin;
+		 })
+		 
+		 
+    </script>
+
+</body>
+</html>
