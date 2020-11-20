@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator</title>
+    <link href="calc.css" rel="stylesheet">
+    <!--use the defer function so that the script will load at the back and not interfere with the html and the DOM items-->
+    <script src="calc.js" defer></script>
+
+</head>
+
+<body>
+    <h1>This is a Calculator!</h1>
+    <div class="calculator-grid">
+        <div class="output">
+            <div data-previous-input class="previous-input"></div>
+            <div data-current-input class="current-input"></div>
+        </div>
+        <button data-all-clear class>AC</button>
+        <button data-delete>DEL</button>
+        <button data-memory-store>MS</button>
+        <button data-memory-recall>MR</button>
+        <button data-memory-clear>MC</button>
+        <button data-memory-plus>M+</button>
+        <button data-memory-minus>M-</button>
+        <button data-operation>÷</button>
+        <button data-number>1</button>
+        <button data-number>2</button>
+        <button data-number>3</button>
+        <button data-operation>*</button>
+        <button data-number>4</button>
+        <button data-number>5</button>
+        <button data-number>6</button>
+        <button data-operation>+</button>
+        <button data-number>7</button>
+        <button data-number>8</button>
+        <button data-number>9</button>
+        <button data-operation>-</button>
+        <button data-number>.</button>
+        <button data-number>0</button>
+        <button data-negpos>+/-</button>
+        <button data-equals>=</button>
+    </div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <td><strong><u>Memory Storage Values Here!</u></strong></td>
+            </tr>
+        </thead>
+
+        <tbody id="memoryStuff" class="memoryStuff">
+
+        </tbody>
+
+    </table>
+
+</body>
+
+</html>
