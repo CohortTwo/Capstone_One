@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+ <link rel="stylesheet" href="style.css">
+    <body>
+        <div class="topnav">
+  <a href="main.html" class="active">Home</a>
+  <a href="#movies">Movies</a>
+   <a href="#about">Search</a>
+</div> 
+       
+        <div id='maindiv' class = "row">
+            <div id="history" class = "column2" class="fontcolor" name="history">
+                <h1>HISTORY</h1>
+            </div>
+           
+        </div>
+        
+        <script>
+            var parsedTxt = [];
+            var types = [];
+            var imgs = [];
+         //   var types=['comedy','','kids','romance'];
+           
+         //   var types =['comedy','kids', 'thriller', 'drama'];
+        var types =['history'];
+         for (let i=0; i<=types.length-1; i++){
+      
+             console.log("come to i loop", i);  
+              getShows(types[i],i);}
+              
+              function getShows(genre,x){
+                var http=new XMLHttpRequest();
+                
+                http.open("GET","http://api.tvmaze.com/search/shows?q="+genre);
+                http.send();
+                
+                http.onreadystatechange = function(){
+                    if(http.readyState===4){                    
+                       var parsedTxt = JSON.parse(http.responseText);
+                       console.log("come here");
+                       console.log("parsed", parsedTxt);               
+                      //for (let j = 0;j<=parsedTxt.length-1;j++){
+                      
+                //for (let j = 0;j<=parsedTxt.length-1;j++){
+                // top 5
+                
+                 
+                                for (let j = 0;j<=parsedTxt.length;j++){
+                           
+                           var img = new Image();
+                           img.src = parsedTxt[j].show.image.medium
+            
+            var canvas = document.createElement("canvas");
+            var ctx = canvas.getContext("2d");
+            
+            ctx.lineWidth = "3";
+            //ctx.beginPath();
+            ctx.rect(0, 0, 280, 150);
+            ctx.stroke(); 
+            //img.onload = function() {
+             ctx.fillText("Language: " + parsedTxt[j].show.language + "      Score: " + parsedTxt[j].score + "    Runtime: " + parsedTxt[j].show.runtime + "mins",2, 140);
+                ctx.drawImage(img, 4,3, 272,125);  
+            ctx.textAlign = "start";
+            ctx.font = "12pt Calibri";
+            ctx.fontcolor = "white";
+            
+            
+                          
+                 if  ( (parsedTxt[j].show.image.medium === null)||(parsedTxt[j].show.image.medium == null)||(parsedTxt[j].show.image.medium === "")){ 
+                      parsedTxt[j].show.image.medium = "https://upload.wikimedia.org/wikipedia/en/6/60/No_Picture.jpg"; }
+                     else {canvas.setAttribute("src", parsedTxt[j].show.image.medium);}                
+                      
+                  console.log("pasrse", parsedTxt[j]);           
+                          var newShow=document.createElement("div");
+                          
+                          newShow.innerHTML = parsedTxt[j].show.name;
+                          var newtime=document.createElement("div");
+                          newtime.innerHTML = parsedTxt[j].show.runtime + "mins";
+                          newtime.appendChild(canvas);
+                          var newpic=document.createElement("div");
+                          newpic.appendChild(newtime);
+                          newShow.appendChild(newtime);
+                          document.getElementById(genre).appendChild(newShow);
+                      }
+              }  
+          }
+              }
+    </script>
+     </body>
+          </html>
