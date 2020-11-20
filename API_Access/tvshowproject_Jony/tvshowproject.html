@@ -1,0 +1,33 @@
+<html>
+
+<body>
+
+ <button onclick="callmygit()">Get You page</button>
+ <button onclick='callmycountries()'>Get All Countries</button>
+
+ <div id="d1"></div>
+ <script>
+  var http = new XMLHttpRequest();
+  function callmygit(){
+  http.onreadystatechange = function () {
+    if (http.readyState === 4) {
+     document.getElementById("d1").innerHTML = http.responseText;
+    }
+   }
+   http.open("GET", "https://manumitsacademy.github.io/");
+   http.send();
+  } 
+  
+  function callmycountries() {
+   http.onreadystatechange = function () {
+    if (http.readyState === 4) {
+     document.getElementById("d1").innerHTML = http.responseText;
+    }
+   }
+   http.open("GET", "https://restcountries.eu/rest/v2/all");
+   http.send();
+  }
+ </script>
+</body>
+
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Document</title>
+ <link rel="stylesheet" href="tvshowsproject3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body id="body">
+
+  <header id="site-header">
+    <div>
+      <div class="topnav">
+        <label class="topnavLabels" onclick="getShows()">Home</label>
+        <label class="topnavLabels" onclick="showTVtitles()">TV Shows</label>
+        
+        <div class="search-container">
+          <form action="/action_page.php">
+            <input type="text" placeholder="Search.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+  
+  </header>
+
+<div class="row" width="80%">
+ <div id="maindiv" class="column">
+  <div class="div2" id="Comedy">
+    <h1 class="genreLP">Comedy</h1>
+  </div>
+    
+  <div class="div2" id="Kids">
+    <h1 class="genreLP">Kids</h1>
+  </div>
+    
+  <div class="div2" id="Romance">
+    <h1 class="genreLP">Romance</h1>
+  </div>
+   
+  <div class="div2" id="Crime">
+    <h1 class="genreLP">Crime</h1>
+  </div>
+    
+  <div class="div2" id="Action">
+      <h1 class="genreLP">Action</h1>
+  </div>
+  
+
+ </div>
+ <div id="genrediv"></div>
+ <div id="detailsdiv"></div>
+ <div id="tvshowsdiv"></div>
+<div class="column"></div>
+</div>
+ <script>
+
+var types = ['Comedy', 'Kids', 'Romance', 'Crime', 'Action'];
+ for (var i = 0; i <= types.length - 1; i++) {
+  getShows(types[i]);
+ }
+
+  function getShows(genre) {
+
+    var http = new XMLHttpRequest();
+    http.open("GET", "http://api.tvmaze.com/search/shows?q=" + genre);
+    http.send();
+    http.onreadystatechange = function () {
+      if (http.readyState === 4) {
+        var shows = JSON.parse(http.response);
+        console.log(JSON.parse(http.response));
+
+        //document.getElementById(genre).innerHTML = "";
+        //for(var j=0;j<=.length-1;j++){
+        for (var i = 0; i <= 4; i++) {  //display only top 4 on load
+
+          var showNode = document.createElement('li');
+          //showNode.li.setAttribute ('id', 'showNodeli') ;
+          var showImg = document.createElement('img');
+          showImg.src = shows[i].show.image.medium;
+          showImg.style.cursor = "pointer";
+          showNode.appendChild(showImg);
+          var showTitle = document.createElement('h4');
+          showTitle.innerHTML = shows[i].show.name;
+          showTitle.style.cursor = "pointer";
+          //showTitle.addEventListener('click', function () {
+           // showDetails(shows[i])});
+          showNode.appendChild(showTitle);
+          var showLang = document.createElement('h5');
+          showLang.innerHTML = "Language: " + shows[i].show.language;
+          showNode.appendChild(showLang);
+          var showRuntime = document.createElement('h5');
+          showRuntime.innerHTML = "Runtime: " + shows[i].show.runtime + "min";
+          showNode.appendChild(showRuntime);
+          //var showRating = document.createElement('r');
+          //showRating.innerHTML = shows[i].show.rating;
+          //showNode.appendChild(showRating);
+          document.getElementById(genre).appendChild(showNode)
+        }
+        showTitle.addEventListener('click', function () {
+          showDetails(s[i])
+        });
+
+          
+
+        var seemore = document.createElement('i');
+        seemore.style.color = "lightgreen";
+        seemore.style.cursor = "pointer";
+        seemore.style.textDecoration = "underline";
+        seemore.innerHTML = "see more";
+        seemore.addEventListener('click', function(){
+          showGenre(genre, shows)
+        });
+        document.getElementById(genre).appendChild(seemore);
+
+
+      }
+
+
+    }
+  }
+
+
+
+function showGenre(genre, shows){
+  document.getElementById("maindiv").style.display = "none";
+  document.getElementById("genrediv").style.display = "block";
+  var genreTitle = document.createElement('h1');
+  genreTitle.style.color = "white";
+  genreTitle.innerHTML = genre;
+  document.getElementById("genrediv").appendChild(genreTitle);
+  for(let k=0;k<=shows.length-1;k++){
+    var genreNode = document.createElement('li');
+    var showImg = document.createElement('img');
+    showImg.src = shows[k].show.image.medium;
+    genreNode.appendChild(showImg);
+    var genreshowTitle = document.createElement('p');
+    genreshowTitle.innerHTML = shows[k].show.name;
+    genreNode.appendChild(genreshowTitle);
+    var showRuntime = document.createElement('b');
+    showRuntime.innerHTML = " " + shows[k].show.runtime + "min";
+    genreshowTitle.appendChild(showRuntime);
+    var genreshowLang = document.createElement('c');
+    genreshowLang.innerHTML = "Language: " + shows[k].show.language;
+    genreNode.appendChild(genreshowLang);
+    document.getElementById("genrediv").appendChild(genreNode)
+  }
+}
+
+function showDetails(s){
+  document.getElementById("maindiv").style.display = "none";
+  //document.getElementById("genrediv").style.display = "none";
+  document.getElementById("detailsdiv").style.display = "block";
+  var detailsTitle = document.createElement('h2');
+  detailsTitle.style.color = "lightblue";
+  detailsTitle.innerHTML = s.show.name ;
+  document.getElementById("detailsdiv").appendChild(detailsTitle);
+
+}
+
+  function showTVtitles() {
+
+    
+    var http = new XMLHttpRequest();
+    http.open("GET", "http://api.tvmaze.com/search/shows?q=tvshows");
+    http.send();
+    http.onreadystatechange = function () {
+      if (http.readyState === 4) {
+        var shows = JSON.parse(http.response);
+
+        document.getElementById("tvshowsdiv").innerHTML = "";
+        
+          document.getElementById("maindiv").style.display = "none";
+          document.getElementById("genrediv").style.display = "none";
+          document.getElementById("detailsdiv").style.display = "none";
+          document.getElementById("tvshowsdiv").style.display = "block";
+          var tvShowsHeading = document.createElement('h1');
+          tvShowsHeading.innerHTML = "TV Shows";
+          tvShowsHeading.style.color = "white";
+          document.getElementById('tvshowsdiv').appendChild(tvShowsHeading);
+          for (i = 0; i <= shows.length - 1; i++) {
+          var tvShows = document.createElement('li');
+          var showImg = document.createElement('img');
+          showImg.src = shows[i].show.image.medium;
+          tvShows.appendChild(showImg);
+          var tvshowTitle = document.createElement('p');
+          tvshowTitle.innerHTML = shows[i].show.name;
+          tvShows.appendChild(tvshowTitle);
+          var showRuntime = document.createElement('b');
+          showRuntime.innerHTML = " " + shows[i].show.runtime + "min";
+          tvshowTitle.appendChild(showRuntime);
+          var tvshowLang = document.createElement('c');
+            tvshowLang.innerHTML = "Language: " + shows[i].show.language;
+            tvShows.appendChild(tvshowLang);
+          document.getElementById("tvshowsdiv").appendChild(tvShows)
+
+        }
+
+
+      }
+    }
+  }
+
+  // Get the container element
+  var btnContainer = document.getElementById("topnav");
+
+  // Get all buttons with class="btn" inside the container
+  var btns = btnContainer.getElementsByClassName("topnavLabels");
+
+  // Loop through the buttons and add the active class to the current/clicked button
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function () {
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      this.className += " active";
+    });
+  }
+
+
+ </script>
+ 
+</body>
+</html>
