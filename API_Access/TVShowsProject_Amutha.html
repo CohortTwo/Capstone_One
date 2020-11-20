@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+       div{
+           display:inline-block;
+       }
+       .topnav {
+           background-color: yellow;
+           list-style-type:none;
+           text-align: left;
+           margin: 0;
+           padding: 0;
+        }
+
+       .topnav li {
+           display: inline-block;
+           font-size: 30px;
+           padding: 30px;
+        }
+    </style>
+</head>
+<body>
+    <ul class="topnav">
+        <li><a href="home" onclick=""> Home</a></li>
+        <li><a href="tvshows"> TV Shows</a></li>
+        <li><a href="movies"> Movies</a></li>
+        <li><a href="kids"> Kids</a></li>
+    </ul>
+
+    <div id="maindiv">
+        <div id="thriller">
+            <h1> Thriller </h1> 
+        </div>
+        <div id="romance">
+            <h1> Romance </h1>
+        </div>
+        <div id="crime">
+            <h1> Crime </h1>
+        </div>
+        <div id="kids">
+            <h1> Kids </h1>
+        </div>
+    </div>
+    <div id="genreDiv">
+
+    </div>
+    <script>
+        var genre = ["kids", "romance", "thriller" ,"crime"];
+        for (let i = 0; i <= genre.length - 1; i++) {
+            getShow(genre[i]);
+        }
+
+        function getShow(genre) {
+            var http = new XMLHttpRequest();
+            http.open("GET", "https://api.tvmaze.com/search/shows?q=" + genre);
+            http.send();
+            http.onreadystatechange = function () {
+                if (http.readyState === 4) {
+                    var tvshow = (JSON.parse(http.response));
+
+                    for (var i = 0; i <= 3; i++) {
+                        var divshow = document.createElement('div');
+                        var runtime = document.createElement('b');
+                        var seemore = document.createElement('i');
+
+                        divshow.innerHTML = tvshow[i].show.name;
+                        runtime.innerHTML = tvshow[i].show.runtime;
+                        seemore.innerHTML = " See More";
+
+
+                        divshow.appendChild(runtime);
+                        document.getElementById(genre).appendChild(divshow);
+
+                    var showimage = document.createElement('IMG');
+                        showimage.setAttribute("src", tvshow[i].show.image.medium);
+                        showimage.setAttribute("height", "300");
+                        showimage.setAttribute("width", "300");
+                        
+                    document.getElementById(genre).appendChild(showimage);
+
+                    }
+                    document.getElementById(genre).appendChild(seemore);
+                    seemore.addEventListener('click', function () {
+                        showgenre(genre,tvshow);
+                    })
+                }
+            }
+        }
+                    function showgenre(g,s) {
+                        document.getElementById("maindiv").style.display = 'none';
+                        document.getElementById("genreDiv").style.display ='block';
+                        var genreTitle = document.createElement("h1");
+                        genreTitle.innerHTML = g;
+                        document.getElementById("genreDiv").appendChild(genreTitle);
+                        for (let j = 0; j <= s.length - 1; j++) {
+                            var showli = document.createElement('div');
+                            
+                            showli.innerHTML = s[j].show.name;
+                            
+                            var showimage = document.createElement('IMG');
+                            //var showsummary = document.createElement('p');
+                            showimage.setAttribute("src", s[j].show.image.medium);
+                            showimage.setAttribute("height", "300");
+                            showimage.setAttribute("width", "300");
+                            //showsummary.innerHTML = s[j].show.summary;
+                            document.getElementById("genreDiv").appendChild(showli);
+                            document.getElementById("genreDiv").appendChild(showimage);
+                            
+                        }
+
+                    }               
+    </script>
+</body>
+</html>
