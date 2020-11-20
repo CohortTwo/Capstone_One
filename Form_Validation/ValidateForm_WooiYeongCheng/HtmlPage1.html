@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Validate Form</title>
+
+    <style>
+     
+
+        body {
+            background: #b200ff;
+        }
+
+
+
+        table {
+            border: 1px solid black;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        td {
+            padding: 4px;
+        }
+
+        caption {
+            display: table-caption;
+            text-align: center;
+        }
+
+        input:invalid {
+            border-color: #ff0000;
+        }
+
+        input:valid {
+            border-color: #0f0;
+        }
+
+        select:valid {
+            border-color: #0f0;
+        }
+
+        select:invalid {
+            border-color: #ff0000;
+        }
+
+        input[type="radio"]:checked + label {
+            font-weight: bold;
+        }
+    </style>
+  
+
+
+</head>
+
+<body>
+
+    <form action="" class="form-control" id="regForm" name="regForm" onsubmit="save(event)">
+
+        <table>
+
+                <caption><h1>Registration Form</h1></caption>
+                
+            <tr>
+                <td>User id:</td>
+                <td>
+                    <input id="userID" name="UserID" type="text" placeholder="User ID Here" onkeyup="validateUserID" required="required" value="" size="38"  />
+                    <div></div>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>Password:</td>
+                <td>
+                    <input id="password" name="password" type="password" autocomplete="on" placeholder="Password required" required="required" value=""  size="38"/>
+                    <div></div>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td><label for="userName">Name:</label></td>
+                <td>
+                    <input id="userName" name="userName" type="text" required="required" autocomplete="on" placeholder="Enter name here" value="" size="38" />
+                    <div></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="address">Address:</label></td>
+                <td>
+                    <input id="address" name="address" type="text" placeholder="Optional" size="38" />
+                    <span></span>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="Country">Country: </label></td> 
+                <td>
+                    <select id="country" name="country" class="form-control" required >
+                        <option value="0">Please select a Country</option>
+                        <option value="singapore">Singapore</option>
+                        <option value="malaysia">Malaysia</option>
+                        <option value="china">China</option>
+                        <option value="india">India</option>
+                        <option value="japan">Japan</option>
+                    </select>
+
+                    <div></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="zip">ZIP Code:</label></td>
+                <td>
+                    <input id="zip" name="zip" type="text" placeholder="Enter your Zip Code" size="38" pattern="[0-9]*" required />
+                    <div></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="email">Email:</label></td>
+                <td>
+                    <input id="email" name="email" type="email" placeholder="Enter your email" size="38" required/>
+                    <div></div>
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="gender">Sex:</label></td>
+                <td>
+
+                    <input type="radio" name="gender" value="male" onclick="validateGender()" /> Male
+                    <input type="radio" name="gender" value="female" onclick="validateGender()" /> Female
+                    <p id="text2" style="display:none">You need to select a Gender!</p>
+
+                </td>
+            </tr>
+
+
+            <tr>
+                <td><label for="language">Language:</label></td>
+                <td>
+                    <input type="checkbox" name="lang" value="english" onchange="validateLanguage()" /> English
+                    <input type="checkbox" name="lang" value="nonEnglish" onchange="validateLanguage()" /> Non English
+                    <p id="text1" style="display:none">You need to select a language!</p>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td><label for="about">About:</label></td>
+                <td><textarea name="textarea" textarea cols="40" rows="20" placeholder="Optional"></textarea></td>
+            </tr>
+
+            <tr>
+                <td id="button" colspan="2" style="text-align:center;" ><button id="BTN" input type="submit" disabled>Submit</button></td>
+            </tr>
+
+        </table>
+    </form>
+
+    <table border=1  id="display" >mmy 
+        <tbody >
+            <tr>
+                <td>UserId</td>
+                <td>Password</td>
+                <td>Name</td>
+                <td>Address</td>
+                <td>Country</td>
+                <td>Zip</td>
+                <td>Email</td>
+                <td>Gender</td>
+                <td>Language</td>
+                <td>Text Area</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script src="JavaScript.js"></script>
+
+</body>
+</html>
