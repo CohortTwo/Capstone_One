@@ -1,0 +1,244 @@
+<html>
+<head>
+    <style>
+
+        td {
+            padding: 4px;
+        }
+
+            td:first-child {
+                text-align: right;
+            }
+
+        table {
+            margin: 10px auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+
+</head>
+<body>
+    <div id="d1">
+        <h1>Registration Form</h1>
+        <form id="regform" name="Regform" onsubmit="save(event)">
+
+            <table>
+                <tr>
+                    <td>User ID:</td>
+                    <td>
+                        <input id="userid" type="text" name="userID" placeholder="Required and must be length of 5-12" onblur="useridvalidation(event)" keyup="key(event)">
+                        <span></span>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td>
+                        <input id="pw" type="password" name="PW" placeholder="Required and must be length of 7-12" onblur="PWvalidation(event)">
+                        <span></span>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <input id="name" type="text" name="Name" placeholder="Required and alphabets only"  onblur="Namevalidation(event)">
+                        <span></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td>
+                        <input id="address" type="text" name="address" onblur="Addressvalidation(event)" placeholder="Optional" >
+                        <span></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Country:</td>
+                    <td>
+                        <select id="country" name="Country">
+                            <option disabled="disabled" selected="selected">Please select a country</option>
+                            <option value="singapore">Singapore</option>
+                            <option value="malaysia">Malaysia</option>
+                            <option value="us">USA</option>
+                            <option value="rus">Russia</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Zip: </td>
+                    <td>
+                        <input id="zip" type="text" name="ZIP" onblur="Zipvalidation(event)" placeholder="Required. Must be numerics only">
+                        <span></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>
+                        <input id="email" name="Email" type="text" onblur="Emailvalidation(event)" placeholder="Required. Must be a valid email address">
+                        <span></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sex:</td>
+                    <td>
+                        <input id="sex" type="radio" name="gender" value="male">Male
+                        <input id="sex" type="radio" name="gender" value="female">Female
+                    </td>
+                </tr>
+                <tr>
+                    <td>Language:</td>
+                    <td>
+                        <input id="language" type="checkbox" name="lang" value="Eng">English
+                        <input id="language" type="checkbox" name="lang" value="nonEng">Non English
+                    </td>
+                </tr>
+                <tr>
+                    <td>About</td>
+                    <td>
+                        <textarea></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button type="submit">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script>
+           function save(e) {
+                e.preventDefault();
+
+                const formData = new FormData(document.regform)
+                var inames = [];
+                var myformdata = {};
+                for (let k of formData.keys()) {
+                    if (!inames.includes(k)) {
+                        inames.push(k);
+                        myformdata[k] = formData.getAll(k)
+                    }
+                }
+                console.log(myformdata);
+            } 
+
+       //document.getElementById("userid").addEventListener("blur", useridvalidation);
+       //document.getElementById("userID").addEventListener("keyup", useridvalidation);
+
+        var isFormValid = false;
+        
+        function useridvalidation(e) {
+            if (e.target.value === "" || e.target.value === null) {
+                e.target.nextElementSibling.innerHTML = "User id should be filled";
+                console.log("User id should be filled");
+            }
+            else {
+                if (e.target.value.length < 4 || e.target.value.length > 12) {
+                    e.target.nextElementSibling.innerHTML = "Please enter values of 5-12 characters";
+                    console.log("5 to 12 characters only");
+
+                } else {
+                    e.target.nextElementSibling.innerHTML = "";
+                    return true;
+
+                }
+            }
+
+        }
+
+        var isFormValid = false;
+        function PWvalidation(e) {
+            if (e.target.value === "" || e.target.value === null) {
+                e.target.nextElementSibling.innerHTML = "Password should be filled";
+            }
+            if (e.target.value.length < 7 || e.target.value.length > 12) {
+                e.target.nextElementSibling.innerHTML = "Please enter values of 7-12 characters";
+                console.log("7 to 12 characters only");
+            }
+
+            else {
+                e.target.nextElementSibling.innerHTML = "";
+                return true;
+            }
+        }
+
+        var isFormValid = false;
+        function Namevalidation(e) {
+            if (e.target.value === "" || e.target.value === null) {
+                e.target.nextElementSibling.innerHTML = "Name should be filled";
+            }
+            else {
+                if (e.target.value.match(/^[a-zA-Z]*$/)) {
+                    e.target.nextElementSibling.innerHTML = "";
+                    return true;
+                    
+                } else {
+                    e.target.nextElementSibling.innerHTML = "Required and alphabets only";
+                    console.log("Required and alphabets only");
+                }
+            }
+        }
+
+        /*var isFormValid = false;
+        function Addressvalidation(e) {
+            if (e.target.value === "" || e.target.value === null) {
+                e.target.nextElementSibling.innerHTML = "Address should be filled";
+            }
+            else {
+                e.target.nextElementSibling.innerHTML = "";
+            }
+        }
+        */
+
+        var isFormValid = false;
+        function Countryvalidation(e) {
+            if (e.target.value === "" || e.target.value === null) {
+                e.target.nextElementSibling.innerHTML = "Country should be selected";
+            }
+            else {
+                e.target.nextElementSibling.innerHTML = "";
+            }
+        }
+
+        var isFormValid = false;
+        function Zipvalidation(e) {
+            if (e.target.value === "" || e.target.value === null) {
+                e.target.nextElementSibling.innerHTML = "Zip should be filled";
+            }
+            else {
+                if (e.target.value.match(/^\d+$/)) {
+                    e.target.nextElementSibling.innerHTML = "";
+                    return true;
+                }
+                else {
+                    e.target.nextElementSibling.innerHTML = "Required and numbers only";
+                    console.log("Required and numbers only")
+
+                }
+            }
+        }
+        var isFormValid = false;
+        function Emailvalidation(e) {
+            if (e.target.value === "" || e.target.value === null) {
+                e.target.nextElementSibling.innerHTML = "Email should be filled";
+                console.log("Email should be filled")
+            }
+            else {
+                if (e.target.value.match(/^[^]+@[^ ]+\.[a-z]{2,3}$/)) {
+                    e.target.nextElementSibling.innerHTML = "";
+                    return true;
+
+                }
+                else {
+                    e.target.nextElementSibling.innerHTML = "";
+                }
+            }
+        }
+            
+    
+
+    </script>
+</body>
+</html>
