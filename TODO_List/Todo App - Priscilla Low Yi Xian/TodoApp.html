@@ -1,0 +1,353 @@
+<html>
+
+	<head>
+	
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+		<style>
+			body{
+				background-color: grey;
+				text-align: center;
+			}
+			
+			h4{
+				display:inline-block;
+				color: white;
+			}
+			
+			header{
+				background-color: black;
+				color: white;
+				margin: 0px;
+				padding-top:10px;
+				padding-bottom:20px;
+			}
+			
+			
+			ul{
+				list-style-type: none;
+			}
+			h1{
+				background-color: black;
+				color: white;
+				padding-top:10px;
+				margin-bottom:0px;
+			
+			}
+			
+			#showall, #complete, #incomplete{
+				border: none;
+				background: none;
+			
+			}
+			
+			#checkboxid{
+				margin-right: 20px;
+				padding: 30px;
+				
+			}
+			
+			#deleteid, #editid, #upid, #downid{
+				padding: 30px;
+				
+			}
+			
+			ul li{
+				padding: 5px;
+				font-size: 18px;
+				line-height:2px;
+				margin-right: 300px;
+				margin-left: 300px;
+				background-color: lightgrey;
+				border: dashed;
+				vertical-align:center;
+			}
+			
+			#showall, #complete, #incomplete{
+				color: white;
+			}
+			
+			
+
+		</style>
+		
+	
+	</head>
+	
+	
+	<body onload="loaded()">
+	
+		<h1>TODO APP</h1>
+		<header>Filter: <span></span> 
+		
+		<button id="showall">Show All</button>
+		<button id="complete">Complete</button>
+		<button id="incomplete">Incomplete</button>
+		<input type="text" id="search" name="search" placeholder="Search..."  onkeydown="searchTask(event)" onblur="searchTask(event)" >
+		
+		
+		</header>
+		
+		<h4>Add a new task</h4>
+		<h4></h4>
+	
+		<input type="text" id="todoInput" name="todoInput" placeholder="What else needs to be done?"  onkeydown="addvalidation(event)" onblur="addvalidation(event)" >
+		<button disabled id="addbutton" onclick="addTask();addvalidation(event);">Add!</button>
+
+		<ul id="todoList">
+			
+		</ul>
+	
+		<script>
+			
+			var addvalid=false;
+			
+			var tasks = [];
+			
+			function loaded(){
+				var data = window.localStorage.getItem("todolist");
+				//console.log(data)
+				if(data!==null){
+					tasks = JSON.parse(data);
+					genList(tasks);
+				}
+			
+			}
+			
+			function addTask(){
+				var taskinput = document.getElementById("todoInput").value;
+				var status = false;
+				tasks.push({'task':taskinput,'status':status});
+				window.localStorage.setItem("todolist",JSON.stringify(tasks));
+				console.log(tasks);
+				genList(tasks);
+							
+			}
+						
+			function genList(alltasks){
+			
+				var ulref = document.getElementById("todoList");
+				ulref.innerHTML=""; //To clear, if not the list will repeat.
+				
+				for(let i = 0; i <= alltasks.length-1; i++){
+				
+				//create checkbox
+				var checkbox = document.createElement("input");
+				checkbox.type = "checkbox";
+				checkbox.name = "name";
+				checkbox.value = "value";
+				checkbox.id = "checkboxid";
+				
+				//create delete button
+				var deletebutton = document.createElement("i");
+				deletebutton.classList.add("fas","fa-trash-alt");
+				deletebutton.type = "button";
+				deletebutton.name = "name";
+				deletebutton.value = "Delete";
+				deletebutton.id = "deleteid";
+				
+				
+				//create edit button
+				var editbutton = document.createElement("i");
+				editbutton.classList.add("fas","fa-edit");
+				editbutton.type = "button";
+				editbutton.name = "name";
+				editbutton.value = "Edit";
+				editbutton.id = "editid";
+				
+				//create up button
+				var upbutton = document.createElement("i");
+				upbutton.classList.add("fas", "fa-angle-double-up");
+				upbutton.type = "button";
+				upbutton.name = "name";
+				upbutton.value = "Move Up";
+				upbutton.id = "upid";
+				
+				//create down button
+				var downbutton = document.createElement("i");
+				downbutton.classList.add("fas", "fa-angle-double-down");
+				downbutton.type = "button";
+				downbutton.name = "name";
+				downbutton.value = "Move Down";
+				downbutton.id = "downid";
+				
+				
+				
+				//Event listener for checkbox.
+				checkbox.checked = alltasks[i].status;
+				checkbox.addEventListener("click",function(){
+					alltasks[i].status = !alltasks[i].status;
+					window.localStorage.setItem("todolist",JSON.stringify(tasks));
+				});
+				
+				//Event listener for delete button.
+				deletebutton.addEventListener("click",function(){
+					//alert(i)	
+					var confirmation = window.confirm("Do you wish to delete this task?");
+					
+					if (confirmation === true){
+					alltasks.splice(i,1);
+					alert("You have deleted a task!");
+					}
+					genList(alltasks);
+					window.localStorage.setItem("todolist",JSON.stringify(tasks));
+					
+				});
+				
+				//Note: The following code also works.
+				//deletebutton.onclick = function(e){
+					
+				//	console.log(ulref.childNodes)
+				//	ulref.removeChild(this.parentNode);
+					
+                //}
+				
+				//Event listener for edit button.
+				editbutton.addEventListener("click",function(){
+					//alert(i)
+					var update = window.prompt("Click to edit task");
+					console.log(update)
+					
+					if(update != null){
+						alltasks[i].task = update;
+						console.log(alltasks);
+						
+					}
+					genList(alltasks);
+					window.localStorage.setItem("todolist",JSON.stringify(tasks));
+					
+				});
+				
+				//Event listener for up button.
+				upbutton.addEventListener("click",function(){
+					//alert(i)
+						let temptask = alltasks[i].task;
+						alltasks[i].task = alltasks[i-1].task;
+						alltasks[i-1].task = temptask;
+						
+						let tempstatus = alltasks[i].status;
+						alltasks[i].status = alltasks[i-1].status;
+						alltasks[i-1].status = tempstatus;
+						
+						console.log(alltasks);
+						
+					genList(alltasks);
+					window.localStorage.setItem("todolist",JSON.stringify(tasks));
+					
+				});
+				
+				//Event listener for down button.
+				downbutton.addEventListener("click",function(){
+					//alert(i)
+						let temp = alltasks[i].task;
+						alltasks[i].task = alltasks[i+1].task;
+						alltasks[i+1].task = temp;
+						
+						let tempstatus = alltasks[i].status;
+						alltasks[i].status = alltasks[i+1].status;
+						alltasks[i+1].status = tempstatus;
+						
+						console.log(alltasks);
+						
+					genList(alltasks);
+					window.localStorage.setItem("todolist",JSON.stringify(tasks));
+					
+				});
+				
+				
+				
+				var element = document.createElement("li");
+				element.appendChild(checkbox);
+				var taskitem = document.createTextNode(alltasks[i].task);
+				var space = document.createElement("div");
+				element.appendChild(taskitem);
+				element.appendChild(space);
+				element.appendChild(deletebutton);
+				element.appendChild(editbutton);
+				element.appendChild(upbutton);
+				element.appendChild(downbutton);
+				
+				ulref.appendChild(element);			
+									
+				}
+			return clear();
+			}
+			
+				//Event listener for Show All filter.
+				showall.addEventListener("click",function(){
+					//alert(i)
+					console.log(tasks);
+					genList(tasks);
+					window.localStorage.setItem("todolist",JSON.stringify(tasks));
+					
+					
+				});
+				
+				//Event listener for Complete filter.
+				complete.addEventListener("click",function(){
+					var completedtasks = [];
+					for(let i=0;i<=tasks.length-1;i++){
+						if(tasks[i].status===true){	
+							completedtasks.push(tasks[i]);							
+						}
+					}
+					genList(completedtasks);
+					window.localStorage.setItem("todolist",JSON.stringify(tasks));
+					
+				});
+				
+				//Event listener for Incomplete filter.
+				incomplete.addEventListener("click",function(){
+					var incompletetasks = [];
+					for(let i=0;i<=tasks.length-1;i++){
+						if(tasks[i].status===false){	
+							incompletetasks.push(tasks[i]);							
+						}
+					}
+					genList(incompletetasks);
+					window.localStorage.setItem("todolist",JSON.stringify(tasks));
+					
+				});
+				
+			
+			function clear() {
+				todoInput.value = "";
+			}
+			
+			
+			function addvalidation(e){
+				if(e.target.value ==="" || e.target.value===null){
+					addvalid=false;
+					document.getElementById("addbutton").disabled = true;
+					document.getElementById("addbutton").style.cursor = 'not-allowed';
+                }
+				else{
+					addvalid=true;
+					
+					document.getElementById("addbutton").disabled = false;
+					document.getElementById("addbutton").style.cursor = 'pointer';
+					document.getElementById("addbutton").title = "Click to add!";
+					
+					}
+				}
+			
+			
+			
+		
+				function searchTask(e){ 
+					let input = document.getElementById("search").value;					
+					var searchalltasks = [];
+					for(let i=0;i<=tasks.length-1;i++){
+						if(tasks[i].task.indexOf(input)> -1){	
+							searchalltasks.push(tasks[i]);							
+						}
+					}
+					genList(searchalltasks);
+				
+				} 
+
+		</script>
+	
+	</body>
+
+</html>
