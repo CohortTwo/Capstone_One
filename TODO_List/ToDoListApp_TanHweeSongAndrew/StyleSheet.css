@@ -1,0 +1,64 @@
+﻿
+table {
+    font-size: large;
+
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    background: darkgrey;
+}
+
+
+
+body{
+font-size: large;
+background: lightblue;
+}
+
+
+input {
+    font-size: large;
+    text-align: left;
+    
+}
+
+ul {
+    list-style-type: none;
+    word-spacing: 2px;
+    background: lightgray;
+}
+
+p {
+    font-size: large;
+}
+
+.buttonStyle {
+    font-size: large;
+    float: right
+       
+    
+}
+
+
+
+.maindiv .btns-disp
+{
+    /* small spacing within our container */
+    padding: 20px;
+    /* the grid stuff! */
+    display: grid;
+    /* create 1 columns */
+    grid-template-columns: auto
+    /* add the grid gap */
+    grid-gap: 5px;
+}
+
+* limit the width and center */
+.maindiv .btns-disp {
+    max-width: 555px;
+    margin: 0 auto;
+    border: 5px solid #111;
+    border-radius: 5px;
+}

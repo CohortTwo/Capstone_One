@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="StyleSheet.css" rel="stylesheet" />
+
+    <meta charset="utf-8" />
+    <title></title>
+    <h1>
+        To Do App
+    </h1>
+    <div class="maindiv">
+        <table align="center">
+
+            <tr>
+                <td>
+                    <h3>Filter:</h3>
+                </td>
+                <td>
+                    <button onclick="ShowAll()">Show All</button>
+                </td>
+                <td>
+                    <button onclick="Completed()">Completed</button>
+                </td>
+                <td>
+                    <button onclick="UnComplete()">Uncomplete</button>
+                </td>
+                <td>
+                    <input type="text" id="searchinput" oninput="SearchFunc()" placeholder="Search..." />
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    
+
+</head>
+<body onload="loadingLStorage()">
+
+    <div class="btns-disp">
+        <table width="600" align="center">
+            <!--Adding new tasks in this div -->
+            <tr>
+                <td>
+                    <label for="task" size="20">Add a new Task </label><input type="text" id="task" size="40" placeholder="What else needs to be done?... " />
+                    <button onclick="addTask()" id="a-button">Add! </button>
+
+                    <div id="tasklist" class="tasklist" style="buttonStyle"></div>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+
+    <script>
+
+        var editptr = 0;//stores the i index to edit record
+
+        var tasks = [];
+
+        function loadingLStorage() {
+            var data = window.localStorage.getItem("todolist");
+            if (data !== null) {
+                tasks = JSON.parse(data);
+                genList(tasks, 0);
+            }
+        }
+
+
+
+        function addTask() {
+            var tasktext = document.getElementById("task").value;
+            var status = false;
+            var fsflag = false;
+            tasks.push({ "task": tasktext, "status": status, "fsflag": fsflag });
+            window.localStorage.setItem("todolist", JSON.stringify(tasks));
+            document.getElementById("task").value = "";
+            console.log(tasks);
+            genList(tasks, 0);
+        }
+
+        // genlist with 4 types of output based on dtype
+        // 0 to show all
+        // 1 to show completed tasks by status
+        // 2 to show uncomplete tasks by status
+        // 3 to show Search thru fsflag status
+        function genList(alltasks, dtype) {
+            //ul tasklist - clear list for display
+            var ulref = document.getElementById("tasklist");
+            ulref.innerHTML = "";
+
+            //loop thru the task[]
+            for (let i = 0; i <= alltasks.length - 1; i++) {
+                var el = document.createElement("li");
+
+                //create checkbox to append
+                var newcheckbox = document.createElement("input");
+                newcheckbox.type = 'checkbox';
+                newcheckbox.checked = alltasks[i].status;
+
+
+                newcheckbox.addEventListener('click', function () {
+                    alltasks[i].status = !alltasks[i].status;
+                })
+
+                //append checkbox
+                el.appendChild(newcheckbox);
+
+                // append task
+                var tasktextel = document.createTextNode(alltasks[i].task);
+                
+                el.appendChild(tasktextel);
+                
+                
+
+                //Delete task
+                var delBtn = document.createElement('button');
+                
+                delBtn.classList.add("far", "fa-trash-alt");
+                delBtn.classList.add("buttonStyle");
+
+                delBtn.addEventListener("click", function () {
+                    alltasks.splice(i, 1);//delete record in array
+                    window.localStorage.setItem("todolist", JSON.stringify(alltasks));
+                    genList(alltasks, 0);
+                });
+                //append delete icon
+                el.appendChild(delBtn);
+
+                //edit task
+                var editBtn = document.createElement('button');
+                editBtn.classList.add("far", "fa-edit");
+                editBtn.classList.add("buttonStyle");
+
+                editBtn.addEventListener("click", function () {
+
+                    editptr = i;
+                    console.log(editptr);
+                    document.getElementById("editpara").innerHTML =
+                        '<input id="edtsk" rows="1" size="50" placeholder=" "></input>' +
+                        '<button onclick="ok()" id="ed-btn">OK</button>' +
+                        '<button onclick="cancel()" id="ed-btn">Cancel</button>';
+
+                    document.getElementById("edtsk").placeholder = alltasks[i].task;
+
+                });
+                el.appendChild(editBtn);
+
+                //up arrow task
+                var arwUpBtn = document.createElement('button');
+                arwUpBtn.classList.add("far", "fa-arrow-alt-circle-up");
+                arwUpBtn.classList.add("buttonStyle");
+
+                arwUpBtn.addEventListener("click", function () {
+                    if (i != 0) {
+                        var temp = alltasks[i];
+                        alltasks[i] = alltasks[i - 1];
+                        alltasks[i - 1] = temp;
+                        window.localStorage.setItem("todolist", JSON.stringify(alltasks));
+                        genList(alltasks, 0);
+                    }
+                });
+                el.appendChild(arwUpBtn);
+
+                //Down arrow task
+                var arwDnBtn = document.createElement('button');
+                arwDnBtn.classList.add("far", "fa-arrow-alt-circle-down");
+                arwDnBtn.classList.add("buttonStyle");
+
+                arwDnBtn.addEventListener("click", function () {
+                    if (i != alltasks.length - 1) {
+                        var temp = alltasks[i];
+                        alltasks[i] = alltasks[i + 1];
+                        alltasks[i + 1] = temp;
+                        window.localStorage.setItem("todolist", JSON.stringify(alltasks));
+                        genList(alltasks, 0);
+                    }
+                });
+                el.appendChild(arwDnBtn);
+
+                switch (dtype) {
+                    case 0:
+                        // code 0 show all
+                        ulref.appendChild(el);
+                        break;
+                    case 1:
+                        // code 1 Completed (status:true)
+                        if (alltasks[i].status === true) {
+                            ulref.appendChild(el);
+                        }
+                        break;
+                    case 2:
+                        // code 2 Uncomplete (status:false)
+                        if (alltasks[i].status === false) {
+                            ulref.appendChild(el);
+                        }
+                        break;
+                    case 3:
+                        // code 3 Search (fsflag: true)
+                        if (alltasks[i].fsflag === true) {
+                            ulref.appendChild(el);
+                        }
+                        break;
+                    default:
+                        // just display
+                        ulref.appendChild(el);
+                }
+
+            }
+        }
+
+
+
+        function ok() {
+            console.log("ok");
+            var newtask = document.getElementById("edtsk").value;
+            console.log(newtask);
+            tasks[editptr].task = newtask;
+            document.getElementById("editpara").innerHTML = "";
+            genList(tasks, 0);
+
+        }
+
+        function cancel() {
+            console.log("cancel");
+            document.getElementById("editpara").innerHTML = "";
+            genList(tasks, 0);
+        }
+
+        function ShowAll() {
+            genList(tasks, 0);
+        }
+
+        function Completed() {
+            genList(tasks, 1);
+        }
+
+        function UnComplete() {
+            genList(tasks, 2);
+        }
+
+        function SearchFunc() {
+            var sinput = document.getElementById("searchinput").value;
+            console.log(sinput);
+            for (i = 0; i <= tasks.length - 1; i++) {
+                if (tasks[i].task.indexOf(sinput) !== -1) {
+                    tasks[i].fsflag = true;
+                    console.log("true found")
+                } else {
+                    tasks[i].fsflag = false;
+                }
+
+            }
+            genList(tasks, 3);
+            console.log(tasks);
+        }
+
+    </script>
+
+    <table align="center">
+        <tr>
+            <td>
+                <p id="editpara" ></p>
+            </td>
+        </tr>
+        
+    </table>
+    
+
+
+</body>
+
+</html>
+
+<!--
+    function EnableAddButton() {
+    document.getElementById("a-button").disabled = false;
+                               }
+    document.getElementById('td-item').addEventListener("keyup", EnableAddButton);
+
+
+    //document.getElementById("td-item").value = "";
+            //document.getElementById("a-button").disabled = true;
+
+            //var uldata = document.getElementById("tdlist"); //<ul id="tdlist"
+            //uldata.appendChild(todoitem); //add item for display in <ul>
+-->
