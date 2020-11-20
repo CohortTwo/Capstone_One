@@ -1,0 +1,30 @@
+td {
+  padding: 10px;
+}
+td:first-child {
+  text-align: right;
+}
+table {
+  margin: 7px auto;
+}
+h1 {
+  text-align: center;
+}
+
+#errorMsg {
+  color: red;
+}
+
+#saveBtn:hover {
+  cursor: not-allowed;
+}
+/*input {
+  border: solid 1px;
+  border-color: #000;
+}
+input:invalid {
+  border-color: #f00;
+}
+input:valid {
+  border-color: #000;
+}*/

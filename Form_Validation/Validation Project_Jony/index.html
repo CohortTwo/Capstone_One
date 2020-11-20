@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Registration Form</title>
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ <h1>Registration Form</h1>
+ <div>
+ <form id="regform" name="regform" onsubmit="save(e)">
+  <table>
+   <tr>
+    <td>
+     User id:
+    </td>
+    <td>
+     <input type=”text” id="userid" name="userid" required="required" autofocus="autofocus">
+     <div id="errorMsg"></div>
+    </td>
+   </tr>
+   <tr>
+    <td>
+     Password:
+    </td>
+    <td>
+     <input type=”password” id="pwd" name="pwd" required="required" >
+    <div id="errorMsg"></div>
+    <span><input type="checkbox" onclick="toggleP()" checked>show password </span>
+    </td>
+   </tr>
+   <tr>
+    <td>
+     Full Name:
+    </td>
+    <td>
+     <input type=”text” id="fname" name=”fname” required="required">
+    <div id="errorMsg"></div>
+    </td>
+   </tr>
+   <tr>
+    <td>
+     Address:
+    </td>
+    <td>
+     <input type=”text” name=”address”>
+    </td>
+   </tr>
+   <tr>
+    <td>
+     Country:
+    </td>
+    <td>
+     <select id="country" name="country" required="required">
+      <option value="" disabled selected hidden>Please select a country</option>
+      <option value="Singapore">Singapore</option>
+      <option value="Malaysia">Malaysia</option>
+      <option value="Thailand">Thailand</option>
+      <option value="Vietnam">Vietnam</option>
+      <option value="China">China</option>
+     </select>
+    <div id="errorMsg"></div>
+    </td>
+   </tr>
+   <tr>
+    <td>
+     Zipcode:
+    </td>
+    <td>
+     <input type=”number” id="zcode" name=”zcode” required="required">
+    <div id="errorMsg"></div>
+    </td>
+   </tr>
+   <tr>
+    <td>
+     Email:
+    </td>
+    <td>
+     <input type=”text” id="email" name=”email” required="required">
+    <div id="errorMsg"></div>
+    </td>
+   </tr>
+   <td>
+    Gender:
+   </td>
+   <td>
+    <input type="radio" id="male" name="gender" value="male">Male
+    <input type="radio" id="female" name="gender" value="female">Female
+    <div id="errorMsg"></div>
+   </td>
+   <tr>
+    <td>
+     Language:
+    </td>
+    <td>
+    <input type="checkbox" name="lang" value="Eng">English
+    <input type="checkbox" name="lang" value="Chn">Chinese
+    <div id="errorMsg"></div>
+    </td>
+   </tr>
+   <tr>
+    <td>
+     About:
+    </td>
+    <td>
+     <textarea id="aboutMe" name="aboutMe" rows="10" cols="60" name="description" placeholder="Enter a short description of yourself" maxlength="399"/>      
+    </textarea>
+    </td>
+   </tr>
+   <tr>
+    <td colspan="2" style="text-align: center;">
+     <button type="submit" disabled=true id="saveBtn">Submit</button>
+    </td>
+   </tr>
+
+  </table>
+  
+ </form>
+ <div id="dataDiaplay"></div>
+ </div>
+ 
+ <script src="scripts.js"></script>
+</body>
+</html>
