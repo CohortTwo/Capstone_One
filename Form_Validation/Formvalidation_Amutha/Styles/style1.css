@@ -1,0 +1,46 @@
+﻿html{
+background-color :bisque;
+}
+
+.container
+{
+    font-family:Arial;
+    color:crimson;
+    font-size:1.2em;
+
+}
+td {
+    padding: 10px;
+}
+
+   td:first-child {
+        text-align: right;
+    }
+
+table {
+    margin: 10px auto;
+ 
+}
+
+h1 {
+    text-align: center;
+    font:bold;
+    font-family:'Arial Rounded MT';
+    font-size:xx-large;
+}
+
+/*table {
+    border-collapse: separate;
+    white-space: pre-wrap !important;
+    line-height: normal;
+    font-weight: normal;
+    font-size: initial;
+    font-style: normal;
+    color: -internal-quirk-inherit;
+    text-align: start;
+    word-break: break-word;
+    font-family: monospace;
+    tab-size: 4;
+    border-spacing: 0px;
+    font-variant: normal;
+}*/

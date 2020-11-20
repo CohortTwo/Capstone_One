@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+   
+    <link href="/Styles/style1.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+
+    <h1> Registration Form </h1>
+    <form id="regform" name="regform" onsubmit="save(event)">
+        <div class="container">
+            <table>
+
+                <tr>
+                    <td>User ID*:</td>
+                    <td>
+                        <input type="text" onblur="useridvalidation(event)" required autofocus="autofocus" name="userid">
+                        <span style="color:hotpink"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password*:</td>
+                    <td>
+                        <input type="password" onblur="pwdvalidation(event)" name="password" >
+                        <span></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Name*:</td>
+                    <td><input type="text" required name="name"></td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td><input type="text" name="address"></td>
+                </tr>
+                <tr>
+                    <td>Country*:</td>
+                    <td>
+                        <select>
+                            <option value="" name="country">Please Select the country</option>
+                            <option value="Singapore" name="country">Singapore</option>
+                            <option value="Malaysia" name="country">Malaysia</option>
+                            <option value="India" name="country">India</option>
+                            <option value="Srilanka" name="country">Srilanka</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Zip*:</td>
+                    <td><input type="text" name="zip" required></td>
+                </tr>
+                <tr>
+                    <td>Email*:</td>
+                    <td><input type="text" name="email" required></td>
+                </tr>
+                <tr>
+                    <td>Sex*:</td>
+                    <td>
+                        <input type="radio" name="gender" value="male">Male
+                        <input type="radio" name="gender" value="female">Female
+                    </td>
+                </tr>
+                <tr>
+                    <td>Language*:</td>
+                    <td>
+                        <input type="checkbox" name="lang" value="Eng">English
+                        <input type="checkbox" name="lang" value="nonEng">Non English
+                    </td>
+                </tr>
+                <tr>
+                    <td>About:</td>
+                    <td>
+                        <textarea rows="5" cols="40"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button >Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </form>
+        <script type="text/javascript" src="/Scripts/script1.js"></script>
+</body>
+</html>
