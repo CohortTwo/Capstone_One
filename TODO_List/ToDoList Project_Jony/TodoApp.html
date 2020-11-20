@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>To Do List</title>
+ <link rel="stylesheet" href="TodoApp.css">
+ <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+  integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> <!--font-awesome link-->
+</head>
+<body onload="loadhappened()">
+ <div class="container">
+  <div class="top">
+   
+    <h1>TODO LIST</h1>
+  </div> 
+   <div class="row">
+    
+     <label for="filter" class="fLabel" id="filter">Filter:</label>
+    
+   
+     <label for="showAll" class="fLabel" id="showAll" onclick="showAll()">Show all  </label>
+    
+    
+     <label for="complete" class="fLabel" id="complete" onclick="filterComplete()">Complete  </label>
+    
+    
+     <label for="incomplete" class="fLabel" id="incomplete" onclick="filterIncomplete()">Incomplete  </label>
+    
+    
+     <input type="text" id="searchBar" onkeyup="searchList()" placeholder="search...">
+    
+   </div>
+  
+
+  <div class="main" id='mainList'>
+  
+  <label id="newtaskLabel">Add a new task</label>
+  <input type="text" id="task" placeholder="what else needs to be done?" autofocus="autofocus">
+  <button id="addBtn" disabled onclick="addTask()">Add!</button>
+  <ul id="tasklist">
+
+  </ul> 
+ </div>
+<div id="fdiv">
+  <ul id="compul"></ul>
+</div>
+ </div>
+<script src="TodoApp.js"></script>
+</body>
+</html>
