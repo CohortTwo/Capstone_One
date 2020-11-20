@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Movie W</title>
+
+    <style>
+
+        h1 
+        {
+            text-align: center;
+        }
+
+        #inputValue 
+        {
+            width: 760px;
+            font-size: 1rem;
+            font-weight: 400;
+            background-color: #00ffff;
+        }
+
+        .grid-container
+        {
+            display: grid;
+            grid-gap: 50px 100px;
+            grid-template-columns: auto auto auto;
+            background-color: #2196F3;
+            padding: 10px;
+        }
+
+        .grid-item 
+        {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        img 
+        {
+            height: 50%;
+            width: 50%;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    
+    <nav class="page-nav">
+        <div class="container">
+            <a href="HOME.html" class="active">HOME</a>
+            <a href="Drama.html">DRAMA</a>
+            <a href="Movie.html">MOVIE</a>
+            <a href="Kids.html">KIDS</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <h1>Welcome to my Movie App</h1>
+
+
+        <nav class="nav">
+            <button onclick="Home()">HOME</button>
+            <button id="TVshows" onclick="TVSHOWS()">TV Show</button>
+            <button id="kids" onclick="Kids()">Kids</button>
+            <button id="Movies" onclick="Movies()">Movie</button>
+
+            <div class="searchbox">
+                <form>
+                    <input type="text" id="inputinput" oninput="SearchFunc()" placeholder="Search a movie">
+                    <button type="submit" onclick="return" search()">Search</button>
+                </form>
+            </div>
+        </nav>
+
+    </div>
+
+    <hr />
+
+    <div id="maindiv" class="grid-container">
+        <div id="comedy" class="grid-item">
+            <h1>COMEDY</h1>
+        </div>
+        <div id="romance" class="grid-item">
+            <h1>ROMANCE</h1>
+        </div>
+        <div id="fantasy" class="grid-item">
+            <h1>FANTASY</h1>
+        </div>
+        <div id="Drama" class="grid-item">
+            <h1>DRAMA</h1>
+        </div>
+        <div id="thriller" class="grid-item">
+            <h1>CRIME</h1>
+        </div>
+        <div id="Actions" class="grid-item">
+            <h1>ACTIONS</h1>
+        </div>
+
+
+    </div>
+
+    <div id="genreDiv"></div>
+    <div id="maindiv"></div>
+
+    <script src="home.js"></script>
+
+
+</body>
+</html>
