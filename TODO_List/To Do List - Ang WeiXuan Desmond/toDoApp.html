@@ -1,0 +1,332 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>To Do List</title>
+    <link href="style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body onload="LStorage()">
+
+    <h1>To Do List</h1>
+    <hr />
+
+    <div class="topnav">
+        <div class="List">
+            <button onclick="LStorage()">List</button>
+            <button onclick="Completed()">Completed</button>
+            <button onclick="Uncompleted()">Uncompleted</button>
+
+        </div>
+    </div>
+    <div class="search-container">
+        <form>
+            <input type="text" placeholder="Search..." name="search" id="search" class="search">
+            <button type="submit" id="submit" onclick="Search()"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+
+
+    <div class="addItem">
+        <input type="text" id="tasks" class="tasks" placeholder="Key you task into this empty space and press enter..." />
+        <button onclick="addTask()">Add</button>
+        <!--essential to maintain objects in a key value pairs-->
+    </div>
+    <br />
+    <hr />
+    <div>
+        <ul id="tasklist">
+        </ul>
+    </div>
+
+    <style>
+        .listStyle {
+            width: 400px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 20px;
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .buttonStyle {
+            float: right;
+        }
+
+        .edit {
+            float: right;
+        }
+
+        .text {
+            float: right;
+        }
+    </style>
+
+    <script>
+        var tasks = []; //objects stored here!
+
+        function enterKey(event) {
+            if (event.key === "Enter") {
+                console.log("this is " + document.getElementById("tasks").value);
+                if (document.getElementById("tasks").value == "" || document.getElementById("tasks").value == "null") {
+                    alert(" please enter something...")
+                } else {
+                    addTask();
+                }
+            }
+        }
+
+        document.addEventListener("keydown", enterKey);
+
+
+        //to add task
+        function addTask() {
+
+            var tasktext = document.getElementById("tasks").value;
+            var status = false;
+            tasks.push({ 'task': tasktext, 'status': status })
+            window.localStorage.setItem("todolist", JSON.stringify(tasks));
+            console.log(tasks);
+            genList(tasks);
+            document.getElementById("tasks").value = ""; //added this line to return the input to empty
+        };
+
+        // list generation
+        function genList(alltasks) {
+
+            var ulref = document.getElementById("tasklist");
+            ulref.innerHTML = ""; //to declare the text as empty to prevent duplicate/repeat values
+
+            for (let i = 0; i <= alltasks.length - 1; i++) { //need to use let keyword instead of var. runs through the document
+                var el = document.createElement("li");
+                //create checkbox
+                var cb = document.createElement('input'); //create the input element
+                cb.type = 'checkbox'; //set the input type to checkbox
+                cb.checked = alltasks[i].status;
+                cb.addEventListener('click', function () {
+                    alltasks[i].status = !alltasks[i].status;
+                    console.log(alltasks[i].status);
+                    window.localStorage.setItem("todolist", JSON.stringify(tasks));
+                });
+
+
+
+                //create up button
+                var buttonUP = document.createElement('button');
+                buttonUP.type = 'text';
+                buttonUP.innerText = "Shift Up";
+                buttonUP.classList.add("buttonStyle");
+                buttonUP.addEventListener('click', function () {
+                    if (i != 0) { //indicating if the index is present
+                        var temp = alltasks[i];
+                        alltasks[i] = alltasks[i - 1];
+                        alltasks[i - 1] = temp;
+                        genList(alltasks, 0);
+                        window.localStorage.setItem("todolist", JSON.stringify(tasks));
+                    }
+                });
+
+                //create down button
+                var buttonDown = document.createElement('button');
+                buttonDown.type = 'text';
+                buttonDown.innerText = "Shift Down";
+                buttonDown.classList.add("buttonStyle");
+                buttonDown.addEventListener('click', function () {
+                    if (i != alltasks.length - 1) { //indicating if the index is not at the last position so cannot go down further
+                        var temp = alltasks[i];
+                        alltasks[i] = alltasks[i + 1];
+                        alltasks[i + 1] = temp;
+                        genList(alltasks, 0);
+                        window.localStorage.setItem("todolist", JSON.stringify(tasks));
+                    }
+                });
+
+
+                //create deletebutton
+                var deleteButton = document.createElement('button');
+                // deleteButton.type = 'text';
+                deleteButton.innerText = "Delete";
+                deleteButton.classList.add('buttonStyle');
+                deleteButton.addEventListener('click', function () {
+                    event.currentTarget.parentElement.remove(); //remove the list item from displaying
+                    tasks.splice(i, 1);
+                    //solved the delete and delete in the local storage problem
+                    window.localStorage.setItem("todolist", JSON.stringify(tasks));
+                    genList(tasks, 0);
+                    //console.log("remove the list item on clicking delete");
+                    //console.log(tasks);
+                });
+
+                //create an edit button
+                var editButton = document.createElement('button');
+                editButton.innerText = "Edit";
+                editButton.className = 'edit';
+                editButton.addEventListener('click', function () {
+
+                    var listItem = this.parentNode;
+                    var editInput = listItem.querySelector("input[type=text]");
+                    var label = listItem.querySelector("label");
+                    var containsClass = listItem.classList.contains("editMode");
+                    if (containsClass) {
+                        alltasks[i].task = label.innerText = editInput.value;
+                    } else {
+                        alltasks[i].task = editInput.value = label.innerText;
+                    }
+                    listItem.classList.toggle("editMode");
+                    window.localStorage.setItem("todolist", JSON.stringify(tasks));
+                    console.log(label.innerText);
+                    console.log(tasks);
+                });
+
+                //create an edit input
+                var editInput = document.createElement('input')
+                editInput.type = "text";
+                editInput.className = 'text';
+
+                //label to put the task text inside
+                var label = document.createElement('label')
+                label.innerText = alltasks[i].task;
+                label.classList.add("listStyle");
+
+                el.appendChild(cb); //checkbox
+                el.appendChild(label); //task text
+                el.appendChild(buttonUP); //up button
+                el.appendChild(buttonDown); //down button
+                el.appendChild(deleteButton); // delete button
+                el.appendChild(editButton);//edit button
+                el.appendChild(editInput); //edit input
+
+                ulref.appendChild(el); //append to the list
+            }
+        };
+
+
+        function Completed() {
+            LStorage();
+            var ulref = document.getElementById("tasklist");
+            ulref.innerHTML = "";
+            console.log("triggered the completed button")
+
+            for (i = 0; i <= tasks.length - 1; i++) {
+                console.log(tasks);
+                if (tasks[i].status == false) {
+                    tasks.splice(i, 1);
+                    console.log("removed the rubbish entry " + JSON.stringify(tasks[i]))
+                    i--
+                } else {
+                    console.log("you manage to reach here " + JSON.stringify(tasks[i]))
+
+                }
+            }
+            console.log(tasks);
+            genList(tasks)
+        };
+
+        function Uncompleted() {
+            LStorage();
+            var ulref = document.getElementById("tasklist");
+            ulref.innerHTML = "";
+            console.log("triggered the completed button")
+
+            for (i = 0; i <= tasks.length - 1; i++) {
+                console.log(tasks);
+                if (tasks[i].status == true) {
+                    tasks.splice(i, 1);
+                    console.log("removed the rubbish entry " + JSON.stringify(tasks[i]))
+                    i--
+                } else {
+                    console.log("you manage to reach here " + JSON.stringify(tasks[i]))
+
+                }
+            }
+            console.log(tasks);
+            genList(tasks)
+
+        };
+
+        function Search() {
+            //stop submission of form
+            event.preventDefault();
+
+            //load the full data from the local storage to search
+            LStorage();
+
+            var ulref = document.getElementById("tasklist");
+            ulref.innerHTML = "";
+            console.log("triggered the search function")
+
+            var sinput = document.getElementById("search").value;
+            console.log(document.getElementById("search").value)
+
+            for (i = 0; i <= tasks.length - 1; i++) {
+
+                if (tasks[i].task.indexOf(sinput) !== -1) {
+                    tasks[i].fsflag = true;
+                } else {
+                    tasks[i].fsflag = false;
+                }
+            }
+
+
+            for (i = 0; i <= tasks.length - 1; i++) {
+
+                if (tasks[i].fsflag == false) {
+                    tasks.splice(i, 1);
+                    console.log("removed the rubbish entry " + JSON.stringify(tasks[i]))
+                    i--
+                } else {
+                    console.log("you manage to reach here " + JSON.stringify(tasks[i]))
+                }
+            }
+            console.log(tasks);
+            genList(tasks)
+
+        }
+
+        function LStorage() {
+            var data = window.localStorage.getItem("todolist");
+            if (data != null) {
+                tasks = JSON.parse(data);
+                genList(tasks, 0);
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
+<!--One method to add the checkbox
+    var cb = document.createElement('input'); //create the input element
+    cb.type = 'checkbox'; //set the input type to checkbox
+    el.appendChild(cb);
+
+    //the el.innerhtml will contain the checkbox
+    el.innerHTML = el.innerHTML + alltasks[i].task;
+    ulref.appendChild(el);
+    -->
+<!-- Another method is createTextNode method
+    var cb = document.createElement('input'); //create the input element
+    cb.type = 'checkbox'; //set the input type to checkbox
+    el.appendChild(cb);
+
+    /*create a text node. the checkbox will be appended to el. and then append
+    the data of taskText to the el.*/
+    var taskText = document.createTextNode(alltasks[i].task);
+    el.appendChild(taskText);
+    ulref.appendChild(el);
+
+
+    cb.addEventListener('click', function () {
+                    alltasks[i].status = !alltasks[i].status;
+                });
+
+ //document.getElementById('cb').addEventListener("onlick", cbStatus(event));
+
+                       // function cbStatus(e){alltasks[i].status = !alltasks[i].status;};
+     /* var el = document.createElement('li');
+            var tasktext = document.getElementById("task").value; //double quote for task because it is a string and not variable
+            el.innerHTML = tasktext; //the data inside the el variable is the value from the id="task"
+            var ulref = document.getElementById('tasklist');
+            ulref.appendChild(el);
+            document.getElementById("task").value = "";*/
+    -->
