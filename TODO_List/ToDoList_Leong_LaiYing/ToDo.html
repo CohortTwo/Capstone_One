@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>To Do List</title>
+    <link href="StyleSheet1.css" rel="stylesheet" />
+ <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">-->   
+
+</head>
+<body onload="loadData('All')">
+
+
+
+        <h1>ToDo App</h1>
+
+        <p>
+            Filter:
+            <input type="radio" name="display" value="Show All" onclick="loadData('All')">Show All
+            <input type="radio" name="display" value="Complete" onclick="loadData('Complete')">Complete
+            <input type="radio" name="display" value="InComplete" onclick="loadData('InComplete')">InComplete
+            <input type="text" id="search" placeholder="search...." onchange="search(event)" onblur="search(event)" onkeypress="search(event)">
+        </p>
+        <input type="text" id="task" >
+        <button onclick="addTask(event)">ADD</button>
+  
+    <table>
+        <tr id="toDoList" name="toDoList">
+
+        </tr>
+    </table>
+
+    <script src="toDoJavaScript.js"></script>
+</body>
+</html>

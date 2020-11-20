@@ -1,0 +1,47 @@
+﻿.deleteButton {
+    background-color: white;
+    border: solid;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    shape-margin:20px;
+
+}
+.editButton {
+    background-color: blanchedalmond;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    shape-margin: 20px;
+}
+.upButton {
+    background-color: peachpuff;
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    shape-margin: 20px;
+}
+h1{
+    text-align:center;
+    background:black;
+    color:white;
+}
+.column1{
+    width:300px;
+    padding:10px;
+}
+tr {
+    background-color: #FFF;
+    color: #000;
+}
+
+tr:hover {
+        background-color: #000;
+        color: #FFF;
+}
