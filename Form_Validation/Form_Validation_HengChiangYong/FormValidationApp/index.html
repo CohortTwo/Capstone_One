@@ -1,0 +1,418 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Form Validation</title>
+
+    <link href="StyleSheet1.css" rel="stylesheet" type="text/css" />
+      
+
+</head>
+
+<body>
+    <form id="myForm" name="myForm" action="https://localhost:44363/user" onsubmit="formReport(event)" method="post">
+        <h1 >Registration Form</h1>
+        <table class="center">
+            <tr>
+                <td><label for="userid">User id:</label></td>
+                <td><input type="text" id="userid" minlength="5" maxlength="12" name="userid" size="12" required  /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="msguserid" ></td>
+            </tr>
+            <tr>
+                <td><label for="passwordid">Password: </label> </td>
+                <td><input type="password" id="passwordid" minlengh="7" maxlength="12" name="passwordid" size="12" required   /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="msgpwd" ></td>
+            </tr>
+            <tr>
+                <td><label for="name">Name: </label></td>
+                <td><input  type="text" id="name" name="name" size="40"  required /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="msgname" ></td>
+            </tr>
+            <tr>
+                <td><label for="address">Address: </label></td>
+                <td><input type="text" id="address" name="address" size="40" required placeholder ="Optional"/></td>
+            </tr>
+            <tr>
+                <td id=""></td>
+            </tr>
+            <tr>
+                <td><label for="country">Country: </label></td>
+                <td>
+                    <select id="country" name="country" required>
+                        <option value="">Please select a country..</option>
+                        <option value="singapore">Singapore</option>
+                        <option value="malaysia">Malaysia</option>
+                        <option value="india">India</option>
+                        <option value="china">China</option>
+                        <option value="usa">United States</option>
+                        <option value="usa">Australia</option>
+                        <option value="other">Other</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="msgcountry" ></td>
+            </tr>
+            <tr>
+                <td><label for="zipcode">ZIP Code: </label></td>
+                <td><input type="number" id="zipcode" name="zipcode" required /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="msgzipcode" ></td>
+            </tr>
+            <tr>
+                <td><label for="email">Email: </label></td>
+                <td><input type="text" id="email" name="email" placeholder="Enter a valid email: abc@mail.com" size="40" required /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="msgemail" ></td>
+            </tr>
+            <tr>
+                <td><label for="gender">Sex: </label></td>
+                <td id="gender">
+                    <input type="radio" id="male" name="gender" value="male" /><label for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="female" /><label for="female">Female</label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="msggender" ></td>
+            </tr>
+            <tr>
+                <td><label for="language">Language: </label></td>
+                <td id="language">
+                    <input type="checkbox" id="english" name="language" value="english" check="true" checked /><label for="english">English</label>
+                    <input type="checkbox" id="nonenglish" name="language" value="nonenglish"  /><label for="nonenglish">Non English</label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="msglanguage" ></td>
+            </tr>
+            <tr>
+                <td valign="top"><label for="about">About:</label></td>
+                <td>
+                    <textarea id="about" name="about" rows="10" cols="30" placeholder="Optional"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td id="btn" colspan="2" style="text-align:center;"><button class="tooltip" type="submit" id="button" name="button" value="Submit" disabled>Submit <span class="tooltiptext" id="tooltext">Form is not valid, please enter the right input.</span></button></td>                                                                                            
+
+            </tr>
+        </table>
+
+       
+    </form>
+    
+    <div id="printform"></div>
+    
+    <script>
+        var isUseridValid = false;
+        var isPasswordValid = false;
+        var isNameValid = false;
+        var isCountryValid = false;
+        var isZipcodeValid = false;
+        var isEmailValid = false;
+        var isGenderValid = false;
+        var isLanguageValid = false;
+
+        document.getElementById("userid").addEventListener("blur", checkUserId);
+        document.getElementById("userid").addEventListener("focus", checkUserId);
+        document.getElementById("userid").addEventListener("keyup", checkUserId);
+        document.getElementById("userid").addEventListener("change", checkUserId);
+
+        document.getElementById("passwordid").addEventListener("blur", checkPassword);
+        document.getElementById("passwordid").addEventListener("focus", checkPassword);
+        document.getElementById("passwordid").addEventListener("keyup", checkPassword);
+        document.getElementById("passwordid").addEventListener("change", checkPassword);
+
+        document.getElementById("name").addEventListener("blur", checkName);
+        document.getElementById("name").addEventListener("focus", checkName);
+        document.getElementById("name").addEventListener("keyup", checkName);
+        document.getElementById("name").addEventListener("change", checkName);
+
+        document.getElementById("country").addEventListener("blur", checkCountry);
+        document.getElementById("country").addEventListener("focus", checkCountry);
+        document.getElementById("country").addEventListener("keyup", checkCountry);
+        document.getElementById("country").addEventListener("change", checkCountry);
+
+        document.getElementById("zipcode").addEventListener("blur", checkZipCode);
+        document.getElementById("zipcode").addEventListener("focus", checkZipCode);
+        document.getElementById("zipcode").addEventListener("keyup", checkZipCode);
+        document.getElementById("zipcode").addEventListener("change", checkZipCode);
+
+        document.getElementById("email").addEventListener("blur", checkEmail);
+        document.getElementById("email").addEventListener("focus", checkEmail);
+        document.getElementById("email").addEventListener("keyup", checkEmail);
+        document.getElementById("email").addEventListener("change", checkEmail);
+
+        document.getElementById("gender").addEventListener("blur", checkGender);
+       // document.getElementById("gender").addEventListener("focus", checkGender);
+        document.getElementById("gender").addEventListener("change", checkGender);
+        document.getElementById("gender").addEventListener("click", checkGender);
+      
+        document.getElementById("language").addEventListener("blur", checkLanguage);
+       // document.getElementById("language").addEventListener("focus", checkLanguage);
+        document.getElementById("language").addEventListener("onclick", checkLanguage);
+        document.getElementById("language").addEventListener("change", checkLanguage); 
+
+        
+
+        document.getElementById("myForm").addEventListener("onsubmit", formReport);
+
+        function checkUserId(e) {
+            // No focus = Changes the background color of input to grey
+            document.getElementById("userid").onfocus = function (){ document.getElementById("userid").style.background = "lightgrey";inputValidate() };
+
+            document.getElementById("userid").onblur = function () { document.getElementById("userid").style.background = "white"; inputValidate();};
+            
+          if (e.target.value === "" || e.target.value === null || e.target.value.length < 5 || e.target.value.length > 12) {
+                console.log(e.target.value.length);
+                
+                document.getElementById("msguserid").style.color = "red";
+                document.getElementById("msguserid").innerHTML = "Required and must be length of 5 to 12";
+                isUseridValid = false;
+            } else {
+                  console.log(e.target.value.length);
+                  isUseridValid = true;
+                  document.getElementById("msguserid").innerHTML = "";
+            } 
+            
+        }
+
+      
+        function checkPassword(e) {
+            //Onfocus the background is light grey.
+            document.getElementById("passwordid").onfocus = function () { document.getElementById("passwordid").style.background = "lightgrey"; inputValidate(); };
+
+            document.getElementById("passwordid").onblur = function () { document.getElementById("passwordid").style.background = "white"; inputValidate(); };
+        
+            if (e.target.value === "" || e.target.value===null || e.target.value.length < 7 || e.target.value.length > 12) {
+                document.getElementById("msgpwd").style.color = "red";
+                document.getElementById("msgpwd").innerHTML = "Required and must be of length 7 to 12";
+                isPasswordValid = false;
+                console.log("Password needed, must be of length 7 to 12");
+            } else {
+                document.getElementById("msgpwd").innerHTML = "";
+                isPasswordValid = true;
+            }
+        }
+    
+            function checkName(e) {
+            // No focus = Changes the background color of input to white
+            //Onfocus the background is light grey.
+            document.getElementById("name").onfocus = function () { document.getElementById("name").style.background = "lightgrey"; inputValidate(); };
+
+            document.getElementById("name").onblur = function () { document.getElementById("name").style.background = "white"; inputValidate();};
+
+            var letters = /^[a-zA-Z\s]+$/;   //allow only alpahbet and space input (\s)
+            
+            if (e.target.value.match(letters) && e.target.value !== "" ) {
+                document.getElementById("msgname").innerHTML = "";
+                isNameValid = true;
+               // console.log(e.target.value);
+            } else {
+                document.getElementById("msgname").style.color = "red";
+                document.getElementById("msgname").innerHTML = "Required. Must be alphabet";
+                isNameValid = false;
+               // console.log("User name required and must be alphabet " + e.target.value);
+            }
+        }
+
+        function checkCountry(e) {
+
+            document.getElementById("country").onfocus = function () { document.getElementById("country").style.background = "lightgrey"; inputValidate(); };
+
+            document.getElementById("country").onblur = function () { document.getElementById("country").style.background = "white"; inputValidate();};
+          
+            if (e.target.value === "" || e.target.value === null) {
+                document.getElementById("msgcountry").style.color = "red";
+                document.getElementById("msgcountry").innerHTML = "Required. Must select a country.";
+                isCountryValid = false;
+                
+            } else {
+                document.getElementById("msgcountry").innerHTML = "";
+                isCountryValid = true;
+            }
+             
+        }
+
+        function checkZipCode(e) {
+            document.getElementById("zipcode").onfocus = function () { document.getElementById("zipcode").style.background = "lightgrey"; inputValidate(); };
+
+            document.getElementById("zipcode").onblur = function () { document.getElementById("zipcode").style.background = "white"; inputValidate();};
+
+            var numbers = /^[0-9]+$/;
+            document.getElementById("zipcode").style.background = "white";
+            if (e.target.value.match(numbers) && e.target.value !=="") {
+                document.getElementById("msgzipcode").innerHTML = "";
+                isZipcodeValid = true;
+            } else {  
+                document.getElementById("msgzipcode").style.color = "red";
+                document.getElementById("msgzipcode").innerHTML = "Required. Must be numeric only.";
+                isZipcodeValid = false;
+            }
+        }
+             
+        
+        function checkEmail(e) {
+            document.getElementById("email").onfocus = function () { document.getElementById("email").style.background = "lightgrey"; inputValidate();};
+
+            document.getElementById("email").onblur = function () { document.getElementById("email").style.background = "white"; inputValidate();};
+            
+            if (e.target.value == "" || e.target.value == null) {
+                document.getElementById("msgemail").style.color = "red";
+                document.getElementById("msgemail").innerHTML = "Required. Must be a valid email.";
+                isEmailValid = false;
+                inputValidate();
+                } else {
+                document.getElementById("msgemail").innerHTML = "";
+                isEmailValid = true;
+                inputValidate();
+            }
+        }
+
+       
+        function checkGender(e) {
+                      
+            var target = e.target;
+            console.log(target.id);
+            if (target.id == "male" || target.id == "female") {
+                document.getElementById("msggender").innerHTML = "";
+                isGenderValid = true;
+                inputValidate();
+            } else {
+                document.getElementById("msggender").style.color = "red";
+                document.getElementById("msggender").innerHTML = "Required. Select a gender.";
+                isGenderValid = false;
+                inputValidate();
+            }
+        }
+
+        var eng, noneng;
+
+        function checkLanguage(e) {
+
+            let target = e.target;
+          
+            if (target.id == "english") {
+                eng = target.checked;
+                console.log("English: " + eng);
+                console.log("Non-english: " + noneng);
+            } else if (target.id == "nonenglish") {
+                 noneng = target.checked;
+                console.log("Non-english: " + noneng);
+                console.log("English: " + eng);
+            }
+
+            if (eng == true || noneng == true) {
+                document.getElementById("msglanguage").innerHTML = "";
+                isLanguageValid = true;
+                inputValidate();
+            } else {
+                document.getElementById("msglanguage").style.color = "red";
+                document.getElementById("msglanguage").innerHTML = "Required. Select a language.";
+                isLanguageValid = false;
+                inputValidate();
+            }
+                      
+        }
+       
+        function validateForm() {
+            
+            if (isUseridValid && isPasswordValid && isNameValid && isCountryValid && isZipcodeValid && isEmailValid && isGenderValid && isLanguageValid) {
+                return true;
+            } else {
+                return false;
+            }
+
+        }
+
+        var isFormValid = false;
+
+        function inputValidate() {
+            isFormValid = validateForm();
+            var btnmsg = document.getElementById("tooltext");
+            console.dir(btnmsg);
+            var msgbutton = document.getElementById("button");
+            if (isFormValid) {
+                btnmsg.innerText = "Please clik to submit the form.";
+                msgbutton.disabled = false;
+                msgbutton.style.cursor = 'pointer';
+                return true;
+            } else {
+                btnmsg.innerText = "Form is not valid, please enter the right input.";
+                msgbutton.disabled = true;
+                msgbutton.style.cursor = 'not-allowed';
+                //document.getElementById("button").disabled = true;
+                //document.getElementById("button").style.cursor = 'not-allowed';
+                return false;
+            }
+        }
+
+        var saveData = [];
+        var keyName = [];
+
+        function formReport(e) {
+            e.preventDefault();
+            saveData = [];
+            keyName = [];
+
+            document.getElementById("myForm").hidden = true;
+            var printdiv = document.getElementById("printform");
+            var prntable = document.createElement("table");
+            prntable.id = "prntable";
+            prntable.innerText = "Form Details";
+            printdiv.appendChild(prntable);
+
+            var myform = document.getElementById("myForm");
+            var formData = new FormData(myform);
+          //  console.log(formData);
+
+            for (let key of formData.keys()) {
+               // console.log(key);
+                keyName.push(key);
+                saveData[key]=formData.getAll(key);
+            }
+           // console.log(keyName);
+           // console.log(saveData);
+
+            for (let key in saveData) {
+                
+                var printrow = document.createElement("tr");
+                printrow.id = "printrow";
+                prntable.appendChild(printrow);
+                var printkey = document.createElement("td");
+                printkey.id = "keydata";
+                printkey.textContent = key.toUpperCase();
+                printrow.appendChild(printkey);
+
+                var printdata = document.createElement("td");
+                printdata.id = "data";
+                printdata.innerHTML = saveData[key];
+                printrow.appendChild(printdata);
+                
+               // console.log(key);
+               // print.textContent = key + ": " + saveData[key];
+               // document.getElementById("printform").appendChild(print);
+            }
+        }
+    </script>
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,108 @@
+﻿body
+{
+    padding-top:20px;
+    padding-left:30px;
+    border-color:darkgray;
+}
+
+td:first-child{
+    text-align:right;
+}
+
+input[type='submit'],
+label {
+    margin-top: 1rem;
+}
+
+input:required:invalid, input:focus:invalid {
+    background-image: url(/images/invalid.png);
+    background-position: right top;
+    background-repeat: no-repeat;
+}
+
+input:required:valid {
+    background-image: url(/images/valid.png);
+    background-position: right top;
+    background-repeat: no-repeat;
+}
+
+h1 {
+    padding-left:750px;
+   
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+textarea{
+
+}
+
+#printform {
+    margin-top:50px;
+    margin-left:600px;
+   font-size:large;
+   font-family:Verdana;
+}
+
+#prntable{
+    padding-left:10px;
+    padding-bottom:150px;
+    font-size:large;
+}
+
+#printrow{
+    padding-top:50px;
+    padding-bottom:20px;
+    text-decoration:none;
+    position:relative;
+    margin-bottom:25px;
+}
+
+#keydata{
+    padding-top:5px;
+    padding-right:5px;
+    margin-bottom:25px;
+}
+#data {
+    padding-top: 5px;
+    padding-left: 20px;
+    border: solid;
+    border-width: 1px;
+    border-color: black;
+    background-color: gainsboro;
+    border-radius: 5px;
+    margin-bottom: 25px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 7px;
+        padding: 5px 0;
+        margin-top: 20px;
+        margin-left:30px;
+        position: absolute;
+        z-index: 1;
+    }
+
+.tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+
+#button{
+    width:100px;
+    height:25px;
+    border-radius:5px;
+}
