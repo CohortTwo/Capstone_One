@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Web Request</title>
+    <link href="StyleSheet1.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<div id="allcountry">
+		<button onclick="allCountry()">Get All Countries</button>
+		<hr>
+		<h1>All Countries</h1>
+	</div>
+    <div id="start">
+
+    </div>
+
+    <script>
+
+        var objReq = new XMLHttpRequest();
+       // console.dir(objReq);
+        var divStart = document.getElementById("start");
+
+        function allCountry() {
+            var web = "https://restcountries.eu/rest/v2/all";
+            ReqWebsite(web);
+        }
+
+        function ReqWebsite(url) {
+            var website = url;
+            reqListener(website);
+            objReq.open("GET", website);
+            objReq.send();
+
+        }
+
+        function reqListener(url) {
+            objReq.onreadystatechange = function () {
+                //console.log("ready state value::::", objReq.readyState);
+                if (objReq.readyState === 4) {
+
+                    var countries = JSON.parse(objReq.responseText);
+                    groupByRegions(countries);
+                    genDisp(countries);
+                }
+               // console.log(this.responseText);
+
+            }
+        }
+
+        function genDisp(countries) {
+            var country = countries;
+
+            //console.log("country length at genDisp:" + country.length);
+            for (let i = 0; i <= country.length - 1; i++) {
+                var newDiv = document.createElement("div");
+                newDiv.classList.add("tooltip");
+                newDiv.id = "newlist";
+                newDiv.innerHTML = country[i].name;
+
+                var newSpan = document.createElement("span");
+                newSpan.classList.add("tooltiptext");
+                newSpan.innerHTML = "Capital:  " + country[i].capital + "<br> Calling number:   " + country[i].callingCodes + "<br>  Language:   " + country[i].languages[0].name  + "<br> Population:   "+ country[i].population + "<br> Time zone:  " + country[i].timezones;
+                newDiv.appendChild(newSpan);
+               //console.log(country[i].region);
+                if (country[i].region != "") {
+                    document.getElementById(country[i].region).appendChild(newDiv);
+                } else {
+                    document.getElementById("noregion").appendChild(newDiv);
+                }
+
+            }
+        }
+
+        function groupByRegions(countries) {
+            var country = countries;
+            var regions = [];
+            var regionsObj = {};
+
+            for (let i = 0; i <= country.length-1; i++) {
+
+                if (!regions.includes(country[i].region)) {
+                    regions.push(country[i].region);
+                }
+            }
+
+           // console.log(regions.length);
+
+
+            for (let a = 0; a <= regions.length - 1; a++) {
+                regionsObj[regions[a]] = [];
+                var regLabel = document.createElement("div");
+                regLabel.classList.add("regionlabel");
+                regLabel.innerHTML = regions[a];
+                if (regLabel.innerHTML == "") {
+                    regLabel.innerHTML = "Region Not Defined!";
+                }
+                document.getElementById("start").appendChild(regLabel);
+                var brLine = document.createElement("br");
+                regLabel.appendChild(brLine);
+                var regDiv = document.createElement("div");
+                regDiv.classList.add("region");
+                regDiv.id = regions[a];
+                if (regDiv.id === null || regDiv.id === "") {
+                    regDiv.id = "noregion";
+                }
+                regLabel.appendChild(regDiv);
+
+            }
+
+            for (let b = 0; b <= countries.length - 1; b++) {
+                regionsObj[countries[b].region].push(countries[b]);
+                console.log(regionsObj);
+            }
+
+
+        }
+
+    </script>
+</body>
+</html>

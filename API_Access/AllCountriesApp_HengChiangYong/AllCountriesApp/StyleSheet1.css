@@ -1,0 +1,94 @@
+﻿body {
+}
+
+.region {
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid;
+    border-radius: 8px;
+    border-color: deepskyblue;
+}
+
+#newlist {
+    display: inline-block;
+    width: 350px;
+    border-radius: 5px;
+    padding: 5px;
+    border: 1px solid;
+    border-color: darkgrey;
+    margin-right: 5px;
+}
+
+
+.regionlabel {
+    width: 100%;
+    padding: 20px;
+    font-size: x-large;
+}
+
+#Asia {
+    margin-top:10px;
+    width: 75%;
+    padding: 5px;
+    font-size: medium;
+}
+
+#Africa {
+    width: 75%;
+    padding: 5px;
+    font-size: medium;
+}
+
+#Europe {
+    width: 75%;
+    padding: 5px;
+    font-size: medium;
+}
+
+#Americas {
+    width: 75%;
+    padding: 5px;
+    font-size: medium;
+}
+
+#Oceania {
+    width: 75%;
+    padding: 5px;
+    font-size: medium;
+}
+
+#Polar {
+    width: 75%;
+    padding: 5px;
+    font-size: medium;
+}
+
+#noregion {
+    width: 75%;
+    padding: 5px;
+    font-size: medium;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 200px;
+        background-color: black;
+        color: #fff;
+        text-align: left;
+        border-radius: 7px;
+        padding: 5px 5px 5px 5px;
+        margin-top: 20px;
+        margin-left: 30px;
+        position: absolute;
+        z-index: 1;
+    }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
