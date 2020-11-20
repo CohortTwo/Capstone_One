@@ -1,0 +1,59 @@
+﻿table{
+    border:1px solid;
+    padding:10px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+td{
+    padding-right:10px;
+    font-size:14px;
+}
+
+td:first-child{
+    text-align:right;
+    vertical-align:top;
+}
+
+#Title {
+    font-size: 46px;
+    font-weight:bold;   
+    text-align:left;
+    padding-bottom:20px;
+}
+
+
+textarea {
+    text-align:center;
+    vertical-align:central;
+}
+
+#button{
+    text-align:center;
+}
+
+placeholder {
+    color:lightgrey;
+
+}
+
+/*.pointer {
+    cursor: pointer;
+}
+    */
+
+div{
+    color:red;
+}
+
+#text1 {
+    color:red;
+}
+
+#text2 {
+    color: red;
+}
+
+button:disabled{
+    cursor:not-allowed;
+}
