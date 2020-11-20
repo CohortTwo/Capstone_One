@@ -1,0 +1,39 @@
+﻿input {
+    border: solid 1px;
+}
+
+    input:invalid {
+        border-color: #f00; //red
+    }
+
+    
+div {
+    color:red;
+}
+
+
+td {
+    padding: 4px;
+}
+
+td:first-child {
+    text-align: right;
+}
+
+table {
+    margin: 10px auto;
+    border: 1px solid black;
+}
+
+h1 {
+    text-align: center;
+    color: black;
+}
+
+
+
+p {
+    text-align: center;
+    color:green;
+    font-size: medium;
+}

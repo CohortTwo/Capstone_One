@@ -1,0 +1,104 @@
+﻿<html>
+<head>
+
+<link href="StyleSheet1.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="d1">
+        <h1>Registration Form</h1>
+        <form id="regform" name="regform" onsubmit="saveD(e)">
+            <table>
+                <tr>
+                    <td>User ID:</td>
+                    <td>
+                        <input type="text" id="userId" name="Userid">
+                        <div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td>
+                        <input type="password" id="pwd-id" name="pwd">
+                        <div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <input type="text" id="name-id" " name="name">
+                        <div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td>
+                        <input type="text" name="addr">
+                        <div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Country:</td>
+                    <td>
+                        <select id="ctry-id" name="ctry">
+                            <option value="">Please Select the country</option>
+                            <option value="Singapore">Singapore</option>
+                            <option value="Malaysia">Malaysia</option>
+                            <option value="India">India</option>
+                            <option value="Srilanka">Srilanka</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Zip</td>
+                    <td>
+                        <input type="text" name="zipc" id="zip-id">
+                        <div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td>
+                        <input type="text" name="emailaddr " id="email-id">
+                        <div></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sex:</td>
+                    <td>
+                        <input type="radio" name="gender" value="male" id="male-id">Male
+                        <input type="radio" name="gender" value="female" id="female-id">Female
+                    </td>
+                </tr>
+                <tr>
+                    <td>Language:</td>
+                    <td>
+                        <input type="checkbox" name="lang" value="eng" id="eng-id">English
+                        <input type="checkbox" name="lang" value="noneng" id="noneng-id">Non English
+                    </td>
+                </tr>
+                <tr>
+                    <td>About</td>
+                    <td>
+                        <textarea name="txtinfo "></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <button disabled class="ch-icon" id="sbutton-id" title="Please click to submit form">Submit</button>
+
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+
+<p name="displaytext" id="displaytext"></p>
+
+</body>
+
+
+    
+
+</html>
+<script src="JavaScript.js"></script>
