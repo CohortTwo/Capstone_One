@@ -1,0 +1,16 @@
+                                                                 Accessibility of class
+
+
+All the variables (public, private, protected) declared in super class is acccessible
+by main.
+
+Variables(Protected and public) declared in super class is accessible from child class in same package 
+and in different package too.
+
+A class with default access is only visible to other classes in the same package.
+
+A private class is only visible to its enclosing class, and other inner classes in the same enclosing class.
+
+A public class is accessible to a class in any package.
+
+
