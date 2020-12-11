@@ -1,0 +1,34 @@
+Access Modifiers in Java
+
+
+
+Public
+====================
+Commonly used access modifier. Classes that are declared as public are accessible by any other class within the program. 
+
+Most methods fall within the public access modifier.
+
+
+
+Protected
+====================
+Methods or data members declared as protected are accessible within the same package or subclasses and other external packages. 
+
+Protected would mean entity is also accessible outside the package through inherited class or child class.
+
+Accessible to class, package, and subclasses.
+
+
+
+Private
+====================
+When an entity is private, it cannot be accessed outside the class. A private entity can only be accessible from within the class. 
+
+Variables are typically advised to be set as private.
+
+
+Default
+====================
+No keyword required. Default modifier setting will take place when a specific access level is not specified. Accessible to class and package.
+
+
