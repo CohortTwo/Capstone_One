@@ -1,0 +1,25 @@
+Summary of Lessons Learned about Access Modifiers
+
+
+Public Class
+- anyone can access the data including users from outside the class, from outside the package, even if unrelated.
+
+
+
+Private Class
+- only users in the same class can access the data;
+- All other users can use get() to access indirectly to the class
+
+
+
+
+Protected Class
+- only users in the same class or in the same package can access, plus users outside the package if they are related by parent/child relationship;
+- All other users can use get() to access indirectly to the class
+
+
+
+
+Default/Package Class
+- only users in the same class or in the same package can access;
+- All other users can use get() to access indirectly to the class
