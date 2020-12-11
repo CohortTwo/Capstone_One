@@ -1,0 +1,201 @@
+package package1 summary;
+
+public class ChildClass extends ParentClass{
+
+	ChildClass(int sid, int marks, char grade, String dept) {
+		super(sid, marks, grade, dept);
+		
+	}
+	
+	public void accessParentClassMembers() {
+		
+		System.out.println("Accessing Parent class members from Child class");
+		//System.out.println(sid); NOT allowed as private variables cannot be accessed outside of the class(though inherited by child class)
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+		
+		//accessPrivateMethod(); NOT allowed as private method cannot be accessed outside of the class(though inherited by child class)
+		accessDefaultMethod();
+		accessProtectedMethod();
+		accessPublicMethod();
+		
+	}
+	
+
+
+	
+	
+
+}
+
+
+public class Package 1:
+public class ParentClass {
+	
+	private int sid;
+	int marks;
+	protected char grade;
+	public String dept;
+	
+	public ParentClass(int sid, int marks, char grade, String dept){
+		
+		this.sid = sid;
+		this.marks = marks;
+		this.grade = grade;
+		this.dept = dept;
+	}
+	
+	private void accessPrivateMethod() {
+		
+		System.out.println("In Private method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+	void accessDefaultMethod() {
+		
+		System.out.println("In Default method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+	protected void accessProtectedMethod() {
+		
+		System.out.println("In Protected method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+	public void accessPublicMethod() {
+		
+		System.out.println("In Public method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+}
+
+
+
+
+package 2:
+public class ParentClass {
+	
+	private int sid;
+	int marks;
+	protected char grade;
+	public String dept;
+	
+	public ParentClass(int sid, int marks, char grade, String dept){
+		
+		this.sid = sid;
+		this.marks = marks;
+		this.grade = grade;
+		this.dept = dept;
+	}
+	
+	private void accessPrivateMethod() {
+		
+		System.out.println("In Private method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+	void accessDefaultMethod() {
+		
+		System.out.println("In Default method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+	protected void accessProtectedMethod() {
+		
+		System.out.println("In Protected method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+	public void accessPublicMethod() {
+		
+		System.out.println("In Public method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+}
+
+
+
+package 2:
+
+public class ParentClass {
+	
+	private int sid;
+	int marks;
+	protected char grade;
+	public String dept;
+	
+	public ParentClass(int sid, int marks, char grade, String dept){
+		
+		this.sid = sid;
+		this.marks = marks;
+		this.grade = grade;
+		this.dept = dept;
+	}
+	
+	private void accessPrivateMethod() {
+		
+		System.out.println("In Private method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+	void accessDefaultMethod() {
+		
+		System.out.println("In Default method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+	protected void accessProtectedMethod() {
+		
+		System.out.println("In Protected method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+	public void accessPublicMethod() {
+		
+		System.out.println("In Public method");
+		System.out.println(sid);
+		System.out.println(marks);
+		System.out.println(grade);
+		System.out.println(dept);
+	}
+	
+}
+
+
